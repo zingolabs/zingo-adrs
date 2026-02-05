@@ -241,4 +241,4 @@ A “release” is a coordinated update of:
 - Update the zaino repo docs to specify the oficially supported public interfaces.
 - Update public interfaces in the codebase (and documentation) to follow the public interfaces set out in this file.
 
-**Issues should be opened in relevant repos for each action listed once here this ADR is confirmed.**
+**Issues should be opened in relevant repos for each action listed here once this ADR is confirmed.**
