@@ -189,7 +189,7 @@ Public items:
 
 These may change freely without affecting SemVer, except where they force changes to governed public crates.
 
-**Note** The codebase does not currently reflect this in some places, with entities that should be private currently publicised (or error / config types in the wrong locations). Where this is the case issues / PRs should be opened to provide fixes, or a subsequest ADR opened to update the public interface officially maintained.
+**Note** The codebase does not currently reflect this in some places, with entities that should be private currently publicised (or error / config types in the wrong locations). Where this is the case issues / PRs should be opened to provide fixes (make entities pub(crate) or move to the correct location), or a subsequest ADR opened to update the public interface officially maintained.
 
 ### 6) Release strategy
 
@@ -242,6 +242,10 @@ A “release” is a coordinated update of:
 
 - Define what exactly constitutes the **fast test set** (e.g., a dedicated `cargo nextest run -E <expression>` profile) and encode it in CI.
 - Ensure CODEOWNERS is configured so approvals map correctly to “1 for dev / 2 for stable”.
-- Add a release workflow checklist in `docs/` that mirrors “Release steps”.
 - Add stable branch and set PR / release protocols.
+- Update the zaino repo docs to specify branching, versioning and release strategy laid out in this ADR.
+- Add a release workflow checklist in `docs/` that mirrors “Release steps”.
+- Update the zaino repo docs to specify the oficially supported public interfaces.
 - Update public interfaces in the codebase (and documentation) to follow the public interfaces set out in this file.
+
+**Open issues in relevant repos for each action listed once this ADR lands.**
