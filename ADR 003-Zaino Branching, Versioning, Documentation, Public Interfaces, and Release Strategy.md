@@ -1,9 +1,5 @@
 # ADR: Branching, Versioning, Documentation, Public Interfaces, and Release Strategy
 
-- **Status:** Proposed
-- **Date:** 2026-02-05
-- **Decision Owners:** Zaino maintainers / Zingolabs
-
 ## Context
 
 Zaino is a Rust workspace providing an indexing service and APIs for Zcash clients. ([Zaino Github](https://github.com/zingolabs/zaino))
