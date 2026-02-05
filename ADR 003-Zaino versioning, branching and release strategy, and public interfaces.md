@@ -38,7 +38,7 @@ We need a predictable policy for:
 
 **Dependency rules**
 - All non-test dependencies must be crates.io imports on stable.
-- Dev may temporarily use feature branches via patch.crates.io.
+- Dev may temporarily use feature branches via `[patch.crates-io]`.
 
 **Rationale**
 - `dev` optimizes for iteration speed while preserving baseline correctness.
@@ -65,7 +65,7 @@ Zaino follows **Semantic Versioning (SemVer)**: `MAJOR.MINOR.PATCH`. ([semver.or
 
 **ZainoDB versioning Note**
 - ZainoDB uses a separate versioning policy to the Zaino crates:
-  - **MAJOR**: Distinct database implementations, providing differing sets of functionality (Currently V1 is the only supported major version. A lightweight V2 database that only holds the minimal set of data required to produce the extra indexes (compared to zebrad) required in Zaino is planned but not yet implemented. V0 is a backwards compatibility layer fot the legacy local cache implementation).
+  - **MAJOR**: Distinct database implementations, providing differing sets of functionality (Currently V1 is the only supported major version. A lightweight V2 database that only holds the minimal set of data required to produce the extra indexes (compared to zebrad) required in Zaino is planned but not yet implemented. V0 is a backwards compatibility layer for the legacy local cache implementation).
   - **MINOR**: Updates that contain changes to either the public APIs or the on disk schema.
   - **PATCH**: Internal bug fixes / performance improvements that do not touch the public APIs or on disk schema.
 - Due to this, version changes in ZainoDB may not dictate a change of the same type at the library level.
@@ -213,12 +213,14 @@ A “release” is a coordinated update of:
    - features,
    - fixes,
    - operator notes (config/CLI changes).
-3. Merge `dev` → `stable` (no other PR sources permitted).
-4. **Tag the release** on `stable`.
-5. **Publish crates to crates.io** (`cargo publish`, in dependency order as required).
+3. Merge `dev` → `stable` and then release from `stable`.
+4. **Tag the release**
+5. **Publish crates to crates.io**
    - docs.rs will then build and host per-version API docs automatically.
-6. **Update GitHub Pages** from the release tag / `stable` HEAD to ensure the hosted docs match the release.
+6. **Update GitHub Pages**
    - Deploy via GitHub Actions Pages tooling (currently unimplemnted meaning manual update will be necessary).
+7. **Build and publish container images**.
+   - Images MUST be tagged with the release version (`vMAJOR.MINOR.PATCH`) and SHOULD also be tagged with the Git commit SHA (immutable identifier).
 
 **Cadence**
 - Stable updated on version bumps, and crates.io release updated accordingly: if there is no version bump, there is no `stable` update.
