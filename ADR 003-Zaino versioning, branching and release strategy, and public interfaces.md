@@ -221,7 +221,7 @@ A “release” is a coordinated update of:
 
 **Cadence**
 - Stable updated on version bumps, and crates.io release updated accordingly: if there is no version bump, there is no `stable` update.
-- A stable release schedule should be  set in a later ADR but may not be helpful at this stage of delelopment.
+- A stable release schedule should be set in a later ADR but may not be helpful at this stage of development.
 
 ## Consequences
 
@@ -245,4 +245,4 @@ A “release” is a coordinated update of:
 - Update the zaino repo docs to specify the oficially supported public interfaces.
 - Update public interfaces in the codebase (and documentation) to follow the public interfaces set out in this file.
 
-**Open issues in relevant repos for each action listed once this ADR lands.**
+**Issues should be opened in relevant repos for each action listed once here this ADR is confirmed.**
