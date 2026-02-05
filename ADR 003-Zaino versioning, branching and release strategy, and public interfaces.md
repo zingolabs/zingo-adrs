@@ -65,7 +65,7 @@ Zaino follows **Semantic Versioning (SemVer)**: `MAJOR.MINOR.PATCH`. ([semver.or
 
 **ZainoDB versioning Note**
 - ZainoDB uses a separate versioning policy to the Zaino crates:
-  - **MAJOR**: Distinct database implementations, providing differing sets of functionality (Currently V1 is the only supported major version. A lightweight V2 database that only holds the minimal set of data required to produce the extra indexes (compared to zebrad) required in Zaino is planned but not yet implemented, V0 is a backwards compatibility layer fot the legacy local cache implementation).
+  - **MAJOR**: Distinct database implementations, providing differing sets of functionality (Currently V1 is the only supported major version. A lightweight V2 database that only holds the minimal set of data required to produce the extra indexes (compared to zebrad) required in Zaino is planned but not yet implemented. V0 is a backwards compatibility layer fot the legacy local cache implementation).
   - **MINOR**: Updates that contain changes to either the public APIs or the on disk schema.
   - **PATCH**: Internal bug fixes / performance improvements that do not touch the public APIs or on disk schema.
 - Due to this, version changes in ZainoDB may not dictate a change of the same type at the library level.
@@ -104,7 +104,7 @@ Zaino maintains curated changelogs to record notable, user-impacting changes in 
 **Release alignment**
 - Changelog entries are written to communicate impact to users/operators and must align with the SemVer intent described in this ADR. ([Semantic Versioning](https://semver.org/spec/v2.0.0.html))
 
-### 5) Public interfaces governed by this ADR
+### 5) Public interfaces governed by this ADR (and officially supported in zaino)
 
 This section defines the “compatibility surface” that drives SemVer bumps and stable-branch gatekeeping.
 
@@ -112,12 +112,14 @@ This section defines the “compatibility surface” that drives SemVer bumps an
 
 ##### `zainod` (daemon)
 Public interfaces:
-- Zainod Daemon: Main indexing daemon
+- Zainod daemon: Main indexing daemon
+  - Zcash JsonRPC service
+  - Zcash LightClient gRPC service
 
 Public items:
 - CLI arguments
 - Config format
-- RPC Services
+- RPC Specs
 
 ##### `zainodlib` (daemon library)
 Public interfaces:
@@ -187,7 +189,7 @@ Public items:
 
 These may change freely without affecting SemVer, except where they force changes to governed public crates.
 
-**Note** The codebase does not fully reflect this in some places, with entities that should be private currently publicised (or error / config types in the wrong locations). Where this is the case issues / PRs should be opened to provide fixes, or a subsequest ADR opened to update the public interface officially maintained.
+**Note** The codebase does not currently reflect this in some places, with entities that should be private currently publicised (or error / config types in the wrong locations). Where this is the case issues / PRs should be opened to provide fixes, or a subsequest ADR opened to update the public interface officially maintained.
 
 ### 6) Release strategy
 
@@ -220,6 +222,7 @@ A “release” is a coordinated update of:
 
 **Cadence**
 - Stable updated on version bumps, and crates.io release updated accordingly: if there is no version bump, there is no `stable` update.
+- A stable release schedule should be  set in a later ADR but may not be helpful at this stage of delelopment.
 
 ## Consequences
 
@@ -233,9 +236,10 @@ A “release” is a coordinated update of:
 - Slightly more process around releases (release PRs, extra approvals, full test suite gating).
 - Requires maintaining a “fast test set” vs “full suite” split and nightly CI plumbing.
 
-## Follow-ups / implementation notes
+## Actions
 
 - Define what exactly constitutes the **fast test set** (e.g., a dedicated `cargo nextest run -E <expression>` profile) and encode it in CI.
 - Ensure CODEOWNERS is configured so approvals map correctly to “1 for dev / 2 for stable”.
 - Add a release workflow checklist in `docs/` that mirrors “Release steps”.
-- Update public interfaces in the codebase to follow the public interfaces set out in this file.
+- Add stable branch and set PR / release protocols.
+- Update public interfaces in the codebase (and documentation) to follow the public interfaces set out in this file.
