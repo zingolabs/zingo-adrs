@@ -144,7 +144,7 @@ Public items:
 Public interfaces:
 - `chain_index::source::ValidatorConnector`: Validator agnostic Chain data fetch service
 - `chain_index::{NodeBackedChainIndex, NodeBackedChainIndexSubscriber}`: Core chain indexing service
-- `backends::{fetch::FetchService, state::StateService}`: RPC based API utilising Zaino's underlying indexing services
+- `backends::{fetch::{FetchService, FetchServiceSubscriber}, state::{StateService, StateServiceSubscriber}}`: Indexing API (IndexerService / IndexerSubscriber) based on the zcash RPC services for compatibility, utilising Zaino's underlying indexing services
 
 Public items:
 - `indexer::{IndexerService, ZcashService, IndexerSubscriber, ZcashIndexer, LightWalletIndexer, LightWalletService}`
@@ -160,7 +160,7 @@ Public items:
 
 ##### `zaino_fetch` (Zcash specific JsonRPC client + block / transaction parsing logic)
 Public interfaces:
-- `jsonrpc::connector::JsonRpcConnector`: JsonRPC client with full chain data fetch capability
+- `jsonrpc::connector::JsonRpcConnector`: Zcash specific JsonRPC client with full chain data fetch and block / transaction parsing capability
 
 Public items:
 - `chain::utils::ParseFromSlice`
@@ -173,14 +173,11 @@ Public items:
 
 ##### `zaino_proto` (LightClient protocol implementation + utility methods / types)
 Public items:
-- `proto::*`
+- `::*`
 
 ##### `zaino_common` (Common types used by other crates + utility methods)
 Public items:
-- `status::*`
-- `probing::*`
-- `net::*`
-- `config::*`
+- `::*`
 
 #### Excluded crates (not governed)
 - `zaino-testvectors`
