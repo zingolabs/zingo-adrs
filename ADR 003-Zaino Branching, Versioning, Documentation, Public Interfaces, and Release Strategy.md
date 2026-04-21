@@ -45,8 +45,7 @@ We need a predictable policy for:
 Zaino follows **Semantic Versioning (SemVer)**: `MAJOR.MINOR.PATCH`. ([semver.org](https://semver.org/spec/v2.0.0.html))
 
 **Scope choice**
-- Zaino versions are treated as **workspace-wide** (a coordinated release), meaning all publishable crates in this repository share the same version bump in a given release.
-  - This avoids “version skew” across tightly-coupled crates and matches established practice in multi-crate Rust workspaces that ship as a unit.
+- Zaino versions are treated as **crate-specific**  meaning each publishable crates in this repository will have an individual version number which will be bumped when changes to that repo necessitate it.
 
 **Definitions for Zaino**
 - **MAJOR**: any *backward-incompatible* change to a governed public interface (see “Public interfaces” section), including:
@@ -188,10 +187,10 @@ These may change freely without affecting SemVer, except where they force change
 
 A “release” is a coordinated update of:
 1) `stable` branch,
-2) version numbers for publishable crates,
-3) crates.io publication,
-4) GitHub Pages documentation publication, and
-5) a Git tag + release notes.
+2) version numbers for publishable crates/crates.io publication,
+3) GitHub Pages documentation publication,
+4) a Git tag + release notes,
+5) A zainod image published to a container repository (currently dockerhub)
 
 **Release prerequisites**
 - `dev` is green on the **full test suite** (nightly run or equivalent).
@@ -200,6 +199,8 @@ A “release” is a coordinated update of:
 - Release PR receives **2 CODEOWNER approvals**.
 
 **Release steps**
+0. **Prepare branch for release** Decide on a release candidate commit which is ready for release
+   - TODO: Establish more explicit patterns for creating/validating release candidates. 
 1. **Bump versions** (workspace-wide) according to SemVer rules.
 2. **Update CHANGELOG / release notes** summarizing:
    - breaking changes (if any),
@@ -240,5 +241,6 @@ A “release” is a coordinated update of:
 - Add a release workflow checklist in `docs/` that mirrors “Release steps”.
 - Update the zaino repo docs to specify the oficially supported public interfaces.
 - Update public interfaces in the codebase (and documentation) to follow the public interfaces set out in this file.
+- Define the process of creating and testing release candidates.
 
 **Issues should be opened in relevant repos for each action listed here once this ADR is confirmed.**
