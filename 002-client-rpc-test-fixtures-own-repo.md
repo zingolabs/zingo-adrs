@@ -1,3 +1,11 @@
+# `client_rpc_test_fixtures` moves to its own repository
+
+## Status
+
+accepted
+
+## Context and decision
+
 zingolib depends on infra crates (for testing): zcash_local_net and zingo_test_vectors.
 client_rpc_test_fixtures depends on zingolib.
 As such, there is a problem with client_rpc_test_fixtures being in infra:
