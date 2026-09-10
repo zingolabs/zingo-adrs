@@ -1,5 +1,9 @@
 # ADR: Branching, Versioning, Documentation, Public Interfaces, and Release Strategy
 
+## Status
+
+superseded by [zaino/0016](zaino/0016-changeset-derived-release-pipeline.md)
+
 ## Context
 
 Zaino is a Rust workspace providing an indexing service and APIs for Zcash clients. ([Zaino Github](https://github.com/zingolabs/zaino))

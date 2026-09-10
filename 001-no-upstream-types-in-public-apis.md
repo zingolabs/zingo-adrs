@@ -1,3 +1,11 @@
+# No upstream types in public APIs
+
+## Status
+
+accepted
+
+## Context and decision
+
 There are several advantages to exposing upstream types in a public API, the largest one being an ability to expose the functionality of the upstream types directly to the consumer. Becuase of this, many of our libraries currently expose upstream types in their public APIs. The downsides to this approach were less initially apparent.
 
 These advantages are outweighed by the increased cost of managing dependency versions, as having upstream types in a public API creates a requirement that the version of the upstream crate must match between the library which exposes the upstream types and the crate which depends on that library. For example, if infrastructure exposes zcash_primitives types, then a crate which depends on infrastructure must depend on the same version of zcash_primitives that infrastructure does. 
