@@ -2,7 +2,11 @@
 
 ## Status
 
-accepted
+superseded by [005](005-code-repositories-point-at-the-ledger-by-submodule.md)
+
+Only the mirroring mechanism is superseded: code repositories hold a
+submodule pointer, not a subtree copy. The scopes, numbering, citation
+rule, status vocabulary, and sole-write-side rule all stand.
 
 ## Context and decision
 

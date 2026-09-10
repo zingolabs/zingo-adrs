@@ -48,11 +48,13 @@ pub struct Record {
 
 impl Record {
     /// Path relative to the ledger root.
+    #[must_use]
     pub fn path(&self) -> PathBuf {
         scope_dir(&self.scope).join(&self.file_name)
     }
 
     /// Citation form seen from the ledger root, such as `003` or `zaino/0016`.
+    #[must_use]
     pub fn qualified_name(&self) -> String {
         qualify(&self.scope, &self.number_text)
     }
@@ -67,7 +69,8 @@ pub fn check(root: &Path) -> Result<Vec<Record>, Violations> {
         let mut scope_records = Vec::new();
         for entry in read_dir_sorted(&dir).map_err(|e| Violations(vec![e]))? {
             let file_name = base_name(&entry);
-            if entry.is_dir() || file_name == "README.md" || !file_name.ends_with(".md") {
+            let is_markdown = file_name.to_ascii_lowercase().ends_with(".md");
+            if entry.is_dir() || file_name == "README.md" || !is_markdown {
                 continue;
             }
             match parse_record(root, &scope, &file_name) {
@@ -97,8 +100,9 @@ pub fn check(root: &Path) -> Result<Vec<Record>, Violations> {
 }
 
 /// Render the per-scope index tables for `records`.
+#[must_use]
 pub fn render_index(records: &[Record]) -> String {
-    let mut out = String::new();
+    let mut lines: Vec<String> = Vec::new();
     let mut scope_names: Vec<&str> = records.iter().map(|r| r.scope.as_str()).collect();
     scope_names.sort_unstable();
     scope_names.dedup();
@@ -108,21 +112,23 @@ pub fn render_index(records: &[Record]) -> String {
         } else {
             format!("### Repo-scoped records: {scope}")
         };
-        out.push_str(&format!(
-            "{heading}\n\n| Number | Record | Status |\n| --- | --- | --- |\n"
-        ));
+        lines.push(heading);
+        lines.push(String::new());
+        lines.push("| Number | Record | Status |".to_string());
+        lines.push("| --- | --- | --- |".to_string());
         for record in records.iter().filter(|r| r.scope == scope) {
-            out.push_str(&format!(
-                "| {} | [{}]({}) | {} |\n",
+            lines.push(format!(
+                "| {} | [{}]({}) | {} |",
                 record.number_text,
                 record.title,
                 record.path().display(),
                 render_status(records, &record.status)
             ));
         }
-        out.push('\n');
+        lines.push(String::new());
     }
-    out
+    lines.push(String::new());
+    lines.join("\n")
 }
 
 /// Return `readme` with the block between the index markers replaced by `index`.
@@ -329,8 +335,7 @@ fn render_status(records: &[Record], status: &Status) -> String {
             let name = records
                 .iter()
                 .find(|r| &r.path() == successor)
-                .map(Record::qualified_name)
-                .unwrap_or_else(|| successor.display().to_string());
+                .map_or_else(|| successor.display().to_string(), Record::qualified_name);
             format!("superseded by [{name}]({})", successor.display())
         }
     }
