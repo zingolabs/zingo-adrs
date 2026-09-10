@@ -53,26 +53,30 @@ Open a pull request against `dev` in this repository. Records are never
 proposed in a code repository: this ledger is the sole write side, and code
 repositories carry read-only copies.
 
-## Mirroring into a code repository
+## Pointing a code repository at the ledger
 
-A code repository carries the whole ledger as a squashed subtree so its
-contributors can read every record beside the code. To add the mirror:
-
-```sh
-git subtree add --prefix=docs/adr --squash \
-    git@github.com:zingolabs/zingo-adrs.git dev
-```
-
-To refresh it, at any time a contributor chooses:
+A code repository holds this ledger as a git submodule at its records path
+(`docs/adr/` for zaino). Only the pointer, one commit hash, is checked in
+there; the records never enter that repository's history. To add it:
 
 ```sh
-git subtree pull --prefix=docs/adr --squash \
-    git@github.com:zingolabs/zingo-adrs.git dev
+git submodule add git@github.com:zingolabs/zingo-adrs.git docs/adr
 ```
 
-A stale copy is not a defect, and no code repository gates on the copy.
-Edits under the copy conflict on the next refresh, which is the intended
-signal to propose them here instead.
+To materialise the records after cloning:
+
+```sh
+git submodule update --init docs/adr
+```
+
+To advance the pointer to the ledger's current `dev`, then commit the change:
+
+```sh
+git submodule update --remote docs/adr
+```
+
+A stale pointer is not a defect, and no code repository gates on it. The
+records are read-only from the code repository's side: propose changes here.
 
 ## Checking
 
@@ -95,7 +99,8 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 001 | [No upstream types in public APIs](001-no-upstream-types-in-public-apis.md) | accepted |
 | 002 | [`client_rpc_test_fixtures` moves to its own repository](002-client-rpc-test-fixtures-own-repo.md) | accepted |
 | 003 | [ADR: Branching, Versioning, Documentation, Public Interfaces, and Release Strategy](003-zaino-branching-versioning-and-release-strategy.md) | superseded by [zaino/0016](zaino/0016-changeset-derived-release-pipeline.md) |
-| 004 | [Decision records live in the org ledger and are mirrored into code repositories by subtree](004-decision-records-live-in-the-org-ledger.md) | accepted |
+| 004 | [Decision records live in the org ledger and are mirrored into code repositories by subtree](004-decision-records-live-in-the-org-ledger.md) | superseded by [005](005-code-repositories-point-at-the-ledger-by-submodule.md) |
+| 005 | [Code repositories point at the ledger by submodule, and hold none of its content](005-code-repositories-point-at-the-ledger-by-submodule.md) | accepted |
 
 ### Repo-scoped records: zaino
 
