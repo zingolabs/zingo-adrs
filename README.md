@@ -1,6 +1,6 @@
 # Zingolabs decision records
 
-The one ledger of architecture decision records for every zingolabs code
+zingo-adrs holds the architecture decision records for every zingolabs code
 repository. "Architecture" reads broadly: any decision that shapes how a
 repository is built, tested, or released belongs here, whether it concerns
 system structure, process, or infrastructure.
@@ -25,7 +25,7 @@ A bare `ADR-NNNN` cites a record in the citing repository's own scope. A
 citation into another scope carries the path: `zaino/0016` names the zaino
 record, and `003` names the org-scoped one.
 
-## The ledger rule
+## The append-only rule
 
 Records are append-only. Supersede, never delete or rewrite: a reversed
 decision gets a new record, and the old record's status names its successor.
@@ -50,12 +50,12 @@ specification in the code repository, referenced from the record.
 ## Proposing a record
 
 Open a pull request against `dev` in this repository. Records are never
-proposed in a code repository: this ledger is the sole write side, and code
+proposed in a code repository: zingo-adrs is the sole write side, and code
 repositories carry read-only copies.
 
-## Pointing a code repository at the ledger
+## Pointing a code repository at zingo-adrs
 
-A code repository holds this ledger as a git submodule at its records path
+A code repository holds zingo-adrs as a git submodule at its records path
 (`docs/adr/` for zaino). Only the pointer, one commit hash, is checked in
 there; the records never enter that repository's history. To add it:
 
@@ -69,7 +69,7 @@ To materialise the records after cloning:
 git submodule update --init docs/adr
 ```
 
-To advance the pointer to the ledger's current `dev`, then commit the change:
+To advance the pointer to the current `dev` of zingo-adrs, then commit the change:
 
 ```sh
 git submodule update --remote docs/adr
@@ -80,7 +80,7 @@ records are read-only from the code repository's side: propose changes here.
 
 ## Checking
 
-`tools/workbench` holds `check-ledger`, which CI runs on every pull request.
+`tools/workbench` holds `check-records`, which CI runs on every pull request.
 It verifies file names, the status vocabulary, that every `superseded by`
 link resolves, that numbers are unique within a scope, and that the index
 below matches the records. Regenerate the index with:
@@ -91,7 +91,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 
 ## Index
 
-<!-- ledger-index:begin -->
+<!-- records-index:begin -->
 ### Org-scoped records
 
 | Number | Record | Status |
@@ -99,8 +99,8 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 001 | [No upstream types in public APIs](001-no-upstream-types-in-public-apis.md) | accepted |
 | 002 | [`client_rpc_test_fixtures` moves to its own repository](002-client-rpc-test-fixtures-own-repo.md) | accepted |
 | 003 | [ADR: Branching, Versioning, Documentation, Public Interfaces, and Release Strategy](003-zaino-branching-versioning-and-release-strategy.md) | superseded by [zaino/0016](zaino/0016-changeset-derived-release-pipeline.md) |
-| 004 | [Decision records live in the org ledger and are mirrored into code repositories by subtree](004-decision-records-live-in-the-org-ledger.md) | superseded by [005](005-code-repositories-point-at-the-ledger-by-submodule.md) |
-| 005 | [Code repositories point at the ledger by submodule, and hold none of its content](005-code-repositories-point-at-the-ledger-by-submodule.md) | accepted |
+| 004 | [Decision records live in zingo-adrs and are mirrored into code repositories by subtree](004-decision-records-live-in-zingo-adrs.md) | superseded by [005](005-code-repositories-point-at-zingo-adrs-by-submodule.md) |
+| 005 | [Code repositories point at zingo-adrs by submodule, and hold none of its content](005-code-repositories-point-at-zingo-adrs-by-submodule.md) | accepted |
 
 ### Repo-scoped records: zaino
 
@@ -122,4 +122,4 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0016 | [Releases derive from changesets through a four-branch gated pipeline](zaino/0016-changeset-derived-release-pipeline.md) | accepted |
 | 0017 | [zcashd support is removed; Zebra is the only backing validator](zaino/0017-zcashd-support-removed.md) | accepted |
 
-<!-- ledger-index:end -->
+<!-- records-index:end -->

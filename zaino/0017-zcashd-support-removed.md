@@ -8,7 +8,7 @@ Supersedes [ADR-0001](0001-zcashd-support-feature-gate.md) and
 [ADR-0005](0005-zcashd-support-default-off.md). Recorded after the fact:
 the decision landed in zingolabs/zaino#1395 (commit 8c823f610, 2026-07-09),
 which deleted the two records it reversed instead of superseding them. This
-record restores the ledger's trail.
+record restores the trail of records.
 
 ## Context and decision
 

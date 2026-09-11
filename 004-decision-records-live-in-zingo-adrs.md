@@ -1,8 +1,8 @@
-# Decision records live in the org ledger and are mirrored into code repositories by subtree
+# Decision records live in zingo-adrs and are mirrored into code repositories by subtree
 
 ## Status
 
-superseded by [005](005-code-repositories-point-at-the-ledger-by-submodule.md)
+superseded by [005](005-code-repositories-point-at-zingo-adrs-by-submodule.md)
 
 Only the mirroring mechanism is superseded: code repositories hold a
 submodule pointer, not a subtree copy. The scopes, numbering, citation
@@ -13,13 +13,13 @@ rule, status vocabulary, and sole-write-side rule all stand.
 Zingolabs decisions were recorded in two places that could not see each
 other: this repository held three org-level records with no status and no
 index, and zaino held sixteen numbered records under `docs/adr/` with its own
-ledger rule. Numbers collided across the two (`003` and `0003` name different
+append-only rule. Numbers collided across the two (`003` and `0003` name different
 decisions), a zaino record superseded an org record without the org record
 saying so, and a code change deleted two zaino records instead of superseding
 them. A reader could not tell which decisions were current, nor which
 repositories a decision bound.
 
-This repository is the one ledger for every zingolabs code repository. It
+This repository, zingo-adrs, holds the records for every zingolabs code repository. It
 has two kinds of record, told apart by path:
 
 - An **org-scoped record** binds every code repository and lives at the top
@@ -37,24 +37,24 @@ by a link to the successor. The root README carries a generated index per
 scope, and a check in this repository's CI fails any pull request whose
 records or index break these rules.
 
-The ledger is the sole write side. A record is proposed as a pull request
+zingo-adrs is the sole write side. A record is proposed as a pull request
 here, never in a code repository. Each code repository carries a read-only
-copy of the whole ledger, added with `git subtree add --squash` and refreshed
+copy of the whole of zingo-adrs, added with `git subtree add --squash` and refreshed
 with `git subtree pull --squash` whenever a contributor chooses. A stale copy
 is not a defect: a record documents a decision, not the code, so no code
 repository gates on the copy's freshness or shape.
 
 ## Alternatives rejected
 
-- **Per-repository ledgers, cross-linked.** Every multi-repository decision
-  would need a home, and the two ledgers that existed already disagreed.
+- **Per-repository record sets, cross-linked.** Every multi-repository decision
+  would need a home, and the two record sets that existed already disagreed.
 - **A git submodule or bare links** instead of a subtree. A submodule
   demands a pinned commit and a second clone step for every reader; links
   put the records a network hop away from the code that cites them.
 - **Bidirectional subtree sync.** Editing under the copy and pushing upstream
-  later forks the ledger's history across every consumer and depends on a
+  later forks the history of zingo-adrs across every consumer and depends on a
   step people forget.
-- **One ledger-wide numbering sequence.** It would renumber every zaino
+- **One repository-wide numbering sequence.** It would renumber every zaino
   record and falsify every citation in published changelogs.
 - **Splitting `current/` from `superseded/` directories.** Moving a file on
   supersession breaks every citation to it and contradicts the append-only
@@ -62,7 +62,7 @@ repository gates on the copy's freshness or shape.
 
 ## Consequences
 
-- Records are copied into this ledger without their prior git history; the
+- Records are copied into zingo-adrs without their prior git history; the
   originating repository keeps that history at the old paths.
 - A code change and the record it implements land in two pull requests in
   two repositories, and the code may cite a record its own copy does not yet

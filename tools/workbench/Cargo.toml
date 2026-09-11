@@ -1,5 +1,5 @@
-# Standalone dev-tooling crate with its own workspace, so the ledger's only
-# binary builds against std alone.
+# Standalone dev-tooling crate with its own workspace, so the only binary
+# of zingo-adrs builds against std alone.
 [package]
 name = "workbench"
 version = "0.0.0"

@@ -1,4 +1,3 @@
-//! Validate every record in the ledger and keep the root README's index in step.
 #![forbid(unsafe_code)]
 
 use std::env;
@@ -29,7 +28,7 @@ fn main() -> ExitCode {
             ExitCode::SUCCESS
         }
         Ok(false) => {
-            eprintln!("README.md index is stale; run `check-ledger --write`");
+            eprintln!("README.md index is stale; run `check-records --write`");
             ExitCode::FAILURE
         }
         Err(why) => {

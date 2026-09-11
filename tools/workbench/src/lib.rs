@@ -5,14 +5,14 @@ use std::fs;
 use std::path::{Component, Path, PathBuf};
 
 /// Marker line that opens the generated index block in the root README.
-pub const INDEX_BEGIN: &str = "<!-- ledger-index:begin -->";
+pub const INDEX_BEGIN: &str = "<!-- records-index:begin -->";
 /// Marker line that closes the generated index block in the root README.
-pub const INDEX_END: &str = "<!-- ledger-index:end -->";
+pub const INDEX_END: &str = "<!-- records-index:end -->";
 
-/// Directory names at the ledger root that never hold records.
+/// Directory names at the repository root that never hold records.
 const NON_SCOPE_DIRS: &[&str] = &["tools", "target"];
 
-/// Every rule violation found in one pass over the ledger.
+/// Every rule violation found in one pass over zingo-adrs.
 #[derive(Debug, Default, PartialEq, Eq)]
 pub struct Violations(pub Vec<String>);
 
@@ -30,7 +30,7 @@ impl fmt::Display for Violations {
 pub enum Status {
     Proposed,
     Accepted,
-    /// Holds the successor's path relative to the ledger root.
+    /// Holds the successor's path relative to the repository root.
     Superseded(PathBuf),
 }
 
@@ -47,13 +47,13 @@ pub struct Record {
 }
 
 impl Record {
-    /// Path relative to the ledger root.
+    /// Path relative to the repository root.
     #[must_use]
     pub fn path(&self) -> PathBuf {
         scope_dir(&self.scope).join(&self.file_name)
     }
 
-    /// Citation form seen from the ledger root, such as `003` or `zaino/0016`.
+    /// Citation form seen from the repository root, such as `003` or `zaino/0016`.
     #[must_use]
     pub fn qualified_name(&self) -> String {
         qualify(&self.scope, &self.number_text)
