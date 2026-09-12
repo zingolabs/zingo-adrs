@@ -1,4 +1,4 @@
-name: check-ledger
+name: check-records
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
     branches: [dev]
 
 jobs:
-  check-ledger:
+  check-records:
     runs-on: ubuntu-latest
     defaults:
       run:
