@@ -118,6 +118,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0010 | [ADR 0010: Mempool subsystem separated into `zaino-mempool` behind ports](zaino/0010-mempool-subsystem-separation.md) | accepted |
 | 0011 | [The non-finalised chain head is a self-synchronising subsystem](zaino/0011-chain-head-subsystem-separation.md) | accepted |
 | 0012 | [The finalised state is a subsystem behind ports, and its database is one implementation of them](zaino/0012-chain-store-subsystem-separation.md) | accepted |
+| 0013 | [Domain quantity types carry invariants on results, not on operators](zaino/0013-quantity-arithmetic-result-types-carry-invariants.md) | proposed |
 | 0014 | [Validator readiness is owned by the runtime, not by its source consumers](zaino/0014-validator-readiness-owned-by-runtime.md) | proposed |
 | 0015 | [Zaino Release Flow Design](zaino/0015-periodic-release-flow.md) | superseded by [zaino/0016](zaino/0016-changeset-derived-release-pipeline.md) |
 | 0016 | [Releases derive from changesets through a four-branch gated pipeline](zaino/0016-changeset-derived-release-pipeline.md) | accepted |
