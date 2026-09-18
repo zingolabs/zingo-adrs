@@ -125,5 +125,6 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0017 | [zcashd support is removed; Zebra is the only backing validator](zaino/0017-zcashd-support-removed.md) | accepted |
 | 0018 | [The served block representation is a choice of index set](zaino/0018-served-block-representation-is-an-index-set-choice.md) | proposed |
 | 0019 | [Crate boundaries follow an independent-variation criterion](zaino/0019-crate-boundaries-follow-independent-variation.md) | proposed |
+| 0020 | [Errors keep their cause typed; a variant exists because a caller branches on it](zaino/0020-errors-keep-their-cause-typed.md) | proposed |
 
 <!-- records-index:end -->
