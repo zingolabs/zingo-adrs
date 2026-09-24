@@ -13,7 +13,7 @@ and Kotlin. The wallet crate (`rust/lib`, lib name `zingo`) wraps
 zingolib through a UDL file. The proxy crate (`rust/nym-proxy-ffi`,
 `zingo-nym-proxy-ffi`) hosts the Nym SOCKS5 proxy and resolves in its own
 lockfile, because nym-sdk needs `crypto-common ^0.2` and the main graph
-pins a release candidate. zingo-mobile ADR 0005 moved the proxy crate out
+pins a release candidate. Record `zingo-mobile/0005` moved the proxy crate out
 of this repository on the ground that a crate with one consumer belongs
 beside that consumer.
 
@@ -90,7 +90,7 @@ bring React Native into zingolib and tie Edge to Zingo's bridge.
 
 ## Consequences
 
-This supersedes zingo-mobile ADR 0005 and reverses ADR 0011's 2026-08-10
+This supersedes `zingo-mobile/0005` and reverses ADR 0011's 2026-08-10
 relocation amendment.
 
 The RN Bridge still breaks in zingo-mobile's CI, not zingolib's, when
