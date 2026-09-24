@@ -25,8 +25,8 @@ The SOCKS5 protocol cannot carry the discrimination. nym's local SOCKS5
 server answers every CONNECT with `Success` before anything enters the
 mixnet (`nym-socks5-client-core` 1.21.5, `socks/client.rs`,
 `acknowledge_socks5`), so `check_connectivity` in `zingo-netutils`
-proves only the local listener. zingo-netutils' Sentinel (zingolib ADR
-0044) already proves an Exit Node carries traffic, with a round trip
+proves only the local listener. zingo-netutils' Sentinel
+(`zingolib/0044`) already proves an Exit Node carries traffic, with a round trip
 deliberately shaped like traffic the exit sees constantly, but that
 evidence never crosses the FFI. When the exit node fails to reach the
 destination, its network requester does send a typed
