@@ -4,6 +4,11 @@
 
 accepted
 
+The 2026-08-10 amendment, which moved the mobile proxy shim to
+zingo-mobile, is reversed by
+[ADR-0054](0054-the-binding-layer-lives-beside-the-surface-it-wraps.md),
+proposed; the shim returns to `zingo-netutils/nym-proxy-ffi/`.
+
 To keep a server-side adversary (principally the indexer) from learning the
 client's IP address and linking it to a wallet's activity, we route the two
 highest-linkage outbound surfaces, Transmission and price-fetch, through the
