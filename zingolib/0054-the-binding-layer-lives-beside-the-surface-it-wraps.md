@@ -55,6 +55,13 @@ so its patch onto `webpki-verifier-shim` becomes a path patch. Both lib
 names stay unchanged, so the generated namespaces `uniffi.zingo` and
 `uniffi.zingo_nym_proxy_ffi` survive the move.
 
+This record does not overrule `zingo-mobile/0013`, which renames the proxy
+crate to `mixnet-proxy` and retires the word "shim". The two decisions
+apply in sequence. This record governs the relocation, which keeps every
+name so that the move stays verifiable as a diff. The rename follows as a
+separate change inside zingolib, like the reshapes below, and 0013 governs
+the name the crate takes then.
+
 The move is a pure relocation. The generated Swift and Kotlin API is
 identical before and after, and the crates arrive with their git history,
 filtered from a named zingo-mobile commit. Reshaping the surface is a
@@ -91,7 +98,9 @@ bring React Native into zingolib and tie Edge to Zingo's bridge.
 ## Consequences
 
 This supersedes `zingo-mobile/0005` and reverses ADR 0011's 2026-08-10
-relocation amendment.
+relocation amendment. When this record is accepted, the status line of
+`zingo-mobile/0005` changes from `accepted` to `superseded by` a link to
+this record.
 
 The RN Bridge still breaks in zingo-mobile's CI, not zingolib's, when
 zingo-mobile moves its pin. That break is deliberate and bounded to the
