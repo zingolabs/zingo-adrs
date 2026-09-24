@@ -4,10 +4,11 @@
 
 proposed
 
-This record accompanies zingo-mobile's `docs/proposals/release-senescence.md`,
-which is on dev and names it 0003. The record itself was drafted as 0004 in a
-maintainer's worktree and never committed. It took 0011 on import because
-0003 and 0004 were already taken.
+This record condenses zingo-mobile's proposal
+`docs/proposals/release-senescence.md` (on dev since `e28debfd2`), which
+remains the full specification and names this record as its companion ADR
+0003. The record was drafted as 0004 in a maintainer's worktree and never
+committed. It took 0011 on import because 0003 and 0004 were already taken.
 
 The Least Authority audit (Suggestion 1) recommended a forced-update gate: a remotely controlled
 minimum supported version that blocks usage of deprecated builds. We adopted the threat but rejected

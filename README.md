@@ -143,6 +143,8 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0010 | [Wallet files rely on OS protection, not app-layer encryption](zingo-mobile/0010-wallet-files-rely-on-os-protection.md) | accepted |
 | 0011 | [Releases senesce by chain height instead of a remote kill switch](zingo-mobile/0011-release-senescence.md) | proposed |
 | 0012 | [The price surface has no manual fetch](zingo-mobile/0012-the-price-surface-has-no-manual-fetch.md) | accepted |
+| 0013 | [The proxy component is named for the mixnet](zingo-mobile/0013-the-proxy-component-is-named-for-the-mixnet.md) | accepted |
+| 0014 | [The mixnet's three legs are observed by capture and probe](zingo-mobile/0014-the-mixnets-three-legs-are-observed-by-capture-and-probe.md) | accepted |
 
 ### Repo-scoped records: zingolib
 
