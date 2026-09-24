@@ -123,8 +123,10 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0015 | [Zaino Release Flow Design](zaino/0015-periodic-release-flow.md) | superseded by [zaino/0016](zaino/0016-changeset-derived-release-pipeline.md) |
 | 0016 | [Releases derive from changesets through a four-branch gated pipeline](zaino/0016-changeset-derived-release-pipeline.md) | accepted |
 | 0017 | [zcashd support is removed; Zebra is the only backing validator](zaino/0017-zcashd-support-removed.md) | accepted |
-| 0018 | [The served block representation is a choice of index set](zaino/0018-served-block-representation-is-an-index-set-choice.md) | proposed |
+| 0018 | [The served block representation is a choice of index set](zaino/0018-served-block-representation-is-an-index-set-choice.md) | superseded by [zaino/0022](zaino/0022-index-set-is-a-build-time-choice.md) |
 | 0019 | [Crate boundaries follow an independent-variation criterion](zaino/0019-crate-boundaries-follow-independent-variation.md) | proposed |
 | 0020 | [Errors keep their cause typed; a variant exists because a caller branches on it](zaino/0020-errors-keep-their-cause-typed.md) | proposed |
+| 0021 | [zainod is the only consumer of zaino's library crates; in-process embedding is unsupported](zaino/0021-zainod-is-the-only-consumer.md) | proposed |
+| 0022 | [The index set is a build-time choice](zaino/0022-index-set-is-a-build-time-choice.md) | proposed |
 
 <!-- records-index:end -->
