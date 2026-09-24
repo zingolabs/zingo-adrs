@@ -144,4 +144,57 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0011 | [Releases senesce by chain height instead of a remote kill switch](zingo-mobile/0011-release-senescence.md) | proposed |
 | 0012 | [The price surface has no manual fetch](zingo-mobile/0012-the-price-surface-has-no-manual-fetch.md) | accepted |
 
+### Repo-scoped records: zingolib
+
+| Number | Record | Status |
+| --- | --- | --- |
+| 0001 | [LightClient starts offline by default](zingolib/0001-offline-by-default.md) | accepted |
+| 0002 | [Regtest support is compiled out of production builds](zingolib/0002-regtest-compiled-out-of-production.md) | accepted |
+| 0003 | [Test-owned chain caches snapshot completed setup and record returned outputs](zingolib/0003-test-owned-chain-caches.md) | accepted |
+| 0005 | [Retire the darkside-tests crate and the orphaned zingo-testutils crate](zingolib/0005-retire-darkside-tests-and-zingo-testutils.md) | accepted |
+| 0006 | [The pending proposal lives in the wallet; offline signing reads it](zingolib/0006-wallet-stored-proposal.md) | accepted |
+| 0007 | [Library Birthday: a release-stamped floor for never-online wallet creation](zingolib/0007-library-birthday.md) | accepted |
+| 0008 | [Offline-signed transactions get their expiry by proposal retarget, not a builder override](zingolib/0008-offline-expiry-by-retarget.md) | accepted |
+| 0009 | [Tests run Ironwood-era by default; Orchard-era behavior is opt-in](zingolib/0009-tests-run-ironwood-era-by-default.md) | accepted |
+| 0011 | [IP obfuscation for Transmission and price-fetch runs over the Nym mixnet](zingolib/0011-nym-mixnet-transmission.md) | accepted |
+| 0014 | [Pool Activation is derived once, in pepper-sync, from zcash_protocol parameters](zingolib/0014-pool-activation-derived-in-pepper-sync.md) | accepted |
+| 0015 | [ADR 0015: Landing in dev ships the wallet file format](zingolib/0015-landing-in-dev-ships-the-wallet-file-format.md) | accepted |
+| 0016 | [Note-splitting execution is a stateless, send-shaped call](zingolib/0016-note-splitting-is-a-stateless-fused-call.md) | accepted |
+| 0017 | [Phase 2 parts are due for the whole open window, and the random target is advisory](zingolib/0017-phase-2-parts-due-for-the-whole-open-window.md) | accepted |
+| 0018 | [A part's anchor boundary is drawn at an age of one bucket or more, never at the window it broadcasts in](zingolib/0018-part-anchors-are-drawn-at-age-one-or-more.md) | accepted |
+| 0019 | [Immediate migration (Drain) is exposed as a send-shaped call](zingolib/0019-immediate-migration-is-send-shaped.md) | accepted |
+| 0020 | [Migration logic delegates to zcash_pool_migration](zingolib/0020-migration-logic-delegates-to-zcash-pool-migration.md) | accepted |
+| 0021 | [The mixnet shim's TLS verifies against the compiled-in webpki bundle](zingolib/0021-shim-tls-verifies-against-the-webpki-bundle.md) | accepted |
+| 0022 | [A Broadcast Witness is never the sync indexer](zingolib/0022-broadcast-witness-never-the-sync-indexer.md) | accepted |
+| 0023 | [Top-window sync rides the mixnet](zingolib/0023-top-window-sync-rides-the-mixnet.md) | accepted |
+| 0024 | [24. Consumers converge on a zingolib-owned mixnet surface](zingolib/0024-consumers-converge-on-a-zingolib-owned-mixnet-surface.md) | proposed |
+| 0025 | [25. Going online requires Connectivity Consent](zingolib/0025-going-online-requires-connectivity-consent.md) | proposed |
+| 0026 | [26. Mixnet capability compiles by default; activation stays a runtime consent](zingolib/0026-mixnet-capability-compiles-by-default.md) | proposed |
+| 0028 | [28. The reference consumer lives in-repo in an excluded sub-workspace](zingolib/0028-the-reference-consumer-lives-in-repo-in-an-excluded-sub-workspace.md) | proposed |
+| 0029 | [29. A maintained mixnet indexer pool replaces server selection](zingolib/0029-a-maintained-mixnet-indexer-pool-replaces-server-selection.md) | superseded by [zingolib/0038](zingolib/0038-an-exit-node-reservation-is-unique-to-its-holder.md) |
+| 0030 | [The CLI crosses sync to async exactly once, dispatching from a static command table](zingolib/0030-the-cli-crosses-sync-to-async-exactly-once.md) | accepted |
+| 0031 | [CLI stdout carries only the result; failures and narration travel on stderr, and a failed one-shot exits nonzero](zingolib/0031-cli-stdout-carries-only-the-result.md) | accepted |
+| 0032 | [`network off` is zero-emission teardown, and `--offline` suppresses the network surface](zingolib/0032-network-off-is-zero-emission-teardown.md) | accepted |
+| 0033 | [Network access demands a consent-tiered Network Observer](zingolib/0033-network-access-demands-a-consent-tiered-network-observer.md) | accepted |
+| 0034 | [Server selection is a mixnet liveness sweep](zingolib/0034-server-selection-is-a-mixnet-liveness-sweep.md) | proposed |
+| 0035 | [The acquisition race speaks the literature's vocabulary](zingolib/0035-the-acquisition-race-speaks-the-literatures-vocabulary.md) | proposed |
+| 0036 | [A Destination, not a witness, receives a Transmission](zingolib/0036-a-destination-not-a-witness-receives-a-transmission.md) | proposed |
+| 0037 | [Broadcast means many recipients](zingolib/0037-broadcast-means-many-recipients.md) | proposed |
+| 0038 | [An Exit Node Reservation is unique to its holder](zingolib/0038-an-exit-node-reservation-is-unique-to-its-holder.md) | proposed |
+| 0039 | [An Exit Node is Exclusive to one Destination or Shared across many](zingolib/0039-an-exit-node-is-exclusive-or-shared-across-destinations.md) | proposed |
+| 0040 | [Send's escalation is a hedged race of full paths](zingolib/0040-sends-escalation-is-a-hedged-race-of-full-paths.md) | proposed |
+| 0041 | [A platform-typed Mixnet Session acquires every transport](zingolib/0041-a-platform-typed-mixnet-session-acquires-every-transport.md) | proposed |
+| 0042 | [A Destination Reservation levels concurrent Transmissions across operators](zingolib/0042-a-destination-reservation-levels-concurrent-transmissions.md) | proposed |
+| 0043 | [A survey proves its exit with a Sentinel, and restarts when the proof fails](zingolib/0043-a-survey-proves-its-exit-with-a-sentinel.md) | proposed |
+| 0044 | [A client proves its exit before its first role, and later clients trust fresh proof](zingolib/0044-a-client-proves-its-exit-before-its-first-role.md) | proposed |
+| 0045 | [Boot proves four exits and assigns them by role](zingolib/0045-boot-proves-four-exits-and-assigns-them-by-role.md) | proposed |
+| 0046 | [The wallet asks for a mixnet conduit by role](zingolib/0046-the-wallet-asks-for-a-mixnet-conduit-by-role.md) | proposed |
+| 0047 | [Roles key conduits, and the wallet stops naming exits](zingolib/0047-roles-key-conduits-and-the-wallet-stops-naming-exits.md) | proposed |
+| 0048 | [A mobile session rotates one client rather than separating roles](zingolib/0048-a-mobile-session-rotates-one-client.md) | proposed |
+| 0049 | [Every transport comes from a long-lived host](zingolib/0049-every-transport-comes-from-a-long-lived-host.md) | proposed |
+| 0050 | [Indexers are classified by role, trust, and location, and one broadcast rule draws from them](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) | proposed |
+| 0051 | [Continuous sync keeps the wallet current as new blocks are mined](zingolib/0051-continuous-sync.md) | accepted |
+| 0052 | [Indexerless operations are pure functions; effects live at the edges](zingolib/0052-pure-core-effects-at-edges.md) | superseded by [zingolib/0006](zingolib/0006-wallet-stored-proposal.md) |
+| 0053 | [Destinations are drawn from the indexer registry per chain, on every transport](zingolib/0053-destinations-are-drawn-from-the-registry-per-chain-on-every-transport.md) | superseded by [zingolib/0050](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) |
+
 <!-- records-index:end -->
