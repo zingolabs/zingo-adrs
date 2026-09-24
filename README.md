@@ -132,15 +132,15 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | Number | Record | Status |
 | --- | --- | --- |
 | 0001 | [Shield and self-send change outputs prefer the Ironwood pool](zingo-mobile/0001-shield-and-change-outputs-prefer-the-ironwood-pool.md) | accepted |
-| 0002 | [2. Errors are types](zingo-mobile/0002-errors-are-types.md) | accepted |
-| 0003 | [3. Errors and data flow in separate channels](zingo-mobile/0003-errors-and-data-in-separate-channels.md) | accepted |
-| 0004 | [4. The mixnet shim's TLS verifies against Android's platform verifier](zingo-mobile/0004-the-mixnet-shims-tls-verifies-against-androids-platform-verifier.md) | superseded by [zingo-mobile/0006](zingo-mobile/0006-the-mixnet-proxys-tls-verifies-against-the-compiled-in-mozilla-bundle.md) |
-| 0005 | [5. The mobile proxy shim lives in this repository](zingo-mobile/0005-the-mobile-proxy-shim-lives-in-this-repository.md) | accepted |
-| 0006 | [6. The mixnet proxy's TLS verifies against the compiled-in Mozilla bundle](zingo-mobile/0006-the-mixnet-proxys-tls-verifies-against-the-compiled-in-mozilla-bundle.md) | accepted |
+| 0002 | [Errors are types](zingo-mobile/0002-errors-are-types.md) | accepted |
+| 0003 | [Errors and data flow in separate channels](zingo-mobile/0003-errors-and-data-in-separate-channels.md) | accepted |
+| 0004 | [The mixnet shim's TLS verifies against Android's platform verifier](zingo-mobile/0004-the-mixnet-shims-tls-verifies-against-androids-platform-verifier.md) | superseded by [zingo-mobile/0006](zingo-mobile/0006-the-mixnet-proxys-tls-verifies-against-the-compiled-in-mozilla-bundle.md) |
+| 0005 | [The mobile proxy shim lives in this repository](zingo-mobile/0005-the-mobile-proxy-shim-lives-in-this-repository.md) | accepted |
+| 0006 | [The mixnet proxy's TLS verifies against the compiled-in Mozilla bundle](zingo-mobile/0006-the-mixnet-proxys-tls-verifies-against-the-compiled-in-mozilla-bundle.md) | accepted |
 | 0007 | [The biometric gate is a privacy shutter](zingo-mobile/0007-the-biometric-gate-is-a-privacy-shutter.md) | accepted |
 | 0008 | [Excise zcashd by removing the regchest test backend](zingo-mobile/0008-excise-zcashd-and-regchest.md) | accepted |
 | 0009 | [Error channels carry ErrorKeys, never prose](zingo-mobile/0009-error-keys-not-prose.md) | accepted |
-| 0010 | [10. Wallet files rely on OS protection, not app-layer encryption](zingo-mobile/0010-wallet-files-rely-on-os-protection.md) | accepted |
+| 0010 | [Wallet files rely on OS protection, not app-layer encryption](zingo-mobile/0010-wallet-files-rely-on-os-protection.md) | accepted |
 | 0011 | [Releases senesce by chain height instead of a remote kill switch](zingo-mobile/0011-release-senescence.md) | proposed |
 | 0012 | [The price surface has no manual fetch](zingo-mobile/0012-the-price-surface-has-no-manual-fetch.md) | accepted |
 

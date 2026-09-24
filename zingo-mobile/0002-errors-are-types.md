@@ -1,4 +1,4 @@
-# 2. Errors are types
+# Errors are types
 
 Date: 2026-07-22
 

@@ -1,4 +1,4 @@
-# 6. The mixnet proxy's TLS verifies against the compiled-in Mozilla bundle
+# The mixnet proxy's TLS verifies against the compiled-in Mozilla bundle
 
 Date: 2026-08-21
 
@@ -7,7 +7,7 @@ Date: 2026-08-21
 accepted
 
 Supersedes ADR 0004, which chose Android's platform verifier.
-This decision returns the mixnet proxy to zingolib ADR 0021 and restates
+This decision returns the mixnet proxy to zingolib/0021 and restates
 that ADR's patch inside this repository's shim workspace.
 
 ## Context
@@ -59,7 +59,7 @@ Verification is byte-identical on Android, iOS, and every host, so there is
 one behaviour to reason about and to test in plain CI. Enterprise and
 user-installed certificate authorities are never honoured, the platform's
 revocation machinery is bypassed, and the bundle ages between re-pins.
-zingolib ADR 0021 sets the update policy those prices demand, and this
+zingolib/0021 sets the update policy those prices demand, and this
 repository inherits it through the patched dependency rather than
 maintaining a second policy.
 
@@ -79,4 +79,4 @@ every cost of the platform verifier and adds a fork to maintain.
 **Wait for Nym to staple an OCSP response.** Rejected. It puts this
 application's schedule inside another project's.
 
-**Restate zingolib ADR 0021 in this workspace.** Chosen.
+**Restate zingolib/0021 in this workspace.** Chosen.

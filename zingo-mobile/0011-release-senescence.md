@@ -4,8 +4,10 @@
 
 proposed
 
-Drafted as 0004 in a maintainer's worktree and never committed. It took
-0011 on import because 0004 was already taken.
+This record accompanies zingo-mobile's `docs/proposals/release-senescence.md`,
+which is on dev and names it 0003. The record itself was drafted as 0004 in a
+maintainer's worktree and never committed. It took 0011 on import because
+0003 and 0004 were already taken.
 
 The Least Authority audit (Suggestion 1) recommended a forced-update gate: a remotely controlled
 minimum supported version that blocks usage of deprecated builds. We adopted the threat but rejected
@@ -47,4 +49,4 @@ and make the registry operator a party who can gate the fleet.
   tripwire (alarm when the latest production tag passes 30 days) is recommended alongside.
 - Betas ship far inside the window and effectively never gate; production carries the policy.
 - The senescence module exposes state only (`fresh | warning | final | senescent` plus the estimated
-  drop-dead date); all copy is translation keys rendered at the display edge, per ADR-0002.
+  drop-dead date); all copy is translation keys rendered at the display edge, per ADR-0009.

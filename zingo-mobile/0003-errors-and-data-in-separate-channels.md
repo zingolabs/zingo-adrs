@@ -1,4 +1,4 @@
-# 3. Errors and data flow in separate channels
+# Errors and data flow in separate channels
 
 Date: 2026-07-22
 

@@ -1,4 +1,4 @@
-# 4. The mixnet shim's TLS verifies against Android's platform verifier
+# The mixnet shim's TLS verifies against Android's platform verifier
 
 Date: 2026-08-10
 
@@ -10,13 +10,13 @@ Superseded on 2026-08-21. Android's platform verifier reports
 Nym's own API certificate as revoked, for carrying no OCSP responder, on
 every image tested, so the mixnet proxy never starts. Accepted before that,
 ratified by the maintainer during the PR #1276 review. The
-counterpart decision for the desktop workspace is zingolib ADR 0021,
+counterpart decision for the desktop workspace is zingolib/0021,
 whose 2026-08-10 amendment delegates the shim's verifier to this
 repository.
 
 ## Context
 
-zingolib ADR 0021 chose a compiled-in Mozilla root bundle for the
+zingolib/0021 chose a compiled-in Mozilla root bundle for the
 mixnet stack's TLS because the shim then lived in the zingolib
 workspace, which could provide neither the JVM-side initialization
 `rustls-platform-verifier` requires on Android nor any hand-written JNI
@@ -54,7 +54,7 @@ against Android's own certificate verifier. Three parts wire it:
 
 Certificate verification on Android honors the platform trust store:
 enterprise and user-installed CAs work, and the platform's revocation
-machinery applies. The prices are the ones zingolib ADR 0021 avoided
+machinery applies. The prices are the ones zingolib/0021 avoided
 and this repository accepts as ordinary properties of a mobile app:
 verification behavior differs per platform vendor, and a device with a
 hostile user-installed CA trusts it. iOS needs no counterpart, because

@@ -1,4 +1,4 @@
-# 10. Wallet files rely on OS protection, not app-layer encryption
+# Wallet files rely on OS protection, not app-layer encryption
 
 Date: 2026-08-26
 

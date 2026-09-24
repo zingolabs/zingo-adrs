@@ -1,4 +1,4 @@
-# 5. The mobile proxy shim lives in this repository
+# The mobile proxy shim lives in this repository
 
 Date: 2026-08-10
 
@@ -7,7 +7,7 @@ Date: 2026-08-10
 accepted
 
 Ratified by the maintainer in the 2026-08-10 design session
-that superseded PR #1251. Mirrored on the zingolib side by the ADR 0011
+that superseded PR #1251. Mirrored on the zingolib side by the zingolib/0011
 amendment in zingolib PR #2666, which removes the shim from that
 workspace.
 
