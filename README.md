@@ -198,5 +198,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0051 | [Continuous sync keeps the wallet current as new blocks are mined](zingolib/0051-continuous-sync.md) | accepted |
 | 0052 | [Indexerless operations are pure functions; effects live at the edges](zingolib/0052-pure-core-effects-at-edges.md) | superseded by [zingolib/0006](zingolib/0006-wallet-stored-proposal.md) |
 | 0053 | [Destinations are drawn from the indexer registry per chain, on every transport](zingolib/0053-destinations-are-drawn-from-the-registry-per-chain-on-every-transport.md) | superseded by [zingolib/0050](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) |
+| 0054 | [The Binding Layer lives beside the surface it wraps](zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md) | proposed |
+| 0055 | [zingolib admits Swift, Kotlin, and TypeScript with their native tooling](zingolib/0055-zingolib-admits-swift-kotlin-and-typescript-with-native-tooling.md) | proposed |
 
 <!-- records-index:end -->
