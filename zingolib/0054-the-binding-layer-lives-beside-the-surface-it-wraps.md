@@ -109,3 +109,29 @@ bridge.
 zingo-mobile's `rust/` freezes between the history import and the
 repoint. Open pull requests that touch it are merged first, closed, or
 replayed into zingolib with `git am --directory`.
+
+## Pull request dispositions
+
+The grilling session ruled on each open zingo-mobile pull request that
+touched `rust/` on 2026-09-23:
+
+- zingo-mobile#1418 merges before the freeze.
+- zingo-mobile#1212 and zingo-mobile#1297 close, because the repoint
+  supersedes the zingolib pins they move.
+- zingo-mobile#1197, which excises the regchest backend, rebases and
+  merges before the import.
+- zingo-mobile#1233, which removes duplication from the accessors, rebases
+  and merges before the import.
+- zingo-mobile#1242 and zingo-mobile#1243, which reshape the migration
+  cadence surface, close and return as reshapes inside zingolib after the
+  move.
+- zingo-mobile#1293, which renames the proxy namespace, closes and returns
+  after the move as the rename that `zingo-mobile/0013` governs.
+- zingo-mobile#1323 replays into zingo-netutils after the import.
+- Dorian splits draft zingo-mobile#1365 along the line between the
+  Binding Layer and the RN Bridge.
+
+By 2026-09-25, #1418 and #1197 had merged, and #1212, #1297, #1242, #1243,
+#1293, and #1323 had closed. #1233 closed by mistake without merging.
+Whether it is replayed into zingolib or dropped is still open. #1365 is
+still open.
