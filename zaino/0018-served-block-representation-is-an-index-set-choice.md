@@ -2,7 +2,7 @@
 
 ## Status
 
-proposed
+superseded by [zaino/0022](0022-index-set-is-a-build-time-choice.md)
 
 Records an **open decision** that needs team input. This record frames the
 question and the options; it does not yet select one. Numbered 0018 on its
