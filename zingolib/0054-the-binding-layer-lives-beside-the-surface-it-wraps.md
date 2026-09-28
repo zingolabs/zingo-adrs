@@ -6,7 +6,9 @@ proposed
 
 Ruled in a grilling session on 2026-09-23, pending review. Amended in a
 grilling session on 2026-09-28, which replaced the move with a copy that
-must pass equivalence gates before zingo-mobile repoints.
+must pass equivalence gates before zingo-mobile repoints. A further
+session the same day settled the copied set, the layout of the wallet
+side, the gate tooling, and the branch that carries the copy.
 
 ## Context
 
@@ -45,19 +47,23 @@ consumers exist.
 The layout is:
 
 ```
-zingo-ffi/                    package zingo-ffi, lib name zingo (root member)
-zingo-netutils/nym-proxy-ffi/ package zingo-nym-proxy-ffi (netutils workspace member)
+zingo-ffi/                    workspace root, mirroring zingo-mobile's rust/
+zingo-ffi/lib/                package zingo, lib name zingo
+zingo-ffi/uniffi-bindgen/     package zingo-uniffi-bindgen; generates both crates' bindings
+zingo-netutils/nym-proxy-ffi/ package zingo-nym-proxy-ffi
 bindings/android/             Gradle library; one AAR carrying both libraries
 bindings/swift/               Package.swift; one XCFramework carrying both libraries
 ```
 
-Once zingo-mobile has repointed, the wallet crate joins the root
+Once zingo-mobile has repointed, the two `zingo-ffi` crates join the root
 workspace, and the proxy crate joins the standalone zingo-netutils
 workspace, which already builds with `nym` on, so its patch onto
-`webpki-verifier-shim` becomes a path patch. Until then each crate is a
-standalone workspace, as the next section describes. Both lib
-names stay unchanged, so the generated namespaces `uniffi.zingo` and
-`uniffi.zingo_nym_proxy_ffi` survive the move.
+`webpki-verifier-shim` becomes a path patch. Until then `zingo-ffi/` and
+the proxy crate are standalone workspaces, as the next section describes.
+Both lib names stay unchanged, so the generated namespaces `uniffi.zingo`
+and `uniffi.zingo_nym_proxy_ffi` survive the move. The wallet package also
+keeps its name, `zingo`, through the copy. Renaming it to `zingo-ffi` is a
+later change inside zingolib, like the proxy crate's rename below.
 
 This record does not overrule `zingo-mobile/0013`, which renames the proxy
 crate to `mixnet-proxy` and retires the word "shim". The two decisions
@@ -88,20 +94,31 @@ The rest of this record uses the abbreviations. zingo-mobile's `rust/`
 freezes at TFC and stays frozen until the repoint lands. The import
 branches from TAR.
 
-The crates arrive with their git history, filtered from TFC, in an import
+The copy takes three crates: `rust/lib`, `rust/uniffi-bindgen`, and
+`rust/nym-proxy-ffi`. It also takes `rust/Cargo.toml` and
+`rust/Cargo.lock`, because the wallet crate inherits its dependencies from
+that workspace manifest. The bindgen crate comes along because it
+generates the bindings for both of the other crates.
+
+The files arrive with their git history, filtered from TFC, in an import
 commit that changes nothing. A separate placement commit makes the
-manifest edits. Until the repoint, each crate is a standalone workspace,
-excluded from the root and zingo-netutils workspaces, and carries its
-lockfile from TFC verbatim. The only change between TFC and the copy is
-where the crates live, and between the import and the repoint the copy
-accepts only packaging changes.
+manifest edits. Until the repoint, `zingo-ffi/` and the proxy crate are
+standalone workspaces, excluded from the root and zingo-netutils
+workspaces, and each starts from its lockfile at TFC. The `zingo-ffi`
+manifest lists only `lib` and `uniffi-bindgen`, so Cargo drops the
+lockfile entries that only zingo-mobile's remaining members used. The only
+change between TFC and the copy is where the crates live, and between the
+import and the repoint the copy accepts only packaging changes.
 
 Four manual gates, each run against TFC and TAR, prove preservation:
 
 1. The tree hashes of the imported crate directories equal those of
-   `rust/lib` and `rust/nym-proxy-ffi` at TFC.
-2. The placement commit touches only manifests, and each lockfile diff is
-   confined to the zingolib crates' source lines.
+   `rust/lib`, `rust/uniffi-bindgen`, and `rust/nym-proxy-ffi` at TFC, and
+   the imported workspace manifest and lockfile equal theirs byte for byte.
+2. The placement commit touches only manifests and lockfiles. Each copied
+   crate's resolved dependency graph, from `cargo tree --locked` over all
+   features and targets, equals its graph at TFC, except for the source of
+   the zingolib crates.
 3. The generated Kotlin and Swift bindings match those generated at TFC
    byte for byte. The AAR and XCFramework carry the same ABI set, the same
    generated sources, and the same exported dynamic symbols. Their build
@@ -113,9 +130,19 @@ Four manual gates, each run against TFC and TAR, prove preservation:
    match a baseline recorded from three runs at TFC. A test that fails at
    TFC and fails on the copy counts as preserved function.
 
+Gates 1 to 3 are subcommands of zingolib's workbench crate, so anyone can
+run them again. The maintainer runs gate 4 and records its outcomes, the
+three baseline runs and the run on the copy, in the import pull request.
+
 The copied crates' own Rust tests run in per-pull-request CI rather than
 as a manual gate. There, `live_mixnet.rs` may fail on the network without
 failing the check.
+
+One branch, cut from TAR, carries the import commit, the placement
+commit, the gate subcommands, and the packaging. It merges into `dev` only
+after all four gates pass on it. Until then it takes no merge from `dev`
+and no rebase, because either would move it off TAR. After the merge, the
+copy's path dependencies resolve to `dev` rather than TAR.
 
 Each gate has a fixed remedy for failure:
 
@@ -139,8 +166,9 @@ consumer chooses the version. zingolib publishes no prebuilt bundle until
 a consumer needs one.
 
 Tests split along the same line. `RustFFITest.kt` calls the generated
-bindings directly, so it is copied to `bindings/android` with its Rust
-driver, and zingo-mobile's original stays until the repoint.
+bindings directly, so it is copied to `bindings/android`, and
+zingo-mobile's original stays until the repoint. Where its driver goes is
+open in `zingo-mobile/0015`.
 `ZingoTest.swift` drives `RPCModule` and the Detox suites drive the app,
 so they stay in zingo-mobile.
 
@@ -169,6 +197,14 @@ have to prove a resolved-graph diff harmless. A fully green suite as
 gate 4 was rejected, because pre-existing failures at TFC would block a
 copy that preserves them, and fixing them would break the freeze.
 
+The later 2026-09-28 session rejected three more. Copying only the two
+UniFFI crates was rejected, because the wallet crate cannot build without
+its workspace manifest, and gate 3 cannot run without the bindgen.
+Flattening the wallet crate into `zingo-ffi/` was rejected, because it
+moves the manifest and lockfile away from where TFC has them. Merging the
+import before the packaging was rejected, because gates 3 and 4 would then
+build against a moving `dev` rather than TAR.
+
 ## Consequences
 
 This supersedes `zingo-mobile/0005` and reverses ADR 0011's 2026-08-10
@@ -184,6 +220,10 @@ zingo-mobile's `rust/` freezes from TFC until the repoint lands. Open
 pull requests that touch it are merged before TFC, closed, or replayed
 into zingolib with `git am --directory` after the repoint, since a replay
 before then would break the copy's byte identity.
+
+The copy takes only the Binding Layer, but `zingo-mobile/0015` removes
+all Rust except the workbench from zingo-mobile at the repoint. The test
+Rust that the copy leaves behind is rewritten there, not copied here.
 
 ## Pull request dispositions
 
