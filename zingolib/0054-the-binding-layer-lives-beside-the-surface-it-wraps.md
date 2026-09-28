@@ -8,7 +8,8 @@ Ruled in a grilling session on 2026-09-23, pending review. Amended in a
 grilling session on 2026-09-28, which replaced the move with a copy that
 must pass equivalence gates before zingo-mobile repoints. A further
 session the same day settled the copied set, the layout of the wallet
-side, the gate tooling, and the branch that carries the copy.
+side, the gate tooling, and the branch that carries the copy. A third
+session that day settled how the packaging builds.
 
 ## Context
 
@@ -52,7 +53,7 @@ zingo-ffi/lib/                package zingo, lib name zingo
 zingo-ffi/uniffi-bindgen/     package zingo-uniffi-bindgen; generates both crates' bindings
 zingo-netutils/nym-proxy-ffi/ package zingo-nym-proxy-ffi
 bindings/android/             Gradle library; one AAR carrying both libraries
-bindings/swift/               Package.swift; one XCFramework carrying both libraries
+bindings/swift/               Package.swift; two XCFrameworks and one Swift module
 ```
 
 Once zingo-mobile has repointed, the two `zingo-ffi` crates join the root
@@ -120,10 +121,11 @@ Four manual gates, each run against TFC and TAR, prove preservation:
    features and targets, equals its graph at TFC, except for the source of
    the zingolib crates.
 3. The generated Kotlin and Swift bindings match those generated at TFC
-   byte for byte. The AAR and XCFramework carry the same ABI set, the same
-   generated sources, and the same exported dynamic symbols. Their build
-   inputs also match: the Cargo profile, the NDK version, the minimum SDK
-   and iOS versions, the JNA version, and the package and module names.
+   byte for byte. The AAR and the two XCFrameworks carry the same ABI set,
+   the same generated sources, and the same exported dynamic symbols. Their
+   build inputs also match: the Cargo profile, the NDK version, the minimum
+   SDK and iOS versions, the JNA version, and the package and module names.
+   The one exception is the Swift module, described below.
 4. zingo-mobile's full suite, `RustFFITest.kt`, `ZingoTest.swift`, and the
    Detox end-to-end tests, runs on a discarded zingo-mobile branch that
    consumes the copy through the new packaging. Each test's outcome must
@@ -165,6 +167,36 @@ rev, through Gradle `includeBuild` and a SwiftPM local package path. The
 consumer chooses the version. zingolib publishes no prebuilt bundle until
 a consumer needs one.
 
+### Packaging
+
+The packaging reproduces zingo-mobile's builders rather than improving
+them. A workbench binary holds the build logic. The Gradle library calls
+it, and the SwiftPM package reads what it produces.
+
+The Android build runs in zingo-mobile's own builder image,
+`android_builder:018`, with the same tool layer, the same per-ABI
+environment, and the same stripping. The NDK, clang, and compiler
+therefore match by construction. Moving the build onto the host NDK and
+zingolib's pinned toolchain is a later reshape, verified against the copy.
+On both platforms the builder sets `RUSTUP_TOOLCHAIN=stable`, as
+zingo-mobile's builders do, so zingolib's toolchain pin does not change
+the compiler. The builder uses podman, and docker when podman is absent.
+
+The wallet library embeds zingo-mobile's release descriptor, which the app
+displays. The builder therefore requires `ZINGO_MOBILE_GIT_DESCRIBE` and
+fails without it, so the build script never describes zingolib instead.
+The consumer supplies the value. Gate 3 supplies TFC's descriptor on both
+sides.
+
+iOS keeps zingo-mobile's two XCFrameworks. `Zingolib.xcframework` carries
+the wallet library, both C headers, and one module map for both modules.
+`ZingoNymProxyFFI.xcframework` carries only the proxy libraries. The
+SwiftPM package declares them as two binary targets and adds one Swift
+target, `ZingoBindings`, that compiles both generated Swift files. The
+generated Swift therefore lives in the module `ZingoBindings` rather than
+in the app's module, and the RN Bridge imports it. This is the one module
+name that the copy changes.
+
 Tests split along the same line. `RustFFITest.kt` calls the generated
 bindings directly, so it is copied to `bindings/android`, and
 zingo-mobile's original stays until the repoint. Where its driver goes is
@@ -175,7 +207,7 @@ so they stay in zingo-mobile.
 CI enforces the rationale in two tiers. Every pull request checks
 `zingo-ffi` with the `nym` and `perspective` features, generates the
 Kotlin bindings, and builds the AAR for x86_64. A nightly run builds the
-AAR for all four ABIs, builds the XCFramework on macOS, and runs
+AAR for all four ABIs, builds the two XCFrameworks on macOS, and runs
 `RustFFITest.kt` on an emulator. These nightly jobs replace the calls to
 zingo-mobile's reusable workflows.
 
@@ -204,6 +236,15 @@ Flattening the wallet crate into `zingo-ffi/` was rejected, because it
 moves the manifest and lockfile away from where TFC has them. Merging the
 import before the packaging was rejected, because gates 3 and 4 would then
 build against a moving `dev` rather than TAR.
+
+The packaging session rejected three more. Building Android with
+`cargo-ndk` on the host was rejected, because gate 3 would then have to
+prove that a different NDK install and a different compiler produce
+equivalent artifacts. Letting the build script fall back to describing
+zingolib was rejected, because it changes the descriptor that the app
+displays. One merged XCFramework, as the first layout promised, was
+rejected, because merging the static libraries changes the artifact that
+gate 3 compares. It remains a possible reshape after the copy.
 
 ## Consequences
 
