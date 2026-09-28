@@ -222,8 +222,8 @@ into zingolib with `git am --directory` after the repoint, since a replay
 before then would break the copy's byte identity.
 
 The copy takes only the Binding Layer, but `zingo-mobile/0015` removes
-all Rust from zingo-mobile at the repoint. The Rust that the copy leaves
-behind is rewritten there, not copied here.
+all Rust except the workbench from zingo-mobile at the repoint. The test
+Rust that the copy leaves behind is rewritten there, not copied here.
 
 ## Pull request dispositions
 
