@@ -4,7 +4,9 @@
 
 proposed
 
-Ruled in a grilling session on 2026-09-23, pending review.
+Ruled in a grilling session on 2026-09-23, pending review. Amended in a
+grilling session on 2026-09-28, which replaced the move with a copy that
+must pass equivalence gates before zingo-mobile repoints.
 
 ## Context
 
@@ -49,9 +51,11 @@ bindings/android/             Gradle library; one AAR carrying both libraries
 bindings/swift/               Package.swift; one XCFramework carrying both libraries
 ```
 
-The wallet crate joins the root workspace. The proxy crate joins the
-standalone zingo-netutils workspace, which already builds with `nym` on,
-so its patch onto `webpki-verifier-shim` becomes a path patch. Both lib
+Once zingo-mobile has repointed, the wallet crate joins the root
+workspace, and the proxy crate joins the standalone zingo-netutils
+workspace, which already builds with `nym` on, so its patch onto
+`webpki-verifier-shim` becomes a path patch. Until then each crate is a
+standalone workspace, as the next section describes. Both lib
 names stay unchanged, so the generated namespaces `uniffi.zingo` and
 `uniffi.zingo_nym_proxy_ffi` survive the move.
 
@@ -62,12 +66,70 @@ name so that the move stays verifiable as a diff. The rename follows as a
 separate change inside zingolib, like the reshapes below, and 0013 governs
 the name the crate takes then.
 
-The move is a pure relocation. The generated Swift and Kotlin API is
-identical before and after, and the crates arrive with their git history,
-filtered from a named zingo-mobile commit. Reshaping the surface is a
-separate, later concern: structured errors in place of `ffi_error`'s
-string flattening, proc-macros in place of UDL, and one UniFFI version in
-place of 0.28 and 0.29.
+Reshaping the surface is a separate, later concern: structured errors in
+place of `ffi_error`'s string flattening, proc-macros in place of UDL,
+and one UniFFI version in place of 0.28 and 0.29.
+
+### Copy, then verify
+
+zingolib receives a copy of the crates, and zingo-mobile's originals stay
+in place and unchanged. zingo-mobile repoints only after the copy passes
+the equivalence gates below.
+
+Preserved function means two things. The Rust source is byte-identical to
+the original. The packaging may be new Gradle and SwiftPM code, but what
+it produces must match, at the boundary consumers see, what zingo-mobile's
+builders produce.
+
+Before the copy, one zingo-mobile pull request moves both crates' zingolib
+pins to a single zingolib rev, R. That pull request's merge commit is the
+source commit, S. zingo-mobile's `rust/` freezes at S and stays frozen
+until the repoint lands. The import branches from R.
+
+The crates arrive with their git history, filtered from S, in an import
+commit that changes nothing. A separate placement commit makes the
+manifest edits. Until the repoint, each crate is a standalone workspace,
+excluded from the root and zingo-netutils workspaces, and carries its
+lockfile from S verbatim. The only change between S and the copy is
+where the crates live, and between the import and the repoint the copy
+accepts only packaging changes.
+
+Four manual gates, each run against S and R, prove preservation:
+
+1. The tree hashes of the imported crate directories equal those of
+   `S:rust/lib` and `S:rust/nym-proxy-ffi`.
+2. The placement commit touches only manifests, and each lockfile diff is
+   confined to the zingolib crates' source lines.
+3. The generated Kotlin and Swift bindings match those generated at S byte
+   for byte. The AAR and XCFramework carry the same ABI set, the same
+   generated sources, and the same exported dynamic symbols. Their build
+   inputs also match: the Cargo profile, the NDK version, the minimum SDK
+   and iOS versions, the JNA version, and the package and module names.
+4. zingo-mobile's full suite, `RustFFITest.kt`, `ZingoTest.swift`, and the
+   Detox end-to-end tests, runs on a discarded zingo-mobile branch that
+   consumes the copy through the new packaging. Each test's outcome must
+   match a baseline recorded from three runs at S. A test that fails at S
+   and fails on the copy counts as preserved function.
+
+The copied crates' own Rust tests run in per-pull-request CI rather than
+as a manual gate. There, `live_mixnet.rs` may fail on the network without
+failing the check.
+
+Each gate has a fixed remedy for failure:
+
+1. If gate 1 fails, the import is discarded and redone from S, never
+   corrected by hand.
+2. If gate 2 fails, the placement commit is rewritten.
+3. If gate 3 or gate 4 fails because of the packaging, the packaging is
+   fixed and both gates run again.
+4. If gates 1 and 2 pass but gate 3 or gate 4 fails for any other reason,
+   the plan stops. Identical source and identical lockfiles should not
+   produce different behavior, so such a failure means an assumption is
+   wrong, and the remedy is another grilling session, not a code change.
+
+The repoint moves zingo-mobile to a zingolib rev later than R, because
+zingolib's `dev` keeps moving after the import merges. The repoint pull
+request therefore passes gate 4 again before it merges.
 
 zingo-mobile builds the Binding Layer from source at one pinned zingolib
 rev, through Gradle `includeBuild` and a SwiftPM local package path. The
@@ -75,7 +137,8 @@ consumer chooses the version. zingolib publishes no prebuilt bundle until
 a consumer needs one.
 
 Tests split along the same line. `RustFFITest.kt` calls the generated
-bindings directly, so it moves to `bindings/android` with its Rust driver.
+bindings directly, so it is copied to `bindings/android` with its Rust
+driver, and zingo-mobile's original stays until the repoint.
 `ZingoTest.swift` drives `RPCModule` and the Detox suites drive the app,
 so they stay in zingo-mobile.
 
@@ -95,6 +158,15 @@ for the same reason, and because Edge would then depend on another app's
 repository. Moving the RN Bridge as well was rejected, because it would
 bring React Native into zingolib and tie Edge to Zingo's bridge.
 
+The 2026-09-28 amendment rejected four alternatives. A move that deleted
+the originals at import was rejected, because it leaves nothing to check
+the copy against. A plain snapshot without history was rejected, because
+it loses `git blame` and turns gate 1 into a directory diff. Joining the
+shared workspaces at import was rejected, because the check would then
+have to prove a resolved-graph diff harmless. A fully green suite as
+gate 4 was rejected, because pre-existing failures at S would block a
+copy that preserves them, and fixing them would break the freeze.
+
 ## Consequences
 
 This supersedes `zingo-mobile/0005` and reverses ADR 0011's 2026-08-10
@@ -106,9 +178,10 @@ The RN Bridge still breaks in zingo-mobile's CI, not zingolib's, when
 zingo-mobile moves its pin. That break is deliberate and bounded to the
 bridge.
 
-zingo-mobile's `rust/` freezes between the history import and the
-repoint. Open pull requests that touch it are merged first, closed, or
-replayed into zingolib with `git am --directory`.
+zingo-mobile's `rust/` freezes from S until the repoint lands. Open pull
+requests that touch it are merged before S, closed, or replayed into
+zingolib with `git am --directory` after the repoint, since a replay
+before then would break the copy's byte identity.
 
 ## Pull request dispositions
 
@@ -127,7 +200,7 @@ touched `rust/` on 2026-09-23:
   move.
 - zingo-mobile#1293, which renames the proxy namespace, closes and returns
   after the move as the rename that `zingo-mobile/0013` governs.
-- zingo-mobile#1323 replays into zingo-netutils after the import.
+- zingo-mobile#1323 replays into zingo-netutils after the repoint.
 - Dorian splits draft zingo-mobile#1365 along the line between the
   Binding Layer and the RN Bridge.
 
