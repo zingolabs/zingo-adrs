@@ -55,6 +55,10 @@ repositories carry read-only copies.
 
 ## Pointing a code repository at zingo-adrs
 
+[docs/howto-code-repositories.md](docs/howto-code-repositories.md) explains,
+for a reader arriving from a code repository, how its `docs/adr/` relates to
+this repository.
+
 A code repository holds zingo-adrs as a git submodule at its records path
 (`docs/adr/` for zaino). Only the pointer, one commit hash, is checked in
 there; the records never enter that repository's history. To add it:
