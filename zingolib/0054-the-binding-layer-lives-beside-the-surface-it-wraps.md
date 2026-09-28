@@ -82,34 +82,36 @@ it produces must match, at the boundary consumers see, what zingo-mobile's
 builders produce.
 
 Before the copy, one zingo-mobile pull request moves both crates' zingolib
-pins to a single zingolib rev, R. That pull request's merge commit is the
-source commit, S. zingo-mobile's `rust/` freezes at S and stays frozen
-until the repoint lands. The import branches from R.
+pins to a single zingolib rev, the **Aligned Rev** (TAR). That pull
+request's merge commit in zingo-mobile is the **Freeze Commit** (TFC).
+The rest of this record uses the abbreviations. zingo-mobile's `rust/`
+freezes at TFC and stays frozen until the repoint lands. The import
+branches from TAR.
 
-The crates arrive with their git history, filtered from S, in an import
+The crates arrive with their git history, filtered from TFC, in an import
 commit that changes nothing. A separate placement commit makes the
 manifest edits. Until the repoint, each crate is a standalone workspace,
 excluded from the root and zingo-netutils workspaces, and carries its
-lockfile from S verbatim. The only change between S and the copy is
+lockfile from TFC verbatim. The only change between TFC and the copy is
 where the crates live, and between the import and the repoint the copy
 accepts only packaging changes.
 
-Four manual gates, each run against S and R, prove preservation:
+Four manual gates, each run against TFC and TAR, prove preservation:
 
 1. The tree hashes of the imported crate directories equal those of
-   `S:rust/lib` and `S:rust/nym-proxy-ffi`.
+   `rust/lib` and `rust/nym-proxy-ffi` at TFC.
 2. The placement commit touches only manifests, and each lockfile diff is
    confined to the zingolib crates' source lines.
-3. The generated Kotlin and Swift bindings match those generated at S byte
-   for byte. The AAR and XCFramework carry the same ABI set, the same
+3. The generated Kotlin and Swift bindings match those generated at TFC
+   byte for byte. The AAR and XCFramework carry the same ABI set, the same
    generated sources, and the same exported dynamic symbols. Their build
    inputs also match: the Cargo profile, the NDK version, the minimum SDK
    and iOS versions, the JNA version, and the package and module names.
 4. zingo-mobile's full suite, `RustFFITest.kt`, `ZingoTest.swift`, and the
    Detox end-to-end tests, runs on a discarded zingo-mobile branch that
    consumes the copy through the new packaging. Each test's outcome must
-   match a baseline recorded from three runs at S. A test that fails at S
-   and fails on the copy counts as preserved function.
+   match a baseline recorded from three runs at TFC. A test that fails at
+   TFC and fails on the copy counts as preserved function.
 
 The copied crates' own Rust tests run in per-pull-request CI rather than
 as a manual gate. There, `live_mixnet.rs` may fail on the network without
@@ -117,7 +119,7 @@ failing the check.
 
 Each gate has a fixed remedy for failure:
 
-1. If gate 1 fails, the import is discarded and redone from S, never
+1. If gate 1 fails, the import is discarded and redone from TFC, never
    corrected by hand.
 2. If gate 2 fails, the placement commit is rewritten.
 3. If gate 3 or gate 4 fails because of the packaging, the packaging is
@@ -127,7 +129,7 @@ Each gate has a fixed remedy for failure:
    produce different behavior, so such a failure means an assumption is
    wrong, and the remedy is another grilling session, not a code change.
 
-The repoint moves zingo-mobile to a zingolib rev later than R, because
+The repoint moves zingo-mobile to a zingolib rev later than TAR, because
 zingolib's `dev` keeps moving after the import merges. The repoint pull
 request therefore passes gate 4 again before it merges.
 
@@ -164,7 +166,7 @@ the copy against. A plain snapshot without history was rejected, because
 it loses `git blame` and turns gate 1 into a directory diff. Joining the
 shared workspaces at import was rejected, because the check would then
 have to prove a resolved-graph diff harmless. A fully green suite as
-gate 4 was rejected, because pre-existing failures at S would block a
+gate 4 was rejected, because pre-existing failures at TFC would block a
 copy that preserves them, and fixing them would break the freeze.
 
 ## Consequences
@@ -178,9 +180,9 @@ The RN Bridge still breaks in zingo-mobile's CI, not zingolib's, when
 zingo-mobile moves its pin. That break is deliberate and bounded to the
 bridge.
 
-zingo-mobile's `rust/` freezes from S until the repoint lands. Open pull
-requests that touch it are merged before S, closed, or replayed into
-zingolib with `git am --directory` after the repoint, since a replay
+zingo-mobile's `rust/` freezes from TFC until the repoint lands. Open
+pull requests that touch it are merged before TFC, closed, or replayed
+into zingolib with `git am --directory` after the repoint, since a replay
 before then would break the copy's byte identity.
 
 ## Pull request dispositions
