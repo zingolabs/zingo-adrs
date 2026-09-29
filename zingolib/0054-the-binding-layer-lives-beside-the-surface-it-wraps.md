@@ -137,7 +137,17 @@ Four manual gates, each run against TFC and TAR, prove preservation:
    Detox end-to-end tests, runs on a discarded zingo-mobile branch that
    consumes the copy through the new packaging. Each test's outcome must
    match a baseline recorded from three runs at TFC. A test that fails at
-   TFC and fails on the copy counts as preserved function.
+   TFC and fails on the copy counts as preserved function. The Detox
+   end-to-end tests are the one exception, and gate 4 leaves them out. The
+   Android suite cannot pass at TFC, because its Detox app path does not
+   match zingo-mobile's flavored builds, and minification breaks a test
+   that an unfiltered release run reaches (zingo-mobile#1465). Every test
+   in it fails before it checks any app behavior, so its outcomes prove
+   nothing. At TFC, every script that runs Detox targets Android, so iOS
+   has no end-to-end suite to run. Gate 4 therefore runs the
+   `android_integration` suite, which includes `RustFFITest.kt`, on
+   Android, and the `ZingoTests` target, which holds `ZingoTest.swift`, on
+   iOS.
 
 Gates 1 to 3 are subcommands of zingolib's workbench crate, so anyone can
 run them again. The maintainer runs gate 4 and records its outcomes, the
