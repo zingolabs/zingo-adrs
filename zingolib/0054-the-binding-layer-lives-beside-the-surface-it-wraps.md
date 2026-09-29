@@ -123,10 +123,16 @@ Four manual gates, each run against TFC and TAR, prove preservation:
    the zingolib crates.
 3. The generated Kotlin and Swift bindings match those generated at TFC
    byte for byte. The AAR and the two XCFrameworks carry the same ABI set,
-   the same generated sources, and the same exported dynamic symbols. Their
-   build inputs also match: the Cargo profile, the NDK version, the minimum
-   SDK and iOS versions, the JNA version, and the package and module names.
-   The one exception is the Swift module, described below.
+   the same generated sources, and the same exported symbols. Their build
+   inputs also match: the Cargo profile, the NDK version, the minimum SDK
+   and iOS versions, the JNA version, and the package and module names.
+   There are two exceptions. The first is the Swift module, described
+   below. The second is how the symbols compare. The Android shared
+   libraries compare on their full dynamic symbol listing. The iOS static
+   libraries carry every Rust symbol, and a mangled name embeds a crate
+   hash that follows the crate's path, which the copy changes. They
+   therefore compare on their C-ABI names only, with Rust-mangled names
+   left out.
 4. zingo-mobile's full suite, `RustFFITest.kt`, `ZingoTest.swift`, and the
    Detox end-to-end tests, runs on a discarded zingo-mobile branch that
    consumes the copy through the new packaging. Each test's outcome must
