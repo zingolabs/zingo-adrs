@@ -149,6 +149,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0014 | [The mixnet's three legs are observed by capture and probe](zingo-mobile/0014-the-mixnets-three-legs-are-observed-by-capture-and-probe.md) | accepted |
 | 0015 | [zingo-mobile carries no product Rust](zingo-mobile/0015-zingo-mobile-carries-no-product-rust.md) | proposed |
 | 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | proposed |
+| 0017 | [The controller machine is a discriminated union over the native runtime](zingo-mobile/0017-the-controller-machine-is-a-discriminated-union-over-the-native-runtime.md) | proposed |
 
 ### Repo-scoped records: zingolib
 
