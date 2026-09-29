@@ -9,7 +9,8 @@ grilling session on 2026-09-28, which replaced the move with a copy that
 must pass equivalence gates before zingo-mobile repoints. A further
 session the same day settled the copied set, the layout of the wallet
 side, the gate tooling, and the branch that carries the copy. A third
-session that day settled how the packaging builds.
+session that day settled how the packaging builds. A fourth session that
+day settled the repoint.
 
 ## Context
 
@@ -158,14 +159,28 @@ Each gate has a fixed remedy for failure:
    produce different behavior, so such a failure means an assumption is
    wrong, and the remedy is another grilling session, not a code change.
 
-The repoint moves zingo-mobile to a zingolib rev later than TAR, because
-zingolib's `dev` keeps moving after the import merges. The repoint pull
-request therefore passes gate 4 again before it merges.
+The repoint pins zingo-mobile to the copy's final commit, TAR plus the
+copy, which stays reachable from `dev` after the copy merges. The repoint
+pull request passes gate 4 again, and because its pin holds the same
+zingolib as the copy's branch, its results should match the copy's. A
+later, ordinary pin bump moves zingo-mobile to `dev`, and its test
+differences are zingolib changes, reviewed as such.
 
 zingo-mobile builds the Binding Layer from source at one pinned zingolib
-rev, through Gradle `includeBuild` and a SwiftPM local package path. The
-consumer chooses the version. zingolib publishes no prebuilt bundle until
-a consumer needs one.
+rev, through Gradle `includeBuild` and a SwiftPM local package path.
+`zingo-mobile/0016` records how zingo-mobile holds that pin. The consumer
+chooses the version. zingolib publishes no prebuilt bundle until a
+consumer needs one.
+
+Three additions serve the consumer, and they land on the copy's branch
+before it merges, so the repoint's pin contains them. When neither the
+environment nor a Gradle property names the descriptor, the Gradle library
+runs zingo-mobile's `git describe` in the consuming build's root; built
+standalone, it still fails. The workbench builder has an in-image mode that
+runs the Android plan directly, for CI jobs that already run inside
+`android_builder:018`. The Gradle library accepts a `bindingLayerPrebuilt`
+directory, so a CI job can package output that it built and cached per
+ABI.
 
 ### Packaging
 
@@ -197,19 +212,27 @@ generated Swift therefore lives in the module `ZingoBindings` rather than
 in the app's module, and the RN Bridge imports it. This is the one module
 name that the copy changes.
 
-Tests split along the same line. `RustFFITest.kt` calls the generated
-bindings directly, so it is copied to `bindings/android`, and
-zingo-mobile's original stays until the repoint. Where its driver goes is
-open in `zingo-mobile/0015`.
-`ZingoTest.swift` drives `RPCModule` and the Detox suites drive the app,
-so they stay in zingo-mobile.
+Tests split along the same line, in stages. `RustFFITest.kt` stays in
+zingo-mobile until the repoint lands, because gate 4's baseline includes
+it. Seven of its eight test classes call only the generated bindings. The
+eighth also calls `RPCModule.saveWalletFile()` without asserting the
+result, and `WalletDeleteTest` already covers that method and the offline
+reload with assertions and without a network. After the repoint, a
+zingo-mobile pull request deletes that call, which leaves the file binding
+code only. A follow-up then moves `RustFFITest.kt` into zingolib with the
+emulator orchestration that runs it against a regtest network. zingolib
+already has the host half of that orchestration in `zingolib_testutils`
+and `zcash_local_net`. `ZingoTest.swift` drives `RPCModule` and the `e2e`
+suite drives the app, so they stay in zingo-mobile.
 
-CI enforces the rationale in two tiers. Every pull request checks
-`zingo-ffi` with the `nym` and `perspective` features, generates the
-Kotlin bindings, and builds the AAR for x86_64. A nightly run builds the
-AAR for all four ABIs, builds the two XCFrameworks on macOS, and runs
-`RustFFITest.kt` on an emulator. These nightly jobs replace the calls to
-zingo-mobile's reusable workflows.
+CI enforces the rationale in two tiers, added after the copy merges.
+Every pull request checks `zingo-ffi` with the `nym` and `perspective`
+features, generates the Kotlin bindings, and builds the AAR for x86_64. A
+nightly run builds the AAR for all four ABIs and the two XCFrameworks on
+macOS. The nightly emulator run of `RustFFITest.kt` waits for the test's
+move into zingolib. Until then, a runtime break in the bindings shows up
+when zingo-mobile bumps its pin, not in the zingolib pull request that
+causes it.
 
 ## Considered options
 
@@ -246,6 +269,15 @@ displays. One merged XCFramework, as the first layout promised, was
 rejected, because merging the static libraries changes the artifact that
 gate 3 compares. It remains a possible reshape after the copy.
 
+The repoint session rejected four more. Pinning the repoint to `dev`'s tip
+was rejected, because gate 4 could not then tell a fault in the copy from
+an unrelated change in zingolib. Landing the consumer additions after the
+copy merges was rejected, because the repoint's pin would then lack them.
+Moving `RustFFITest.kt` into zingolib before the repoint was rejected,
+because nothing in zingolib could run it yet. Starting a CI job's container
+from inside a job that already runs in the builder image was rejected,
+because GitHub's container jobs have no container daemon.
+
 ## Consequences
 
 This supersedes `zingo-mobile/0005` and reverses ADR 0011's 2026-08-10
@@ -262,9 +294,9 @@ pull requests that touch it are merged before TFC, closed, or replayed
 into zingolib with `git am --directory` after the repoint, since a replay
 before then would break the copy's byte identity.
 
-The copy takes only the Binding Layer, but `zingo-mobile/0015` removes
-all Rust except the workbench from zingo-mobile at the repoint. The test
-Rust that the copy leaves behind is rewritten there, not copied here.
+The copy takes only the Binding Layer. Under `zingo-mobile/0015`,
+zingo-mobile keeps its Rust test harnesses and its workbench after the
+repoint, and it carries no product Rust.
 
 ## Pull request dispositions
 
