@@ -126,13 +126,17 @@ Four manual gates, each run against TFC and TAR, prove preservation:
    the same generated sources, and the same exported symbols. Their build
    inputs also match: the Cargo profile, the NDK version, the minimum SDK
    and iOS versions, the JNA version, and the package and module names.
-   There are two exceptions. The first is the Swift module, described
+   There are three exceptions. The first is the Swift module, described
    below. The second is how the symbols compare. The Android shared
    libraries compare on their full dynamic symbol listing. The iOS static
    libraries carry every Rust symbol, and a mangled name embeds a crate
-   hash that follows the crate's path, which the copy changes. They
-   therefore compare on their C-ABI names only, with Rust-mangled names
-   left out.
+   hash that follows the crate's path, which the copy changes. They also
+   carry LLVM's anonymous symbols, named `anon.<hash>.<n>.llvm.<hash>`,
+   whose names embed a content hash and a counter. They therefore compare
+   on their C-ABI names only, with Rust-mangled and anonymous names left
+   out. The third is the order of each XCFramework's library entries in
+   its `Info.plist`, which `xcodebuild` does not fix. The two manifests
+   compare with those entries sorted.
 4. zingo-mobile's full suite, `RustFFITest.kt`, `ZingoTest.swift`, and the
    Detox end-to-end tests, runs on a discarded zingo-mobile branch that
    consumes the copy through the new packaging. Each test's outcome must
