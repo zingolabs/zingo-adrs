@@ -10,7 +10,7 @@ pub const INDEX_BEGIN: &str = "<!-- records-index:begin -->";
 pub const INDEX_END: &str = "<!-- records-index:end -->";
 
 /// Directory names at the repository root that never hold records.
-const NON_SCOPE_DIRS: &[&str] = &["tools", "target"];
+const NON_SCOPE_DIRS: &[&str] = &["docs", "tools", "target"];
 
 /// Every rule violation found in one pass over zingo-adrs.
 #[derive(Debug, Default, PartialEq, Eq)]

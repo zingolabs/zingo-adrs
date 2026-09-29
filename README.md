@@ -55,9 +55,15 @@ repositories carry read-only copies.
 
 ## Pointing a code repository at zingo-adrs
 
-A code repository holds zingo-adrs as a git submodule at its records path
-(`docs/adr/` for zaino). Only the pointer, one commit hash, is checked in
-there; the records never enter that repository's history. To add it:
+[docs/howto-code-repositories.md](docs/howto-code-repositories.md) explains,
+for a reader arriving from a code repository, how its `docs/adr/` relates to
+this repository.
+
+A code repository holds zingo-adrs as a git submodule at `docs/adr/`. Only
+the pointer, one commit hash, is checked in there; the records never enter
+that repository's history. A code repository's scope directory here, such as
+`zingolib/`, therefore appears at `docs/adr/zingolib/` in its checkout, and
+the org-scoped records sit directly under `docs/adr/`. To add the submodule:
 
 ```sh
 git submodule add git@github.com:zingolabs/zingo-adrs.git docs/adr
