@@ -21,9 +21,19 @@ nothing more.
 
 ## Citing a record
 
-A bare `ADR-NNNN` cites a record in the citing repository's own scope. A
-citation into another scope carries the path: `zaino/0016` names the zaino
-record, and `003` names the org-scoped one.
+Inside zingo-adrs, a bare `ADR-NNNN` cites a record in the citing record's own
+scope. A citation into another scope carries the path: `zaino/0016` names the
+zaino record, and `003` names the org-scoped one.
+
+A code repository chooses the form by medium. A source comment names the
+repository and the scope, as in `zingo-adrs zingolib/0011`, because its reader
+may see it outside a checkout. Rendered Markdown links the record's file on the
+`dev` branch of zingo-adrs, as in
+`https://github.com/zingolabs/zingo-adrs/blob/dev/zaino/0016-changeset-derived-release-pipeline.md`,
+but only for an accepted or superseded record, whose number no longer changes.
+Markdown cites a proposed record in the source-comment form, without a link.
+Neither medium cites a checkout path such as `docs/adr/zingolib/0011-…`, which
+resolves only after the submodule is initialised and which GitHub cannot follow.
 
 ## The append-only rule
 
