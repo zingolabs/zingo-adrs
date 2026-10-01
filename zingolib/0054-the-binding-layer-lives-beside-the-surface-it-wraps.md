@@ -2,15 +2,27 @@
 
 ## Status
 
-proposed
+accepted
 
-Ruled in a grilling session on 2026-09-23, pending review. Amended in a
+Ruled in a grilling session on 2026-09-23. Amended in a
 grilling session on 2026-09-28, which replaced the move with a copy that
 must pass equivalence gates before zingo-mobile repoints. A further
 session the same day settled the copied set, the layout of the wallet
 side, the gate tooling, and the branch that carries the copy. A third
 session that day settled how the packaging builds. A fourth session that
 day settled the repoint.
+
+Accepted on 2026-10-01, when the repoint landed. The copy merged as
+zingolib#2791, and zingo-mobile#1467 repointed at its final commit,
+passed gate 4 on a Mac, and merged into zingo-mobile `dev` as
+`b3354c4c0` with the pin on zingolib `dev`. One of the three consumer
+additions below changed before acceptance: zingolib#2812 replaced the
+`git describe` fallback with a descriptor read from the tag at HEAD, so
+that a checkout with tags at depth one names its release. The Gradle
+library's fallback computes the same form for a consumer that passes
+nothing, and a consumer with no release tag builds. zingolib#2813 added a
+`kotlin` mode to the builder, which generates both Kotlin binding sets on
+a host with no NDK, for the consumer's Gradle checks.
 
 ## Context
 

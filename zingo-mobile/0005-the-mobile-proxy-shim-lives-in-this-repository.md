@@ -4,7 +4,11 @@ Date: 2026-08-10
 
 ## Status
 
-accepted
+superseded by [zingolib/0054](../zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md)
+
+Superseded on 2026-10-01, when zingolib/0054 was accepted: the proxy crate
+lives in zingolib at `zingo-netutils/nym-proxy-ffi`, beside the surface it
+wraps, and zingo-mobile builds it from the submodule.
 
 Ratified by the maintainer in the 2026-08-10 design session
 that superseded PR #1251. Mirrored on the zingolib side by the zingolib/0011
