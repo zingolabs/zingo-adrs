@@ -153,7 +153,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0002 | [Errors are types](zingo-mobile/0002-errors-are-types.md) | accepted |
 | 0003 | [Errors and data flow in separate channels](zingo-mobile/0003-errors-and-data-in-separate-channels.md) | accepted |
 | 0004 | [The mixnet shim's TLS verifies against Android's platform verifier](zingo-mobile/0004-the-mixnet-shims-tls-verifies-against-androids-platform-verifier.md) | superseded by [zingo-mobile/0006](zingo-mobile/0006-the-mixnet-proxys-tls-verifies-against-the-compiled-in-mozilla-bundle.md) |
-| 0005 | [The mobile proxy shim lives in this repository](zingo-mobile/0005-the-mobile-proxy-shim-lives-in-this-repository.md) | accepted |
+| 0005 | [The mobile proxy shim lives in this repository](zingo-mobile/0005-the-mobile-proxy-shim-lives-in-this-repository.md) | superseded by [zingolib/0054](zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md) |
 | 0006 | [The mixnet proxy's TLS verifies against the compiled-in Mozilla bundle](zingo-mobile/0006-the-mixnet-proxys-tls-verifies-against-the-compiled-in-mozilla-bundle.md) | accepted |
 | 0007 | [The biometric gate is a privacy shutter](zingo-mobile/0007-the-biometric-gate-is-a-privacy-shutter.md) | accepted |
 | 0008 | [Excise zcashd by removing the regchest test backend](zingo-mobile/0008-excise-zcashd-and-regchest.md) | accepted |
@@ -164,7 +164,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0013 | [The proxy component is named for the mixnet](zingo-mobile/0013-the-proxy-component-is-named-for-the-mixnet.md) | accepted |
 | 0014 | [The mixnet's three legs are observed by capture and probe](zingo-mobile/0014-the-mixnets-three-legs-are-observed-by-capture-and-probe.md) | accepted |
 | 0015 | [zingo-mobile carries no product Rust](zingo-mobile/0015-zingo-mobile-carries-no-product-rust.md) | proposed |
-| 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | proposed |
+| 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | accepted |
 | 0017 | [The controller machine is a discriminated union over the native runtime](zingo-mobile/0017-the-controller-machine-is-a-discriminated-union-over-the-native-runtime.md) | proposed |
 
 ### Repo-scoped records: zingolib
@@ -219,7 +219,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0051 | [Continuous sync keeps the wallet current as new blocks are mined](zingolib/0051-continuous-sync.md) | accepted |
 | 0052 | [Indexerless operations are pure functions; effects live at the edges](zingolib/0052-pure-core-effects-at-edges.md) | superseded by [zingolib/0006](zingolib/0006-wallet-stored-proposal.md) |
 | 0053 | [Destinations are drawn from the indexer registry per chain, on every transport](zingolib/0053-destinations-are-drawn-from-the-registry-per-chain-on-every-transport.md) | superseded by [zingolib/0050](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) |
-| 0054 | [The Binding Layer lives beside the surface it wraps](zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md) | proposed |
+| 0054 | [The Binding Layer lives beside the surface it wraps](zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md) | accepted |
 | 0055 | [zingolib admits Swift, Kotlin, and TypeScript with their native tooling](zingolib/0055-zingolib-admits-swift-kotlin-and-typescript-with-native-tooling.md) | proposed |
 
 <!-- records-index:end -->

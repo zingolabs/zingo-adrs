@@ -4,9 +4,14 @@ Date: 2026-09-28
 
 ## Status
 
-proposed
+accepted
 
-Ruled in a grilling session on 2026-09-28, pending review.
+Ruled in a grilling session on 2026-09-28. Accepted on 2026-10-01, when
+zingo-mobile#1467 merged into `dev` as `b3354c4c0` with zingolib as a
+shallow submodule at `zingolib/`. The submodule holds no tags at depth
+one, and the Binding Layer's `zl_` descriptor therefore names the release
+tag that points at HEAD after a tags-only fetch, which zingolib#2812
+settled. The CI jobs that build native code fetch the submodule's tags.
 
 ## Context
 
