@@ -31,10 +31,10 @@ a self-hoster's own node stopped receiving their sends, which raced across
 public operators instead; every build without the `nym` feature did the
 same on every send; a migration target on the user's own node was refused
 outright; and a testnet self-hoster's sends reached the public server
-first. Rotation on clearnet also bought nothing: the sync indexer learns
+first. Rotation on nakednet also bought nothing: the sync indexer learns
 each of the wallet's sends once it is mined, because the sync engine
 fetches the transaction by txid after its change note decrypts, and on
-clearnet it already holds the wallet's IP. A second clearnet Destination
+nakednet it already holds the wallet's IP. A second nakednet Destination
 only added one more party holding the transaction beside the IP.
 
 The four cases differed along properties the draw could not see: whether
@@ -87,7 +87,7 @@ library names a behaviour and the user decides where it applies.
 3. Otherwise it runs among the untrusted ones: the configured broadcast
    indexers first, in the order given, then the rest in random order.
 
-Over clearnet the registry is never drawn, so a clearnet send reaches only
+Over nakednet the registry is never drawn, so a nakednet send reaches only
 indexers the session names, which by default is the sync indexer, as it
 was before this decision. Migration parts use the same draw, one random
 candidate per part; a configured `migration_transmission_uri` is used
@@ -109,13 +109,13 @@ for `destination::rotation`; the Exit Pool leaves `destination::pool` for
 the two hosts the hand list carried and the registry lacked; failure
 attribution is renamed in engineering terms, `charge_phase` and
 `FailurePhase` becoming `fault_domain` and `FaultDomain` with
-`Unattributed` becoming `Unknown`; `TransmitRoute::Clearnet` names the
+`Unattributed` becoming `Unknown`; `TransmitRoute::Nakednet` names the
 accepting Destination, and the CLI's transmit report renders
 `destination` on both routes.
 
 ## Considered options
 
-Rotate across the registry on clearnet too. Rejected: it moved every
+Rotate across the registry on nakednet too. Rejected: it moved every
 self-hoster's sends off their own node, and it adds a party without hiding
 anything from the sync indexer, which learns each send once mined.
 
@@ -138,8 +138,8 @@ process.
 
 Testnet sends reach testnet indexers. On mainnet with the defaults, a
 mixnet send rotates across every live registry operator on port 443 except
-the sync indexer's, and a clearnet send goes to the sync indexer. A user's
-own node on the local network receives their clearnet sends; over the
+the sync indexer's, and a nakednet send goes to the sync indexer. A user's
+own node on the local network receives their nakednet sends; over the
 mixnet it is unreachable and the registry carries them. A self-hosted node
 on a public address, such as a rented server, is untrusted until the user
 marks it trusted.
@@ -153,5 +153,5 @@ indexers on loopback, with a test-only registry constructor naming each
 mock's operator.
 
 Consumers of the CLI's transmit report read `destination` where the
-clearnet route once said `indexer`. The CLI exposes none of the new
+nakednet route once said `indexer`. The CLI exposes none of the new
 configuration yet.

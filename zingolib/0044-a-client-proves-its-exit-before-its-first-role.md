@@ -169,7 +169,7 @@ in that ADR's context: readiness proves nothing about the exit.
 Ambient load is bounded by construction, not scheduling: three clients
 at boot, roughly one thereafter, against the dozen the pools spawned —
 and the mobile ceiling of about five concurrent clients is respected
-with room for the operations themselves. The scan runs clearnet, the
+with room for the operations themselves. The scan runs nakednet, the
 Sweeper and Fetcher turn off behind their tasks, and the knockout's
 8–10 seconds of scan-time contention has no remaining source.
 

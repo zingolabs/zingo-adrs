@@ -17,7 +17,7 @@ ADR 0011 names the indexer as the adversary and builds Witness Rotation
 around it: each send goes to one randomly drawn Broadcast Indexer so that no
 single operator accumulates a picture of the wallet's sends. But the sync
 indexer is not just any operator. It already holds the wallet's full address
-set from serving sync queries, and under bare-clearnet sync it holds the
+set from serving sync queries, and under bare-nakednet sync it holds the
 client's real IP as well. A witness draw that lands on the sync indexer
 therefore hands the one party with the address book the raw transaction too —
 the maximal linkage the whole mixnet arc exists to prevent — and it does so
@@ -69,10 +69,10 @@ probe` pairing intentionally probes the full curated list — measuring a
 witness is not broadcasting through it — and the proxy's readiness gate sends
 a bare `GetLightdInfo` round trip that carries no transaction and no address.
 
-The clearnet consent path is exempt. When the user deliberately toggles the
+The nakednet consent path is exempt. When the user deliberately toggles the
 mixnet off, the send is a direct submission to the configured indexer under
 ADR 0011's informed-consent rule; no draw occurs, so no witness exists to
-constrain. The user who chose clearnet chose to trust the sync indexer with
+constrain. The user who chose nakednet chose to trust the sync indexer with
 the broadcast, and this decision does not reverse that ratified consent.
 
 ## Consequences
@@ -95,14 +95,14 @@ learns is every transparent address, sent in the clear by
 `get_taddress_txids` and `get_address_utxos`; every txid the wallet owns a
 note in, its own sends included once they are mined, because the wallet
 fetches the full transaction by txid after a trial-decryption hit; and the
-client IP on clearnet sync. So the invariant keeps the broadcast moment
+client IP on nakednet sync. So the invariant keeps the broadcast moment
 and any unmined transaction from the sync indexer, and it keeps a mixnet
-send's timing from being tied to the wallet's clearnet sync.
+send's timing from being tied to the wallet's nakednet sync.
 
-The clearnet exemption stands, now as a rule rather than an exemption: a
-clearnet broadcast never draws the registry. On clearnet the sync indexer
+The nakednet exemption stands, now as a rule rather than an exemption: a
+nakednet broadcast never draws the registry. On nakednet the sync indexer
 already holds the wallet's IP and learns each send once mined, so a
-second Destination only adds a party. A clearnet send goes to the sync
+second Destination only adds a party. A nakednet send goes to the sync
 indexer, or to a broadcast indexer the user configured.
 
 The invariant is a trust rule. It binds an untrusted sync indexer: over

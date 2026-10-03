@@ -9,7 +9,7 @@ Accepted 2026-08-05.
 The `network` command's `on` and `off` were asymmetric: `on` was a
 Connectivity Consent act that took an offline session online (ADR 0026),
 while `off` merely disabled the mixnet and kept transmitting over
-clearnet — a privacy downgrade that stayed in ONLINE MODE. Meanwhile
+nakednet — a privacy downgrade that stayed in ONLINE MODE. Meanwhile
 `--offline`, whose glossary contract is zero network traffic for the
 life of the session, could be lifted mid-session by `network on`,
 contradicting that contract. We decided to make the pair symmetric and
@@ -50,9 +50,9 @@ offered and render as "Last Known" reports: they state their vintage
 from stored data only — the mined time of the Last Known block where
 available — and never probe.
 
-The clearnet-transmit act is retired from zingo-cli. No CLI command
-selects clearnet for Transmission or price-fetch, enforcing the
-Sync-Only Clearnet policy at this consumer: clearnet serves only sync.
+The nakednet-transmit act is retired from zingo-cli. No CLI command
+selects nakednet for Transmission or price-fetch, enforcing the
+Sync-Only Nakednet policy at this consumer: nakednet serves only sync.
 The library's switched-off Mixnet Mode state remains, reachable by other
 consumers until they converge on the same policy; zingo-cli simply no
 longer offers an act that reaches it.
@@ -62,8 +62,8 @@ longer offers an act that reaches it.
 Keeping `network off` as the mixnet toggle and adding a separate
 teardown verb was rejected: two off-ish verbs invite the exact confusion
 that made "off" dangerous (a user cutting the network must never land in
-clearnet transmit). Renaming the downgrade to `network clearnet` was
-rejected because the Sync-Only Clearnet policy says that transmit path
+nakednet transmit). Renaming the downgrade to `network nakednet` was
+rejected because the Sync-Only Nakednet policy says that transmit path
 should not exist. Suppressing network-requiring commands in unconsented
 first-boot sessions too was rejected: those sessions keep `network on`
 as their in-session path online.
@@ -74,5 +74,5 @@ as their in-session path online.
 launch snapshot. The refusal strings and the launch notice are minted
 CLI vocabulary and get pinning tests. A mixnet-capable online session
 whose mixnet is not ready fails closed for Transmission and price-fetch
-with no clearnet escape hatch; the remedies are `network status` and
+with no nakednet escape hatch; the remedies are `network status` and
 waiting out the bootstrap.

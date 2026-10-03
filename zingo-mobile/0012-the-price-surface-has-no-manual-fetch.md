@@ -25,7 +25,7 @@ a real consent: USD is the seeded default currency, so it authorizes
 nothing for a user who never chose it. The Nym selection is a deliberate
 opt-in, default off and sticky, and over the mixnet the privacy exposure
 of an unattended fetch is bounded by the Route rule: a fetch that
-resolves to clearnet is refused, never sent.
+resolves to nakednet is refused, never sent.
 
 ## Considered options
 

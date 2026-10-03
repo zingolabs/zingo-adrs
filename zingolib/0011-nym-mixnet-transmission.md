@@ -37,14 +37,14 @@ infrequent.
 Obfuscation is a property of each surface rather than of the whole client, and
 two transports run at once. Transmission and price-fetch require the mixnet.
 Synchronization (including pepper-sync's long-lived mempool stream) does not;
-it may run over bare clearnet or, for a user who wants the indexer blinded to
+it may run over bare nakednet or, for a user who wants the indexer blinded to
 their IP during sync as well, over a system-provided NymVPN. Sync degrades
 gracefully and never fails closed. This tiering spends the expensive anonymity
 only where the linkage is most dangerous and spares the continuous, latency-
 sensitive sync stream from mixnet cost. A consequence follows and is recorded
-plainly: bare-clearnet sync leaks the real IP and the wallet's address set to
+plainly: bare-nakednet sync leaks the real IP and the wallet's address set to
 the very indexer that Transmission is hiding from, so the coherent fully-
-protected posture is NymVPN sync paired with mixnet send, and bare clearnet is
+protected posture is NymVPN sync paired with mixnet send, and bare nakednet is
 the explicit "do not care" tier.
 
 ## The dependency exception
@@ -143,7 +143,7 @@ merit-rejection short-circuit; an unbroadcastable transaction is bounded
 instead by the six-indexer cap, after which the send surfaces failure for the
 user to retry, which reshuffles the list. The retry, duplicate-in-mempool, and
 queued-for-download handling for each individual submission is the one
-resilient-transmission policy already shared with the clearnet path; the
+resilient-transmission policy already shared with the nakednet path; the
 fan-out orchestrates that shared per-indexer policy across rounds rather than
 duplicating it. One persistent
 mixnet client serves every send, since the indexer never sees the Nym client
@@ -158,11 +158,11 @@ zingo-mobile and zingo-cli drive, exposing a tri-state status (off,
 bootstrapping, or ready), because "on but not yet reachable" is a real state a
 user interface must show. The mixnet is forced on at the start of every
 connected session and its off-state is never persisted, so the worst case is a
-user re-disabling it rather than a forgotten-off clearnet broadcast; an
+user re-disabling it rather than a forgotten-off nakednet broadcast; an
 `--offline` session, which never transmits, skips the bootstrap entirely. The
-invariant that protects funds is that a clearnet send happens only as the
+invariant that protects funds is that a nakednet send happens only as the
 user's deliberate, per-session choice: when the mixnet is on and its transport
-fails mid-send, the send refuses rather than silently dropping to clearnet.
+fails mid-send, the send refuses rather than silently dropping to nakednet.
 Informed consent is permitted; silent degradation is not.
 
 ## Testing
@@ -189,11 +189,11 @@ send, reusing the same proxy through the HTTP client's SOCKS5 support.
 The Nym stack grows the dependency tree, contained behind the `nym` feature.
 NymVPN's low-latency gateways require a paid credential, so a fully-protected
 sync posture costs the user money and setup while mixnet send and price cost
-nothing; bare-clearnet sync will consequently be the common real-world posture,
+nothing; bare-nakednet sync will consequently be the common real-world posture,
 which makes the indexer-correlation caveat a live concern to document rather
 than a corner case. The mixnet bootstrap imposes a startup latency on connected
 sessions, and a send attempted during bootstrapping must wait or report
-"connecting," never silently clearnet or silently fail.
+"connecting," never silently nakednet or silently fail.
 
 ## Amendment (2026-07-16): the mixnet proxy is a spawned child process
 
@@ -216,7 +216,7 @@ that resolves cleanly in the main lockfile. The tri-state Mixnet Mode maps to
 the child's lifecycle: off is not spawned, bootstrapping is spawned and
 connecting, ready is SOCKS5-reachable. The fail-closed invariant is
 unchanged. If the child never reaches ready, a send refuses rather than
-falling back to clearnet.
+falling back to nakednet.
 
 Everything else in this record stands: the per-surface tiers, the
 witness-rotation broadcast over the curated Broadcast Indexer list, the toggle
@@ -239,7 +239,7 @@ is accepted only once delivery is in doubt. The "The two mixnet surfaces"
 section above has been rewritten to reflect this; the delivery-check and
 no-error-string-classification discipline is unchanged, and each individual
 submission still runs the one resilient-transmission policy shared with the
-clearnet path.
+nakednet path.
 
 ## Amendment (2026-07-21): a fourth mode, and the proxy's lifetime coupling
 
@@ -251,7 +251,7 @@ silently, after which every fan-out arm failed against a proxy that the mode
 still reported as ready. Died names that condition: the spawned proxy exited
 unexpectedly, during bootstrap or after reaching ready. It is distinct from
 off because it is unconsented. Off remains the only state that routes the
-mixnet-only surfaces over clearnet, as the user's deliberate choice; died
+mixnet-only surfaces over nakednet, as the user's deliberate choice; died
 refuses, and the refusal tells the user to re-enable the mixnet, which spawns
 a fresh proxy. The supervisor's reader consequently watches the child for its
 whole life rather than detaching once the address arrives, and a death clears
@@ -269,7 +269,7 @@ No orphaned proxy survives its parent, and no parent interrupt orphans a
 session from its transport. On platforms without process
 groups the child shares the terminal's group and an interrupt still reaches
 it; the outcome is the safe one (the mode becomes died and the surfaces
-refuse) rather than a silent clearnet fallback.
+refuse) rather than a silent nakednet fallback.
 
 ## Amendment (2026-07-21): the runtime boundary generalizes for mobile
 
@@ -284,7 +284,7 @@ Three consequences, one per layer. First, zingolib gains an attach entry
 point beside the spawn one: the platform hands the wallet an already-running
 local SOCKS5 address, the mode reaches ready after a connectivity check, and
 liveness is thereafter observed by a periodic probe of that endpoint — probe
-failure lands died, preserving the refuse-never-clearnet invariant without
+failure lands died, preserving the refuse-never-nakednet invariant without
 the stdout pipe. Everything downstream of "mode plus address" — the route
 resolver, the fan-out, the price fetch, the status narration — is unchanged.
 
@@ -339,14 +339,14 @@ and an emptied pool refuses in keeping with the fail-closed rule. See
 
 Ratified while walking the PR #2470 review findings (M3). The original
 record routed Transmission and price-fetch by Mixnet Mode but left ZIP 318
-migration-part broadcasts on unconditional clearnet, silently breaking the
+migration-part broadcasts on unconditional nakednet, silently breaking the
 mode's central invariant for the wallet's most correlation-sensitive
 traffic. Migration broadcasts now obey the same policy as every other
 transmitting surface. While the mode is on (assuming the `nym` feature is
 compiled in and the session has not opted out), parts travel ONLY over the
-mixnet and MUST NEVER go over clearnet: the broadcast client resolves the
+mixnet and MUST NEVER go over nakednet: the broadcast client resolves the
 route first and fails closed while the proxy bootstraps or after it dies,
-refusing rather than falling back. Clearnet carries parts only through the
+refusing rather than falling back. Nakednet carries parts only through the
 user's deliberate per-session toggle-off, or in a build compiled without
 the feature, where the historical behavior (the dedicated
 `migration_broadcast_uri`, else the synchronization endpoint with a logged
@@ -361,14 +361,14 @@ excludes that host from the list), so no single server can correlate a
 wallet's sync stream with its migration cohort, which is the correlation
 ZIP 318's scheduling machinery exists to prevent.
 
-## Amendment (2026-07-23): the price fetch loses its clearnet tier
+## Amendment (2026-07-23): the price fetch loses its nakednet tier
 
 Ratified in the same review walk-through as the migration amendment
 above, and stricter: the price fetch travels ONLY over the mixnet, with
-no clearnet tier in any configuration. Unlike send, whose clearnet
+no nakednet tier in any configuration. Unlike send, whose nakednet
 opt-out exists because a user may need to move funds when the mixnet is
 unavailable, the price fetch contacts a third-party price API whose
-value is cosmetic, and a clearnet contact leaks the client IP and
+value is cosmetic, and a nakednet contact leaks the client IP and
 wallet-alive timing to a party outside the Zcash ecosystem. There is no
 availability argument, so there is no opt-out: while Mixnet Mode is off
 the fetch is refused with a typed error naming the remedy, and while it
@@ -377,7 +377,7 @@ bootstraps or after the proxy dies it fails closed as before.
 The gate is a single switch. zingolib's `nym` feature forwards
 `zingo-price/socks5-fetch`, the only configuration in which any fetch
 code exists: the fetch function requires a SOCKS5 proxy address, so
-even an enabled build cannot express a clearnet fetch, and a default
+even an enabled build cannot express a nakednet fetch, and a default
 build compiles no fetch at all. zingo-price's network dependencies
 (reqwest and its TLS/serde companions) became optional behind that
 feature, so the default build's dependency graph shrinks below its
@@ -385,11 +385,11 @@ pre-mixnet shape; the crate's price types and their wallet-file
 serialization stay unconditional, keeping wallet files portable between
 builds with and without the feature.
 
-## Amendment (2026-07-27): the clearnet price tier is restored
+## Amendment (2026-07-27): the nakednet price tier is restored
 
 The 2026-07-23 price amendment above is superseded by PR #2548
 ("fix/restore-price"), merged to `dev` on 2026-07-27. The price fetch
-regains a clearnet default: `update_current_price` works in every
+regains a nakednet default: `update_current_price` works in every
 build, including builds without the `nym` feature, and its
 documentation discloses that the contact leaks the client IP and
 wallet-alive timing to the third-party price source. zingo-price
@@ -401,7 +401,7 @@ The mixnet route survives as the opt-in
 `update_current_price_over_mixnet`, a `nym`-feature method that keeps
 this record's fail-closed invariant: it refuses while Mixnet Mode is
 off, fails closed while the mode bootstraps or after the proxy dies,
-and never falls back to clearnet. Its success value remains
+and never falls back to nakednet. Its success value remains
 `MixnetPriceFetch`, carrying the tunnel endpoint the fetch traveled
 through, so a consumer that chose the private route holds per-fetch
 evidence of it.
@@ -412,16 +412,16 @@ The four-state mode the 2026-07-21 amendment ratified is superseded by five
 states: unattached, switched off, bootstrapping, ready, and died. An
 automated review of zingo-mobile PR #1225 exposed the gap. The wallet
 derived its mode from the absence of a proxy handle — a never-attached
-wallet reported off — while the route resolver maps off to clearnet as the
+wallet reported off — while the route resolver maps off to nakednet as the
 user's informed consent. On mobile, where the platform starts the transport
 and a start can fail, the conflation opened a real path to unconsented
-clearnet: the coordinator published its fail-closed failure view, the next
+nakednet: the coordinator published its fail-closed failure view, the next
 steady poll read off from the wallet that had never attached, the presenter
 took off as consent, and the send gate opened about thirty seconds after
 the failure the user was never asked about.
 
 The root cause is representational: "no transport was ever established" and
-"the user chose clearnet" are different facts that shared one variant. The
+"the user chose nakednet" are different facts that shared one variant. The
 decomposition gives each its own state. Unattached names a present
 condition, not a history: no transport is established and no consent is
 recorded. It is the initial state, and equally the state after a failed
@@ -430,10 +430,10 @@ unattached when a fresh enable fails, because refusal follows from the
 current absence of transport and consent, never from history. It refuses
 the mixnet surfaces exactly as bootstrapping and died do, because absence
 is not consent. A failed enable never restores an earlier switched-off
-state either: by enabling, the user revoked the standing clearnet consent,
+state either: by enabling, the user revoked the standing nakednet consent,
 and a failure must not silently reinstate it. SwitchedOff is
 reached only by the explicit disable call and remains the sole
-clearnet-routing state; the rename from Off makes the deliberate act part
+nakednet-routing state; the rename from Off makes the deliberate act part
 of the name. The wallet owns the distinction as an explicit state field
 rather than deriving it from `Option` on the proxy handle, since dropping
 the handle on disable would erase the very bit that separates the two
@@ -443,7 +443,7 @@ The considered alternative — the mobile coordinator tracking a
 session-local consent bit and withholding trust from polled off — was
 rejected because it patches one consumer while every other reader of the
 mode keeps consuming the lie: the wallet's own route resolver would still
-resolve a never-attached wallet to clearnet, the CLI narration would still
+resolve a never-attached wallet to nakednet, the CLI narration would still
 call it a choice, and the always-on recovery loop had already been forced
 to invent the phrase "an unconsented off" for a state the type refused to
 name. Fail-closed demands the backstop at the routing decision, which
@@ -459,13 +459,13 @@ backend instance) closes by construction.
 
 ## Amendment (2026-07-28): the price fetch returns to mixnet-only
 
-The 2026-07-27 amendment above, which restored a clearnet default for
+The 2026-07-27 amendment above, which restored a nakednet default for
 the price fetch, is superseded; the 2026-07-23 rule is reinstated in
 full. The consumer-convergence audit of 2026-07-28 supplied the
 deciding evidence: with routing policy left "entirely in the caller,"
 both shipping consumers got it wrong in the same direction. zingo-cli's
 price command advertises the mixnet method while calling only the
-clearnet one, and zingo-mobile fetches over clearnet while its own
+nakednet one, and zingo-mobile fetches over nakednet while its own
 disclaimer tells the user the mixnet covers price-fetch. A per-caller
 choice that every caller fumbles identically is not a policy; it is a
 leak with extra steps.
@@ -504,13 +504,13 @@ the shim's hosting repository changes. This workspace keeps the desktop
 
 The 2026-07-28 ruling above, that the switched-off consent covers
 Transmission and never the price fetch, is reversed. The deliberate
-SwitchedOff now consents to a clearnet price fetch exactly as it consents
-to a clearnet send. The mobile sessions supplied the deciding evidence. A
+SwitchedOff now consents to a nakednet price fetch exactly as it consents
+to a nakednet send. The mobile sessions supplied the deciding evidence. A
 user who declines the mixnet starts every session SwitchedOff, and the
 price display never works for that user, in any session, by design. The
 refusal was meant to prevent an unconsented leak, but the state it fires
 in is the one state the user reached by an explicit choice. The same
-session's sends already travel clearnet to an indexer that knows the
+session's sends already travel nakednet to an indexer that knows the
 wallet's address set, and a price API learns less than that indexer
 already holds.
 
@@ -520,7 +520,7 @@ the same sources over untunneled HTTP, and the documentation disclosure
 from the 2026-07-27 amendment applies to that route again. The
 transitional states (Unattached, Bootstrapping, Died) keep their typed
 refusals, so absence is still not consent. The success value attests the
-route as a two-variant enum, mixnet with its SOCKS5 endpoint or clearnet,
+route as a two-variant enum, mixnet with its SOCKS5 endpoint or nakednet,
 replacing the tunnel-endpoint string, and `PriceFetchRequiresMixnet`
 leaves the error surface as unreachable. `probe_destinations` remains
 mixnet-only, since its subject is the mixnet transport itself.
@@ -533,31 +533,31 @@ transaction travels, changeable while the client runs, and it needs the
 price display to keep working through the mixnet whatever that choice is.
 Encoding the choice in the transport state (`SwitchedOff`) tied the two
 surfaces together and cost the consumer a transport teardown to reach
-clearnet, so the choice moves off the transport and onto the client.
+nakednet, so the choice moves off the transport and onto the client.
 
 The amended rule. The client holds a `TransmitPolicy`, `Mixnet` or
-`Clearnet`, readable and settable through `&self` at any time and never
+`Nakednet`, readable and settable through `&self` at any time and never
 persisted. Every session starts under `Mixnet`, since the absence of a
-choice is not consent to clearnet. The price fetch and the liveness probe
+choice is not consent to nakednet. The price fetch and the liveness probe
 are mixnet-only: `resolve_mixnet_only_route` yields the session's conduit
 while the transport is `Ready` and refuses in every other state, and the
 policy never reaches it. Transmission and migration parts follow
-`resolve_send_route`: under `Clearnet` the route is clearnet at once,
+`resolve_send_route`: under `Nakednet` the route is nakednet at once,
 whatever the transport state, and under `Mixnet` it is exactly the
 mixnet-only outcome. `SwitchedOff` stays in the state set because the
 startup opt-out and the in-session disable still land there, but both
 resolvers read it as a missing transport, so the 2026-08-26 amendment's
-clearnet price tier is retired and `PriceFetchRoute::Clearnet` leaves the
+nakednet price tier is retired and `PriceFetchRoute::Nakednet` leaves the
 attestation. Two user acts set the policy besides the setter. The
 startup opt-out (`OptedOutThisSession`) lands `SwitchedOff` and
-`Clearnet` together, so an opted-out session transmits over the indexer
+`Nakednet` together, so an opted-out session transmits over the indexer
 as ADR 0024 promised. Every enable (`enable_mixnet`,
 `enable_mixnet_via_host`, `attach_mixnet`) sets `Mixnet` the moment it
 is asked for, before the transport exists, so a send during the
-bootstrap refuses as `Bootstrapping` rather than travelling the clearnet
+bootstrap refuses as `Bootstrapping` rather than travelling the nakednet
 route the user has just turned away from. A failed enable restores the
-policy the user had before: a session that never chose clearnet keeps
-refusing, and a session that chose clearnet keeps sending there, because
+policy the user had before: a session that never chose nakednet keeps
+refusing, and a session that chose nakednet keeps sending there, because
 an attempt that did not take changed nothing the user asked for. A
 transport that dies after a settled enable keeps the `Mixnet` policy, so
 sends refuse as `Died` until the user acts. `disable_mixnet` alone is a

@@ -23,12 +23,12 @@ re-validated downstream.
 
 The Observer is consent-tiered, because the domain's consent surfaces are:
 a **Sync Observer**, minted where Connectivity Consent and a configured
-Indexer meet, legitimizes only synchronization — the one surface clearnet
-serves (the sync-only clearnet policy of ADR 0027, restated as a type); a
+Indexer meet, legitimizes only synchronization — the one surface nakednet
+serves (the sync-only nakednet policy of ADR 0027, restated as a type); a
 **Transmit Observer**, minted when Mixnet Mode reaches ready or when the
-switched-off state records explicit clearnet consent, is demanded by every
+switched-off state records explicit nakednet consent, is demanded by every
 send and broadcast; and the price fetch demands the Transmit Observer's
-mixnet-ready sub-type, never its clearnet-consented form (ADR 0011). A
+mixnet-ready sub-type, never its nakednet-consented form (ADR 0011). A
 session holding only a Sync Observer therefore cannot transmit, whatever
 code it runs, and an Offline session holds nothing.
 
@@ -47,7 +47,7 @@ its signature converts, not before.
 ## Considered options
 
 A single undifferentiated network capability was rejected because it would
-let a body holding it transmit over clearnet, reducing ADR 0027 to runtime
+let a body holding it transmit over nakednet, reducing ADR 0027 to runtime
 checks inside the token's methods — the validate-style shape this decision
 exists to eliminate. A CLI-side gateway wrapping `LightClient` was
 rejected because a wrapper that can reach the whole client underneath

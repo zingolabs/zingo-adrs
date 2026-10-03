@@ -13,8 +13,8 @@ server selection as a concept survives in ADR 0034's sweep.
 
 ## Context
 
-ADR 0027 obsoleted the clearnet census ranking and left its replacement
-open: "Server selection must be rebuilt without a clearnet census
+ADR 0027 obsoleted the nakednet census ranking and left its replacement
+open: "Server selection must be rebuilt without a nakednet census
 probe." A 2026-08-04 audit established how far the old flow had decayed.
 The ranking list (`MOST_UP_INDEXER_URIS`) held twelve URIs snapshotted
 from the hosh.zec.rocks leaderboard on 2026-03-26; a live `GetLightdInfo`
@@ -32,7 +32,7 @@ lightwalletd build illustrate).
 Two transport facts bound the rebuild. First, the packet model: the
 mixnet's same-size, randomly timed Sphinx packets exist between the
 client and its exit gateway only. The exit dials the indexer over
-ordinary clearnet TCP, and the wallet's TLS rides end to end inside it,
+ordinary nakednet TCP, and the wallet's TLS rides end to end inside it,
 so an indexer sees content-protected but ordinarily shaped traffic from
 an exit's IP. IP concealment survives the exit hop; traffic shape does
 not. Second, the exits themselves: the current exit policy reaches port
@@ -99,7 +99,7 @@ transports graduate into pool transports on success and are torn down
 on failure; pool transports stand for the client lifetime. No category
 shares an exit with another.
 
-The sync attach — bulk synchronization's single clearnet connection,
+The sync attach — bulk synchronization's single nakednet connection,
 the one moment the wallet shows an indexer its real IP (ADR 0027) — is
 aimed by a rule ratified 2026-08-05. The wallet draws uniformly at
 random over the pool's live operators: one ticket per operator, not
@@ -124,7 +124,7 @@ is parameter plumbing over the existing candidate-list machinery, not a
 redesign.
 
 Bulk synchronization below the Mixnet Sync Window remains the one
-clearnet operation (ADR 0027), to exactly one indexer, aimed by the
+nakednet operation (ADR 0027), to exactly one indexer, aimed by the
 sync-attach rule above. What `network on` reports while transports
 bootstrap and the pool fills is the rewrite's remaining open question.
 Whether an operator pair whose distinctness is unattested (two live
