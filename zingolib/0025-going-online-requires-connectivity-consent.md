@@ -46,7 +46,7 @@ and pass the acts in; they never re-derive the rules or restate the
 tokens.
 
 Connectivity Consent is the outer of the two consent tiers and the only
-persistable one. The inner tier — the per-session clearnet opt-out that
+persistable one. The inner tier — the per-session nakednet opt-out that
 Mixnet Mode's switched off records — is never persisted, and a stored
 connectivity consent implies nothing about it: a session that
 auto-attaches still forces the mixnet on at its go-online moment, per

@@ -26,7 +26,7 @@ the send. They had already drifted: two of the eleven Destination hosts
 were absent from the registry. The draw fused the ADR 0022 exclusion with
 its source, so a chain whose registry holds one operator (testnet holds
 `zec.rocks` alone) could only refuse. And the rotation ran on one
-transport: ADR 0022 exempted the clearnet path, which submitted straight
+transport: ADR 0022 exempted the nakednet path, which submitted straight
 to the sync indexer with no draw at all.
 
 ## Decision
@@ -53,7 +53,7 @@ session therefore cannot name a mainnet host, by construction.
 
 Reachability is a transport argument to the draw, not a property of the
 set. A mixnet draw keeps https on port 443, the one shape the exit policy
-carries; a clearnet draw keeps every member, port 9067 included. The
+carries; a nakednet draw keeps every member, port 9067 included. The
 2026-07-21 finding that the exit gateways mishandle the lightwalletd port
 is honoured where it applies and nowhere else.
 
@@ -62,31 +62,31 @@ indexer, not baked in at construction, so a session that rebinds its sync
 indexer (the Server-Selection Sweep does) never draws against a stale
 exclusion.
 
-The clearnet exemption in ADR 0022 is revoked. The rotation is transport-
+The nakednet exemption in ADR 0022 is revoked. The rotation is transport-
 independent: a switched-off session draws through the same set and races
 the same hedged escalation over direct gRPC connections. The `Wire` a send
 travels chooses only how each arm's target is built, `GrpcIndexer` or
 `Socks5Indexer`, and both run the one `resilient_transmit` policy under the
 one race planner. Migration parts draw through the same set on both wires,
-and the clearnet fallback to the synchronization endpoint with a logged
+and the nakednet fallback to the synchronization endpoint with a logged
 correlation warning is gone.
 
 Supporting moves: the race orchestrator leaves the nym-gated mixnet module
-for `destination::rotation`, since it now runs on clearnet; the Exit Pool
+for `destination::rotation`, since it now runs on nakednet; the Exit Pool
 leaves `destination::pool` for `mixnet::pools`, since it was never about
 Destinations; the registry gains the two hosts the hand list carried and
 the registry lacked; failure attribution is renamed in engineering terms,
 `charge_phase` and `FailurePhase` becoming `fault_domain` and `FaultDomain`
-with `Unattributed` becoming `Unknown`; `TransmitRoute::Clearnet` names the accepting
+with `Unattributed` becoming `Unknown`; `TransmitRoute::Nakednet` names the accepting
 Destination, and the CLI's transmit report renders `destination` on both
 routes.
 
 ## Amendment (2026-09-12): a trusted set, wired in code and not yet used
 
-Revoking the clearnet exemption has a cost for the self-hoster. A user
+Revoking the nakednet exemption has a cost for the self-hoster. A user
 syncing against their own node with the mixnet off used to send through
 that node and touch no public server; under the decision above the
-clearnet draw excludes their node and races the transaction across public
+nakednet draw excludes their node and races the transaction across public
 operators, each learning the client IP and the raw transaction. That is a
 regression for the users who took the most care.
 
@@ -140,8 +140,8 @@ Health floor retires it for the session after repeated failures. Ranking
 the set by the Server-Selection Sweep's live evidence is the natural next
 step and needs only a change to the draw's ordering.
 
-Clearnet sends now spend a draw and may contact more than one Destination.
-A drawn Destination on clearnet learns the client IP, so the privacy gain
+Nakednet sends now spend a draw and may contact more than one Destination.
+A drawn Destination on nakednet learns the client IP, so the privacy gain
 is smaller than over the mixnet, but the sync operator no longer receives
 the broadcast on any transport.
 
@@ -150,4 +150,4 @@ mock indexer alone and the escalation's width is exercised by the
 planner's own unit tests rather than by the mock chain.
 
 Consumers of the CLI's transmit report read `destination` where the
-clearnet route once said `indexer`.
+nakednet route once said `indexer`.

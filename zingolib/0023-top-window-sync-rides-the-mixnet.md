@@ -5,11 +5,11 @@
 accepted
 
 Ratified 2026-07-28 and re-founded 2026-08-06;
-implementation deferred — all sync currently rides clearnet, and this
+implementation deferred — all sync currently rides nakednet, and this
 record is the target routing, not the shipped behavior (2026-08-06)
 
 Compact-block sync was the last wallet surface that always rode
-clearnet, and its top-of-chain segment is where timing linkage lives:
+nakednet, and its top-of-chain segment is where timing linkage lives:
 an indexer that serves a wallet's recent blocks can correlate them with
 that wallet's transmissions. We decided that the top of the chain
 always syncs over the Nym mixnet, and on 2026-08-06 we re-founded the
@@ -32,15 +32,15 @@ Height-neutral structural requests — compact-block and nullifier
 ranges, subtree roots, frontiers, tip queries — route by height: above
 (tip − window size) they ride the mixnet, below it they ride the
 session's existing route (the user's system-level NymVPN when one
-runs, clearnet otherwise; the wallet never embeds a dVPN).
+runs, nakednet otherwise; the wallet never embeds a dVPN).
 
 Two statements that read like extra rules are corollaries: a catch-up
-that fits inside the window touches no clearnet, and the tip query is
+that fits inside the window touches no nakednet, and the tip query is
 itself windowed, so a mixnet-capable session's first contact is always
 the mixnet.
 
 Mixnet-bound requests fail closed. While the mixnet bootstraps they
-wait; if it dies they refuse typed; they never fall back to clearnet.
+wait; if it dies they refuse typed; they never fall back to nakednet.
 Below-window structural requests, already consented to the session
 route, proceed in parallel with bootstrap, so a deep catch-up overlaps
 bootstrap time with useful work and the privacy boundary holds exactly
@@ -55,25 +55,25 @@ per device or per session.
 
 ## Considered options
 
-A per-session rule ("decide once at sync start whether clearnet is
+A per-session rule ("decide once at sync start whether nakednet is
 permitted") was rejected: a tip advance mid-sync strands the decision,
 and the measuring tip query needs its own transport ruling anyway. A
 runtime-adaptive window sized to each device's throughput was
-rejected: it would give slow networks more clearnet exposure and make
+rejected: it would give slow networks more nakednet exposure and make
 the boundary height a fingerprint of the user's bandwidth — the
 calibration bounds the typical catch-up's duration, never the privacy
 guarantee. Gating all sync on mixnet readiness was rejected: it
 serializes deep catch-ups behind bootstrap for no privacy gain on
 blocks the rule already assigns to the session route. A pure height
 rule without the wallet-naming class was rejected: an old txid fetch
-over clearnet reveals wallet interest regardless of height.
+over nakednet reveals wallet interest regardless of height.
 
 ## Consequences
 
 Sync must route per request, not per session, so the sync engine's
 transport choice becomes a function of request class and subject
 height. The sync-over-socks5 gap (zingolib#2591) becomes the
-implementation prerequisite. Clearnet's remaining role shrinks to
+implementation prerequisite. Nakednet's remaining role shrinks to
 deep, wallet-neutral structural data, aligning with the Sync-Only
-Clearnet policy and the Maintained Indexer Pool (ADR 0029): most
-wallets, most days, emit nothing over clearnet at all.
+Nakednet policy and the Maintained Indexer Pool (ADR 0029): most
+wallets, most days, emit nothing over nakednet at all.

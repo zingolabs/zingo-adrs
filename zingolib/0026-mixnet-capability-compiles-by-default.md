@@ -26,7 +26,7 @@ lockfile. Compiling the transport into the CLI therefore costs little
 and links nothing that dials. The gate's remaining job was honesty about
 provisioning: a build without a bundled proxy cannot promise a mixnet.
 But that honesty already exists at runtime — provisioning failure is a
-typed refusal at the go-online moment, never a silent clearnet (ADR
+typed refusal at the go-online moment, never a silent nakednet (ADR
 0024) — so the compile-time gate duplicated a guarantee the runtime
 already owns, at the cost of a rebuild step in the most ordinary
 contributor flow.
@@ -36,7 +36,7 @@ contributor flow.
 `nym` is a default feature of zingo-cli: every ordinary build — bare
 `cargo build`, `makers run-cli`, release packaging — carries the mixnet
 transport, and enabling the mixnet never demands a rebuild. The opt-out
-is explicit: `--no-default-features` on cargo, `--clearnet` on run-cli.
+is explicit: `--no-default-features` on cargo, `--nakednet` on run-cli.
 
 The REPL command renames from `nym` to `network`: there is exactly one
 mixnet, so the transport's name is implicit, and the command's true
@@ -83,14 +83,14 @@ demanded a rebuild.
 The consent surface becomes asymmetric by design: the mixnet-capable
 build offers four consent acts (`--online`, `--remember-online`,
 `--server`, and the in-session `network on`), while the opt-out build
-offers none. Clearnet-only operation is no longer a supported online
+offers none. Nakednet-only operation is no longer a supported online
 configuration — going online requires the mixnet capability compiled
-in, and a session that wants clearnet transmits reaches them through
+in, and a session that wants nakednet transmits reaches them through
 `network off` after a consented start.
 
 CI's `--workspace` jobs now compile the CLI's gated code as a matter of
 course; the `nym-feature` job keeps zingolib's gated tests (zingolib's
 own default remains nym-off, so library consumers such as zingo-mobile
 inherit nothing new) and pins the opt-out build's offline-only
-refusals. The `--clearnet` path of run-cli
+refusals. The `--nakednet` path of run-cli
 passes `--no-default-features` instead of omitting a feature flag.

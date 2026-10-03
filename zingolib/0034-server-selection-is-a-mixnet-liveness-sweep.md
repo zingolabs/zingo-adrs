@@ -8,13 +8,13 @@ Ratified in session 2026-08-06, pending review.
 
 ## Context
 
-The clearnet latency race that once selected the sync server is gone.
+The nakednet latency race that once selected the sync server is gone.
 Its census had lapsed, its probes sprayed `get_info()` from the user's
 real IP at whoever now holds those domains, and the 2026-08-06 rulings
-made both defects structural: a session's only clearnet communication
+made both defects structural: a session's only nakednet communication
 is sync itself, and sync may attach only to an indexer whose liveness
 was established over the mixnet. The race's code survives solely under
-the non-default `clearnet-test-mode` feature, and re-incorporating any
+the non-default `nakednet-test-mode` feature, and re-incorporating any
 of it requires explicit review.
 
 That left server selection with no implementation. The wallet already
@@ -72,7 +72,7 @@ sync stream is never also a transmit target.
 
 Sync gains a mixnet round trip per candidate at every Sync Session
 start, and the recycling adds one bootstrap before the next
-transmission. Both costs buy the two invariants: no clearnet contact
+transmission. Both costs buy the two invariants: no nakednet contact
 outside sync itself, and no single exit that links the survey to the
 wallet's later traffic.
 

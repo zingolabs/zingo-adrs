@@ -25,7 +25,7 @@ recovers error identity by substring-matching zingolib's prose after
 flattening typed errors three times; its iOS build has no mixnet at all
 yet leaves the send gate open. zingo-pc has no mixnet wiring and a
 stringly JSON boundary that cannot carry typed evidence. Both shipping
-consumers fetch price over clearnet while their disclaimers claim the
+consumers fetch price over nakednet while their disclaimers claim the
 mixnet covers price-fetch. Mobile's cdylib links two copies of
 zingo-netutils, and the copy its own code calls has no SOCKS5
 capability compiled in. Mobile pins zingolib by branch, a moving
@@ -60,7 +60,7 @@ each ratified separately in the 2026-07-28 grilling session:
 
 4. **Consent at start.** A startup-time opt-out is the explicit act
    that reaches switched off: the driver takes a consent parameter, so
-   a --no-mixnet flag or its UI equivalent records the same clearnet
+   a --no-mixnet flag or its UI equivalent records the same nakednet
    consent as an in-session toggle-off. The glossary's Mixnet Mode
    entry says so.
 
@@ -73,7 +73,7 @@ each ratified separately in the 2026-07-28 grilling session:
    fixtures. Consumers match variants, never prose.
 
 6. **Price.** The 2026-07-23 mixnet-only rule is reinstated in full,
-   superseding the 2026-07-27 clearnet restoration; ADR 0011 carries
+   superseding the 2026-07-27 nakednet restoration; ADR 0011 carries
    the amendment. The driver refuses price in every state except
    ready; a build without the nym feature compiles no fetch.
 

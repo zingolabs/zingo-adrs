@@ -116,7 +116,7 @@ exists today. Conduit death and host death become distinct typed events, so
 a consumer can narrate the difference instead of inferring it. And the
 fail-closed route resolver already governs the outcome: losing every
 conduit refuses every mixnet-only surface, and never falls back to
-clearnet, so the failure mode of a shared host is unavailability rather
+nakednet, so the failure mode of a shared host is unavailability rather
 than exposure.
 
 The control channel is the largest piece of engineering, and it is not new
