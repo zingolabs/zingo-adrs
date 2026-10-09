@@ -50,12 +50,12 @@ repository scope) whose first line is a `# ` title. The first line under its
 `## Status` heading is exactly one of:
 
 - `accepted`, from the pull request that proposes the record onward. The
-  merge is the acceptance, so the line is written once and never edited
-  to say so afterwards;
+  merge is the acceptance, so the line is written once and not edited
+  afterwards to say so;
+- `proposed`, for a record merged to put an idea on the record before it
+  is final. It binds nothing. A later pull request moves it to `accepted`
+  or supersedes it;
 - `superseded by [<citation>](<relative path to the successor>)`.
-
-A record from before this rule may still read `proposed`. The word stays
-valid for it until a decision edits the record.
 
 Prose after that line may narrow a partial supersession, but the line itself
 is the whole record's standing. A record states one decision: context,
