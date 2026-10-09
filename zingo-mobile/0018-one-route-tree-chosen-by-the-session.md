@@ -73,11 +73,12 @@ The tree:
 
 ```
 Root  (native stack)
-├─ Boot          session boot        start gate, then open the wallet
-├─ Lock          session locked      the declined gate, retry returns to boot
-├─ Onboarding    session onboarding  custom navigator over StackRouter, OnboardingStage as its view
-│    Welcome · ImportChooser · ImportWallet · Server · ServerList {chain}
-│    Progress {kind} · OpenError {kind, details}
+├─ Loading       session boot, locked or onboarding; one provider holds the boot state
+│    ├─ Boot          session boot        start gate, then open the wallet
+│    ├─ Lock          session locked      the declined gate, retry returns to boot
+│    └─ Onboarding    session onboarding  custom navigator over StackRouter, OnboardingStage as its view
+│         Welcome · ImportChooser · ImportWallet · Server · ServerList {chain}
+│         Progress {kind} · OpenError {kind, details}
 ├─ Wallet        session wallet      native stack, the options panel as its layout
 │    ├─ Home (bottom tabs)            History · Send (remote server, spendable wallet) · Receive
 │    ├─ pushed group                  Settings · Server · About · MixnetDoctor · Rescan · Insight
