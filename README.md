@@ -166,6 +166,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0015 | [zingo-mobile carries no product Rust](zingo-mobile/0015-zingo-mobile-carries-no-product-rust.md) | proposed |
 | 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | accepted |
 | 0017 | [The controller machine is a discriminated union over the native runtime](zingo-mobile/0017-the-controller-machine-is-a-discriminated-union-over-the-native-runtime.md) | proposed |
+| 0018 | [One route tree chosen by the session](zingo-mobile/0018-one-route-tree-chosen-by-the-session.md) | proposed |
 | 0019 | [Device tests read public chains through fixture wallets](zingo-mobile/0019-device-tests-read-public-chains-through-fixture-wallets.md) | proposed |
 
 ### Repo-scoped records: zingolib
