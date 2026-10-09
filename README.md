@@ -31,7 +31,8 @@ may see it outside a checkout. Rendered Markdown links the record's file on the
 `dev` branch of zingo-adrs, as in
 `https://github.com/zingolabs/zingo-adrs/blob/dev/zaino/0016-changeset-derived-release-pipeline.md`,
 but only for an accepted or superseded record, whose number no longer changes.
-Markdown cites a proposed record in the source-comment form, without a link.
+Markdown cites a record whose pull request is still open in the
+source-comment form, without a link.
 Neither medium cites a checkout path such as `docs/adr/zingolib/0011-…`, which
 resolves only after the submodule is initialised and which GitHub cannot follow.
 
@@ -48,9 +49,13 @@ A record is a Markdown file named `NNN-kebab-title.md` (or `NNNN-` in a
 repository scope) whose first line is a `# ` title. The first line under its
 `## Status` heading is exactly one of:
 
-- `proposed`, while the pull request is open;
-- `accepted`;
+- `accepted`, from the pull request that proposes the record onward. The
+  merge is the acceptance, so the line is written once and never edited
+  to say so afterwards;
 - `superseded by [<citation>](<relative path to the successor>)`.
+
+A record from before this rule may still read `proposed`. The word stays
+valid for it until a decision edits the record.
 
 Prose after that line may narrow a partial supersession, but the line itself
 is the whole record's standing. A record states one decision: context,
@@ -222,6 +227,6 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0053 | [Destinations are drawn from the indexer registry per chain, on every transport](zingolib/0053-destinations-are-drawn-from-the-registry-per-chain-on-every-transport.md) | superseded by [zingolib/0050](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) |
 | 0054 | [The Binding Layer lives beside the surface it wraps](zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md) | accepted |
 | 0055 | [zingolib admits Swift, Kotlin, and TypeScript with their native tooling](zingolib/0055-zingolib-admits-swift-kotlin-and-typescript-with-native-tooling.md) | proposed |
-| 0056 | [Block-count constants follow their semantics across the NU7 block-spacing change](zingolib/0056-block-count-constants-follow-their-semantics-across-nu7.md) | proposed |
+| 0056 | [Block-count constants follow their semantics across the NU7 block-spacing change](zingolib/0056-block-count-constants-follow-their-semantics-across-nu7.md) | accepted |
 
 <!-- records-index:end -->
