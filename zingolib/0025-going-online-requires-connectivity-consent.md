@@ -6,8 +6,6 @@ Date: 2026-07-28
 
 accepted
 
-Ratified in session, pending review.
-
 ## Context
 
 ADR 0001 made the library offline by default: a `ClientConfig` configures

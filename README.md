@@ -30,7 +30,7 @@ repository and the scope, as in `zingo-adrs zingolib/0011`, because its reader
 may see it outside a checkout. Rendered Markdown links the record's file on the
 `dev` branch of zingo-adrs, as in
 `https://github.com/zingolabs/zingo-adrs/blob/dev/zaino/0016-changeset-derived-release-pipeline.md`,
-but only for an accepted or superseded record, whose number no longer changes.
+but only for a merged record, whose number no longer changes.
 Markdown cites a record whose pull request is still open in the
 source-comment form, without a link.
 Neither medium cites a checkout path such as `docs/adr/zingolib/0011-…`, which

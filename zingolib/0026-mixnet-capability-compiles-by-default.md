@@ -6,8 +6,6 @@ Date: 2026-07-29
 
 accepted
 
-Ratified in session, pending review.
-
 ## Context
 
 Until this decision, zingo-cli's `nym` feature was off by default. A
