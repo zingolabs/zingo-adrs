@@ -2,7 +2,7 @@
 
 ## Status
 
-proposed
+accepted
 
 Ruled in sessions 2026-09-11 and 2026-09-14, pending review.
 

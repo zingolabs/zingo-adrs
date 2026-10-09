@@ -139,7 +139,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0010 | [ADR 0010: Mempool subsystem separated into `zaino-mempool` behind ports](zaino/0010-mempool-subsystem-separation.md) | accepted |
 | 0011 | [The non-finalised chain head is a self-synchronising subsystem](zaino/0011-chain-head-subsystem-separation.md) | accepted |
 | 0012 | [The finalised state is a subsystem behind ports, and its database is one implementation of them](zaino/0012-chain-store-subsystem-separation.md) | accepted |
-| 0013 | [Domain quantity types carry invariants on results, not on operators](zaino/0013-quantity-arithmetic-result-types-carry-invariants.md) | proposed |
+| 0013 | [Domain quantity types carry invariants on results, not on operators](zaino/0013-quantity-arithmetic-result-types-carry-invariants.md) | accepted |
 | 0014 | [Validator readiness is owned by the runtime, not by its source consumers](zaino/0014-validator-readiness-owned-by-runtime.md) | proposed |
 | 0015 | [Zaino Release Flow Design](zaino/0015-periodic-release-flow.md) | superseded by [zaino/0016](zaino/0016-changeset-derived-release-pipeline.md) |
 | 0016 | [Releases derive from changesets through a four-branch gated pipeline](zaino/0016-changeset-derived-release-pipeline.md) | accepted |
@@ -197,8 +197,8 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0022 | [A Broadcast Witness is never the sync indexer](zingolib/0022-broadcast-witness-never-the-sync-indexer.md) | accepted |
 | 0023 | [Top-window sync rides the mixnet](zingolib/0023-top-window-sync-rides-the-mixnet.md) | accepted |
 | 0024 | [24. Consumers converge on a zingolib-owned mixnet surface](zingolib/0024-consumers-converge-on-a-zingolib-owned-mixnet-surface.md) | proposed |
-| 0025 | [25. Going online requires Connectivity Consent](zingolib/0025-going-online-requires-connectivity-consent.md) | proposed |
-| 0026 | [26. Mixnet capability compiles by default; activation stays a runtime consent](zingolib/0026-mixnet-capability-compiles-by-default.md) | proposed |
+| 0025 | [25. Going online requires Connectivity Consent](zingolib/0025-going-online-requires-connectivity-consent.md) | accepted |
+| 0026 | [26. Mixnet capability compiles by default; activation stays a runtime consent](zingolib/0026-mixnet-capability-compiles-by-default.md) | accepted |
 | 0028 | [28. The reference consumer lives in-repo in an excluded sub-workspace](zingolib/0028-the-reference-consumer-lives-in-repo-in-an-excluded-sub-workspace.md) | proposed |
 | 0029 | [29. A maintained mixnet indexer pool replaces server selection](zingolib/0029-a-maintained-mixnet-indexer-pool-replaces-server-selection.md) | superseded by [zingolib/0038](zingolib/0038-an-exit-node-reservation-is-unique-to-its-holder.md) |
 | 0030 | [The CLI crosses sync to async exactly once, dispatching from a static command table](zingolib/0030-the-cli-crosses-sync-to-async-exactly-once.md) | accepted |
@@ -207,7 +207,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0033 | [Network access demands a consent-tiered Network Observer](zingolib/0033-network-access-demands-a-consent-tiered-network-observer.md) | accepted |
 | 0034 | [Server selection is a mixnet liveness sweep](zingolib/0034-server-selection-is-a-mixnet-liveness-sweep.md) | proposed |
 | 0035 | [The acquisition race speaks the literature's vocabulary](zingolib/0035-the-acquisition-race-speaks-the-literatures-vocabulary.md) | proposed |
-| 0036 | [A Destination, not a witness, receives a Transmission](zingolib/0036-a-destination-not-a-witness-receives-a-transmission.md) | proposed |
+| 0036 | [A Destination, not a witness, receives a Transmission](zingolib/0036-a-destination-not-a-witness-receives-a-transmission.md) | accepted |
 | 0037 | [Broadcast means many recipients](zingolib/0037-broadcast-means-many-recipients.md) | proposed |
 | 0038 | [An Exit Node Reservation is unique to its holder](zingolib/0038-an-exit-node-reservation-is-unique-to-its-holder.md) | proposed |
 | 0039 | [An Exit Node is Exclusive to one Destination or Shared across many](zingolib/0039-an-exit-node-is-exclusive-or-shared-across-destinations.md) | proposed |
@@ -221,7 +221,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0047 | [Roles key conduits, and the wallet stops naming exits](zingolib/0047-roles-key-conduits-and-the-wallet-stops-naming-exits.md) | proposed |
 | 0048 | [A mobile session rotates one client rather than separating roles](zingolib/0048-a-mobile-session-rotates-one-client.md) | proposed |
 | 0049 | [Every transport comes from a long-lived host](zingolib/0049-every-transport-comes-from-a-long-lived-host.md) | proposed |
-| 0050 | [Indexers are classified by role, trust, and location, and one broadcast rule draws from them](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) | proposed |
+| 0050 | [Indexers are classified by role, trust, and location, and one broadcast rule draws from them](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) | accepted |
 | 0051 | [Continuous sync keeps the wallet current as new blocks are mined](zingolib/0051-continuous-sync.md) | accepted |
 | 0052 | [Indexerless operations are pure functions; effects live at the edges](zingolib/0052-pure-core-effects-at-edges.md) | superseded by [zingolib/0006](zingolib/0006-wallet-stored-proposal.md) |
 | 0053 | [Destinations are drawn from the indexer registry per chain, on every transport](zingolib/0053-destinations-are-drawn-from-the-registry-per-chain-on-every-transport.md) | superseded by [zingolib/0050](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) |
