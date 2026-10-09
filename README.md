@@ -221,5 +221,6 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0053 | [Destinations are drawn from the indexer registry per chain, on every transport](zingolib/0053-destinations-are-drawn-from-the-registry-per-chain-on-every-transport.md) | superseded by [zingolib/0050](zingolib/0050-indexers-are-classified-by-role-trust-and-location.md) |
 | 0054 | [The Binding Layer lives beside the surface it wraps](zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md) | proposed |
 | 0055 | [zingolib admits Swift, Kotlin, and TypeScript with their native tooling](zingolib/0055-zingolib-admits-swift-kotlin-and-typescript-with-native-tooling.md) | proposed |
+| 0056 | [Block-count constants follow their semantics across the NU7 block-spacing change](zingolib/0056-block-count-constants-follow-their-semantics-across-nu7.md) | proposed |
 
 <!-- records-index:end -->
