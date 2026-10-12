@@ -24,6 +24,11 @@ nothing, and a consumer with no release tag builds. zingolib#2813 added a
 `kotlin` mode to the builder, which generates both Kotlin binding sets on
 a host with no NDK, for the consumer's Gradle checks.
 
+Amended 2026-10-12 by the publication plan of zingolib#2833, which the
+amendment at the end of this record carries: zingolib now publishes the
+Binding Layer, and three statements of the Packaging section no longer
+hold.
+
 ## Context
 
 zingo-mobile carries two UniFFI crates that project zingolib into Swift
@@ -355,3 +360,56 @@ By 2026-09-25, #1418 and #1197 had merged, and #1212, #1297, #1242, #1243,
 #1293, and #1323 had closed. #1233 closed by mistake without merging.
 Whether it is replayed into zingolib or dropped is still open. #1365 is
 still open.
+
+## Amendment (2026-10-12): zingolib publishes the Binding Layer, and consumers download it
+
+A design interview on 2026-10-01 settled a plan, recorded in
+zingolib#2833, that moves the Binding Layer's build from the consumer to
+zingolib. A zingolib pull request names a commit in
+`bindings/published.toml`, and a maintainer's `/publish` comment on that
+pull request starts the build for it. zingolib's CI builds the four
+Android ABIs with the Kotlin bindings and the two XCFrameworks with the
+Swift sources, and pushes them as two OCI artifacts to the GitHub
+Container Registry, `ghcr.io/zingolabs/zingolib/binding-layer-android`
+and `ghcr.io/zingolabs/zingolib/binding-layer-ios`, through the
+`orasust` crate over `oci-client`. The workflow then records the two
+digests, the audited crate set, and a changelog section in one commit.
+A required check on every later push verifies that the registry still
+holds every entry at its digest, and the registry keeps every published
+bundle. A consumer pins a commit and its two digests, pulls by digest,
+and builds no Rust. The first entry, commit ba7336710, was published on
+2026-10-10, and the publish workflow merged as zingolib#2885.
+
+Three statements of the Packaging section no longer hold.
+
+- The section says that zingolib publishes no prebuilt bundle. The
+  publication above is that bundle, and a consumer's build takes the
+  downloaded artifact where the section's `bindingLayerPrebuilt`
+  directory took a cached one.
+- The section says that the builder sets `RUSTUP_TOOLCHAIN=stable` on
+  both platforms, so that zingolib's toolchain pin does not change the
+  compiler. zingolib#2864, merged 2026-10-06, reversed that: the builder
+  obeys the commit's `rust-toolchain.toml`, the constant
+  `BUILDER_TOOLCHAIN` is deleted, and a commit therefore determines the
+  compiler of its published artifact.
+- The section says that the wallet library embeds zingo-mobile's release
+  descriptor and that the builder requires `ZINGO_MOBILE_GIT_DESCRIBE`.
+  zingolib#2846 and zingolib#2847, merged 2026-10-02, reversed that: the
+  wallet library reports only its own `zl_` half from `get_version`, and
+  the consumer computes its `zm_` half in its own build and joins the two
+  in its native module. A published artifact carries no consumer's
+  descriptor, so one artifact serves every consumer of a commit.
+
+The Android build now runs in `android_builder:019`. A publish builds
+the ABIs on `ubuntu-24.04` inside that image and the XCFrameworks on the
+macOS runner that the repository variable `CI_IOS_RUNNER` names. The
+Consequences section's statement that zingo-mobile keeps its Rust test
+harnesses and its workbench after the repoint was reversed by
+zingo-mobile#1548, merged 2026-10-02, which removed the Rust workspace
+from zingo-mobile; zingo-mobile keeps the zingolib submodule.
+
+The rest of this record stands: the Binding Layer's source lives beside
+the surface it wraps, the copy and its gates, the repoint, and the two CI
+tiers, which now also carry the publish. The plan's remaining steps, a
+consumer's proof of the publication and zingo-mobile's download, lock
+file, and workflow deletions, are tracked in zingolib#2833.
