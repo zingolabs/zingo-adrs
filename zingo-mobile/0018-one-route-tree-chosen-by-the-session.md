@@ -29,7 +29,7 @@ The app reaches its screens through four mechanisms at once.
 - The home tabs add and remove the `Send` tab from the tree as the
   wallet's mode and server change.
 
-Five routes receive functions as parameters: the two scanners, the address
+Three routes receive functions as parameters: the scanner, the address
 list, and the confirmation screen. A function parameter cannot be
 serialized, which rules out a linking configuration, state persistence,
 and the static configuration API. The scanners live at the root because
@@ -83,7 +83,7 @@ Root  (native stack)
 │    ├─ Home (bottom tabs)            History · Send (remote server, spendable wallet) · Receive
 │    ├─ pushed group                  Settings · Server · About · MixnetDoctor · Rescan · Insight
 │    │                                SyncReport · Pools · AddressBook · AddressList {addressKind, returnTo}
-│    │                                ValueTransferDetail · Messages · Seed {action} · Ufvk {action}
+│    │                                ValueTransferDetail · Messages · WalletSeed {action} · ViewingKey {entry, switchTo?}
 │    │                                Confirm {calculatedFee, proposalPools, sendAllAmount} · Computing {end?}
 │    ├─ one-way group (no gesture)    MeetIronwood · MigrationStrategy · MigrationTransactions
 │    │                                MigrationSending {transactions} · MigrationSplitPlan
@@ -91,8 +91,8 @@ Root  (native stack)
 │    │                                MigrationSchedule {perBucket} · MigrationStatus
 │    │                                MigrationBatchSending {denominations?}
 │    └─ overlay group (transparent)   SeedBackup {from}
-└─ scanners group (transparent modal, above every section's sheet portal)
-     ScannerAddress {returnTo, field?, raw?} · ScannerUfvk {returnTo}
+└─ scanner group (transparent modal, above every section's sheet portal)
+     Scanner {returnTo, kind, texts, origin?}
 ```
 
 Onboarding is a custom navigator built with `useNavigationBuilder` and
@@ -105,7 +105,9 @@ keeps the leaving view until its animation ends.
 Renames: `StartMenu` becomes `Welcome`, `ImportUfvk` becomes
 `ImportWallet` (it restores from a seed or a viewing key), `WalletProgress`
 becomes `Progress`, `WalletError` becomes `OpenError`, `HomeStack` becomes
-`Home`. `NewSeed` and `ScreenEnum` are deleted. `RouteEnum` is retired
+`Home`. The one scanner that reads addresses, seed phrases and viewing keys
+is `Scanner`; its `accepts` function becomes a `kind` the scanner checks.
+`NewSeed` and `ScreenEnum` are deleted. `RouteEnum` is retired
 when the tree moves to the static configuration API, and literal unions
 replace it.
 
