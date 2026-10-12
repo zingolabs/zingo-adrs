@@ -38,8 +38,11 @@ only from the Prebuilt Bundles that zingolib publishes.
    of each platform's bundle. It is the one statement of the pinned
    zingolib. No build of the Binding Layer remains in zingo-mobile, and no
    override points the build at a local one.
-2. Every consumer of the Prebuilt Bundles manages them identically. Only
-   a significant trade-off may separate one consumer from another.
+2. zingo-mobile manages its bundles as kitchen-sync manages its own, and
+   only a significant trade-off may separate the two. This record binds
+   zingo-mobile alone. The rule that every consumer manages the bundles
+   identically is zingolib#2930 ruling 2, and no org-scoped record holds
+   it yet.
 3. The AAR enters Gradle as a file dependency at the path the fetch
    prints, and the app declares JNA at the version the bundle's build
    declares. The fetch extracts the Swift package to a fixed path that
@@ -59,10 +62,11 @@ only from the Prebuilt Bundles that zingolib publishes.
 
 ## Considered options
 
-Keeping the submodule beside the lock, with a check that the two name one
-commit, was rejected. The check guards a second statement of one fact,
-and the submodule's only remaining readers are tests that belong to
-zingolib.
+Keeping the submodule beside the lock as a lasting arrangement, with a
+check that the two name one commit, was rejected. The check guards a
+second statement of one fact, and the submodule's only remaining readers
+are tests that belong to zingolib. The two do stand side by side through
+steps 4 and 5 of zingolib#2930, where ruling 10 holds them to one commit.
 
 A local input override, a Gradle property and an Xcode setting that take
 a Binding Layer built in a zingolib checkout, was rejected. It is a second
@@ -78,6 +82,14 @@ The Binding Layer build leaves zingo-mobile's CI and its release, and the
 cache keys, the build workflows, and the actions that served it go with
 it. A pull request of zingo-mobile downloads two bundles instead of
 building native code.
+
+Decision 7 has a price. Each iteration on the Binding Layer is a zingolib
+pull request, a `/publish` comment by someone with write permission, about
+21 minutes of build, a manifest entry and a changelog section that never
+leave, and 615 MiB that the registry keeps forever. The publish command
+refuses a pull request from a fork, so a fork has no path to a Binding
+Layer change. The rejected override would have spared a local change all
+of that, at the cost of a second code path.
 
 zingo-mobile's `CONTEXT.md` takes Prebuilt Bundle, Bundle Pin, Binding Set
 and Binding Layer Endpoint from zingolib's glossary by reference.
