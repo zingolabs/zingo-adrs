@@ -59,10 +59,11 @@ value. Changing the value unmounts the section left behind, as the
 reset did. The session value is the only way across sections.
 
 Route parameters are serializable data. A screen that produces a result
-for the screen that opened it receives the opener's route name as
-`returnTo` and returns with `popTo(returnTo, params, { merge: true })`.
-Actions come from hooks that read the wallet context today and may read
-a store later. Every parameter is data.
+for the screen that opened it receives a request name in its params and
+delivers the result on a channel keyed by that name; the opener
+subscribes to it while mounted, and an answer that arrives first waits
+for it. Actions come from hooks that read the wallet context today and
+may read a store later. Every parameter is data.
 
 A surface is a route when it survives a navigation, is reachable by link
 or notification, or owns a back action. Every other surface is a sheet.
@@ -82,7 +83,7 @@ Root  (native stack)
 ├─ Wallet        session wallet      native stack, the options panel as its layout
 │    ├─ Home (bottom tabs)            History · Send (remote server, spendable wallet) · Receive
 │    ├─ pushed group                  Settings · Server · About · MixnetDoctor · Rescan · Insight
-│    │                                SyncReport · Pools · AddressBook · AddressList {addressKind, returnTo}
+│    │                                SyncReport · Pools · AddressBook · AddressList {addressKind, request}
 │    │                                ValueTransferDetail · Messages · WalletSeed {action} · ViewingKey {entry, switchTo?}
 │    │                                Confirm {calculatedFee, proposalPools, sendAllAmount} · Computing {end?}
 │    ├─ one-way group (no gesture)    MeetIronwood · MigrationStrategy · MigrationTransactions
@@ -92,7 +93,7 @@ Root  (native stack)
 │    │                                MigrationBatchSending {denominations?}
 │    └─ overlay group (transparent)   SeedBackup {from}
 └─ scanner group (transparent modal, above every section's sheet portal)
-     Scanner {returnTo, kind, texts, origin?}
+     Scanner {request, accepts, texts, origin?}
 ```
 
 Onboarding is a custom navigator built with `useNavigationBuilder` and
