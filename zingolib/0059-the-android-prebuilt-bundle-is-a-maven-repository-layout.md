@@ -62,11 +62,11 @@ JNA alone: a second runtime dependency of the AAR would need a second
 annotation and a second key.
 
 The second publishes the AAR to a hosted Maven repository. Gradle would
-then resolve the AAR by coordinate and read its POM. zingolib#2833 ruled
-on 2026-10-05 that Maven publication is deferred: it needs a publisher
-account, credentials in the workflow and a release process beside the OCI
-one, and ruling 1 of zingolib#2930 holds that a consumer's only reference
-is the OCI registry.
+then resolve the AAR by coordinate and read its POM. A design session on
+2026-10-05 deferred hosted Maven publication, and no issue records that
+ruling: it needs a publisher account, credentials in the workflow and a
+release process beside the OCI one, and ruling 1 of zingolib#2930 holds
+that a consumer's only reference is the OCI registry.
 
 The third keeps the OCI registry as the only reference and changes what
 the Android layer holds. Gradle's `maven-publish` plugin, Gradle's own
