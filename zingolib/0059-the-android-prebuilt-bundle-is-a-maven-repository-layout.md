@@ -4,6 +4,9 @@
 
 proposed
 
+Accepted when zingolib#2979 merges. From that merge on, the Maven
+repository layout is the only shape the publication produces.
+
 ## Context
 
 zingolib publishes the Binding Layer as two Prebuilt Bundles per commit
