@@ -4,32 +4,28 @@
 
 proposed
 
-Accepted when zingolib#2979 merges; from then on the layout is the only shape
-published.
+Accepted when the implementing pull request merges; from then on the layout
+is the only shape published.
 
 ## Context
 
-zingolib publishes the Android Prebuilt Bundle as one AAR in the OCI registry
-(zingolib/0054; zingolib#2833 decisions 3 to 5; zingolib#2885), which ruling 3
-of zingolib#2930 had Gradle add as a file dependency while every consumer
+zingolib publishes the Android Prebuilt Bundle as one AAR in the OCI
+registry, which Gradle added as a file dependency while every consumer
 declared its runtime dependency JNA by hand, so a Bundle Pin move could leave
-the app on a stale JNA silently, the deferred item "JNA in the lock" of
-zingolib#2930, raised 2026-10-12, to decide before its step 4. Three answers
-were weighed, and the rulings of 2026-10-15 chose the third.
+the app on a stale JNA silently. Three answers to that deferred item were
+weighed, and the rulings of 2026-10-15 chose the third.
 
 1. Annotate the OCI manifest with the JNA coordinate and pin it, as the
-   deferred item proposed and zingolib#2969 drafted before closing as
-   superseded by zingolib#2979; it restates one dependency in three places
-   and covers JNA alone.
+   deferred item proposed and a draft implemented before it was superseded;
+   it restates one dependency in three places and covers JNA alone.
 2. Publish the AAR to a hosted Maven repository, which a design session on
-   2026-10-05, recorded in no issue, deferred for the account, credentials
-   and release process it needs; decision 1 of zingolib#2833 makes the
-   GitHub Container Registry the store that ruling 5 of zingolib#2930 has
-   every consuming job fetch from by digest.
+   2026-10-05 deferred for the account, credentials and release process it
+   needs, and the registry is the ruled store that every consuming job
+   fetches from by digest.
 3. Keep the registry and change the layer: Gradle's `maven-publish` plugin
    writes the release component into a directory in canonical Maven layout,
-   the AAR, its POM (Project Object Model, which lists its dependencies, JNA
-   among them) and `maven-metadata.xml`, and that directory is the bundle.
+   the AAR, its POM and `maven-metadata.xml`, and that directory is the
+   bundle.
 
 ## Decision
 
@@ -47,8 +43,8 @@ it. The package job runs Gradle's `publish` task into the directory and
 uploads it; `binding-publish` archives both platforms through one function.
 The fetch command reads the coordinate from `maven-metadata.xml` and prints
 it beside the repository root; the Bundle Pin keeps its shape. The fetch and
-pin commands refuse the old shape by media type, so the one bare-AAR entry,
-ba7336710 of zingolib#2885, cannot be pinned for Android again.
+pin commands refuse the old shape by media type, so the one bare-AAR entry
+cannot be pinned for Android again.
 
 ## Consequences
 
@@ -56,13 +52,49 @@ A Bundle Pin move carries the AAR's dependencies, and a new one reaches every
 consumer through the POM with no change to publication, pin package or
 consumer. The consumer's Gradle wiring changes once, from the file dependency
 and the JNA line to a `maven` repository at the printed path and one
-`implementation` line with the printed coordinate, which amends ruling 3 of
-zingolib#2930 and decision 3 of zingolib#2833. kitchen-sync changes when its
-pin first moves to the layout; zingo-mobile starts on it in step 4 of
-zingolib#2930.
+`implementation` line with the printed coordinate, which amends the earlier
+consumption ruling and the artifact decision. kitchen-sync changes when its
+pin first moves to the layout; zingo-mobile starts on it.
 
 Hosted Maven publication, if ever taken up, is the same publication pointed
 at another repository. The Android bundle's media type becomes gzip, and the
 glossary's Prebuilt Bundle entry in `zingolib/CONTEXT.md` is restated. The
 version embeds a commit prefix, so it does not sort as a release and no
 consumer may resolve it dynamically, which is the intent.
+
+## Appendix
+
+### References
+
+- zingolib/0054 and zingolib#2833, decisions 3 to 5, define the two Prebuilt
+  Bundles per published commit; zingolib#2885 merged the publish workflow,
+  and its merge commit ba7336710 is the one bare-AAR entry.
+- zingolib#2833, decision 1, makes the GitHub Container Registry the store;
+  decision 3, the Android artifact, is amended by this record.
+- zingolib#2930, ruling 3, placed the AAR as a file dependency with
+  app-declared JNA and is amended by this record; ruling 5 has every
+  consuming job fetch by digest; its deferred item "JNA in the lock", raised
+  in the review of 2026-10-12, is decided here before its step 4, in which
+  zingo-mobile consumes the bundles.
+- zingolib#2969 drafted the first answer and closed as superseded on
+  2026-10-15 when zingolib#2979 opened.
+- zingolib#2979 implements this record; the record is accepted when it
+  merges.
+- The deferral of hosted Maven publication was ruled in a design session on
+  2026-10-05 and is recorded in no issue.
+
+### Definitions
+
+- An AAR (Android Archive) zips an Android library with one native library
+  per ABI (Application Binary Interface, one CPU target).
+- A Maven repository is a tree or server in the canonical layout Gradle
+  resolves from, each artifact at `<group path>/<artifact>/<version>/` under
+  a `group:artifact:version` coordinate.
+- A POM (Project Object Model) is the XML beside an artifact that names its
+  coordinate and dependencies; Gradle reads it for an artifact resolved by
+  coordinate, and `files("x.aar")` reads none.
+- `maven-metadata.xml` lists the versions a repository holds.
+- JNA (Java Native Access) is the library through which the Kotlin Binding
+  Set loads the native Binding Layer.
+- The OCI (Open Container Initiative) registry, `ghcr.io`, holds each
+  Prebuilt Bundle as one manifest with one layer, fetched by digest.
