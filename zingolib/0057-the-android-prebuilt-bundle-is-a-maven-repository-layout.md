@@ -15,13 +15,8 @@ declared its runtime dependency JNA by hand, so a Bundle Pin move could leave
 the app on a stale JNA silently. Three answers to that deferred item were
 weighed, and the rulings of 2026-10-15 chose the third.
 
-1. Annotate the OCI manifest with the JNA coordinate and pin it, as the
-   deferred item proposed and a draft implemented before it was superseded;
-   it restates one dependency in three places and covers JNA alone.
-2. Publish the AAR to a hosted Maven repository, which a design session on
-   2026-10-05 deferred for the account, credentials and release process it
-   needs, and the registry is the ruled store that every consuming job
-   fetches from by digest.
+1. Annotate the OCI manifest.
+2. Publish the AAR to a hosted Maven repository.
 3. Keep the registry and change the layer: Gradle's `maven-publish` plugin
    writes the release component into a directory in canonical Maven layout,
    the AAR, its POM and `maven-metadata.xml`, and that directory is the
@@ -76,12 +71,18 @@ consumer may resolve it dynamically, which is the intent.
   consuming job fetch by digest; its deferred item "JNA in the lock", raised
   in the review of 2026-10-12, is decided here before its step 4, in which
   zingo-mobile consumes the bundles.
-- zingolib#2969 drafted the first answer and closed as superseded on
-  2026-10-15 when zingolib#2979 opened.
+- zingolib#2969 drafted the first answer, which the deferred item proposed:
+  annotate the manifest with the JNA coordinate, copy it into the Bundle
+  Pin, and declare JNA from the pin. It restates one dependency in three
+  places and covers JNA alone, and it closed as superseded on 2026-10-15
+  when zingolib#2979 opened.
 - zingolib#2979 implements this record; the record is accepted when it
   merges.
-- The deferral of hosted Maven publication was ruled in a design session on
-  2026-10-05 and is recorded in no issue.
+- The deferral of hosted Maven publication, the second answer, was ruled in
+  a design session on 2026-10-05 and is recorded in no issue: it needs a
+  publisher account, credentials in the workflow and a release process
+  beside the OCI one, and the registry is the store every consuming job
+  fetches from by digest.
 
 ### Definitions
 
