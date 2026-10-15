@@ -9,41 +9,27 @@ published.
 
 ## Context
 
-zingolib publishes two Prebuilt Bundles per published commit (zingolib/0054;
-zingolib#2833 decisions 3 to 5; the publish workflow of zingolib#2885). The
-Android bundle has been one AAR in the OCI registry, which ruling 3 of
-zingolib#2930 had Gradle add as a file dependency at the path the fetch
-command printed. Terms: an AAR (Android Archive) zips an Android library with
-one native library per ABI. A Maven repository is a tree or server in the
-canonical layout Gradle resolves from, each artifact at
-`<group path>/<artifact>/<version>/` under a `group:artifact:version`
-coordinate, beside a POM (Project Object Model) that lists its dependencies;
-`maven-metadata.xml` lists the versions. Gradle reads the POM of an artifact
-it resolves by coordinate; `files("x.aar")` reads none. JNA (Java Native
-Access) is the library through which the Kotlin Binding Set loads the native
-Binding Layer. The registry, `ghcr.io`, holds each bundle as one layer.
-
-An AAR carries no dependency metadata. The Android build declares
-`api("net.java.dev.jna:jna:5.18.1@aar")`, which the AAR needs but does not
-contain, so every consumer declared JNA by hand and a Bundle Pin move to a
-newer JNA left the app on the old one silently. zingolib#2930 holds this as
-its deferred item "JNA in the lock", raised in the review of 2026-10-12, to
-decide before step 4, where zingo-mobile consumes the bundles. Three answers
+zingolib publishes the Android Prebuilt Bundle as one AAR in the OCI registry
+(zingolib/0054; zingolib#2833 decisions 3 to 5; zingolib#2885), which ruling 3
+of zingolib#2930 had Gradle add as a file dependency while every consumer
+declared its runtime dependency JNA by hand, so a Bundle Pin move could leave
+the app on a stale JNA silently, the deferred item "JNA in the lock" of
+zingolib#2930, raised 2026-10-12, to decide before its step 4. Three answers
 were weighed, and the rulings of 2026-10-15 chose the third.
 
 1. Annotate the OCI manifest with the JNA coordinate and pin it, as the
    deferred item proposed and zingolib#2969 drafted before closing as
-   superseded by zingolib#2979. It restates one dependency in three places
+   superseded by zingolib#2979; it restates one dependency in three places
    and covers JNA alone.
-2. Publish the AAR to a hosted Maven repository. A design session on
-   2026-10-05, recorded in no issue, deferred this for the account,
-   credentials and release process it needs; decision 1 of zingolib#2833
-   makes the GitHub Container Registry the store, and ruling 5 of
-   zingolib#2930 has every consuming job fetch from it by digest.
+2. Publish the AAR to a hosted Maven repository, which a design session on
+   2026-10-05, recorded in no issue, deferred for the account, credentials
+   and release process it needs; decision 1 of zingolib#2833 makes the
+   GitHub Container Registry the store that ruling 5 of zingolib#2930 has
+   every consuming job fetch from by digest.
 3. Keep the registry and change the layer: Gradle's `maven-publish` plugin
-   writes the release component into a directory in canonical layout, the
-   AAR, its POM derived from the build's own declarations, metadata and
-   checksums, and that directory is the bundle.
+   writes the release component into a directory in canonical Maven layout,
+   the AAR, its POM (Project Object Model, which lists its dependencies, JNA
+   among them) and `maven-metadata.xml`, and that directory is the bundle.
 
 ## Decision
 
