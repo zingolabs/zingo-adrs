@@ -9,10 +9,12 @@ repository layout is the only shape the publication produces.
 
 ## Context
 
-zingolib publishes the Binding Layer as two Prebuilt Bundles per commit
-(zingolib/0054, zingolib#2833). The Android Prebuilt Bundle has been one
-AAR, pushed to the OCI registry as one layer, and a consumer's Gradle
-build added it as a file dependency at the path the fetch command printed.
+zingolib publishes the Binding Layer as two Prebuilt Bundles per published
+commit (zingolib/0054; zingolib#2833, decisions 3 to 5), through the
+publish workflow that zingolib#2885 merged. The Android Prebuilt Bundle
+has been one AAR, pushed to the OCI registry as one layer, and ruling 3 of
+zingolib#2930 had a consumer's Gradle build add it as a file dependency at
+the path the fetch command printed.
 
 This record uses the following terms from the Android and Maven toolchains.
 
@@ -48,25 +50,29 @@ An AAR carries no dependency metadata. The Android build declares JNA as
 but does not contain it. Every consumer therefore declared JNA by hand at
 the version it believed the bundle was built with, and nothing tied the
 two: a Bundle Pin move to a bundle built against a newer JNA left the app
-on the old one, silently. zingolib#2930 recorded this as a deferred
-question to settle before zingo-mobile consumes the bundles.
+on the old one, silently. zingolib#2930 recorded this as its deferred item
+"JNA in the lock", raised in the review of 2026-10-12, to decide before
+its step 4, in which zingo-mobile consumes the bundles.
 
 Three answers were weighed, and the rulings of 2026-10-15 chose the third.
 
 The first annotates the OCI manifest with the JNA coordinate, has the pin
 command copy it into the Bundle Pin, and has Gradle declare JNA from the
-pin. zingolib#2969 drafted it. It keeps the AAR as the bundle and the file
-dependency in Gradle, but it restates one dependency of the AAR in three
-places, a Gradle manifest, an annotation and a lock file, and it covers
-JNA alone: a second runtime dependency of the AAR would need a second
-annotation and a second key.
+pin. The deferred item of zingolib#2930 proposed it, and zingolib#2969
+drafted it, then closed as superseded on 2026-10-15 when zingolib#2979
+opened. It keeps the AAR as the bundle and the file dependency in Gradle,
+but it restates one dependency of the AAR in three places, a Gradle
+manifest, an annotation and a lock file, and it covers JNA alone: a
+second runtime dependency of the AAR would need a second annotation and a
+second key.
 
 The second publishes the AAR to a hosted Maven repository. Gradle would
 then resolve the AAR by coordinate and read its POM. A design session on
 2026-10-05 deferred hosted Maven publication, and no issue records that
 ruling: it needs a publisher account, credentials in the workflow and a
-release process beside the OCI one, and ruling 1 of zingolib#2930 holds
-that a consumer's only reference is the OCI registry.
+release process beside the OCI one, and decision 1 of zingolib#2833 makes
+the GitHub Container Registry the store, from which ruling 5 of
+zingolib#2930 has every consuming job fetch by digest.
 
 The third keeps the OCI registry as the only reference and changes what
 the Android layer holds. Gradle's `maven-publish` plugin, Gradle's own
@@ -103,7 +109,8 @@ restates the coordinate: the fetch command reads it from the
 `maven-metadata.xml` that Gradle wrote and prints it beside the repository
 root, and the Bundle Pin keeps its shape. The fetch and the pin command
 refuse an Android bundle in the old shape by its media type, so the one
-entry published as a bare AAR cannot be pinned for Android again.
+entry published as a bare AAR, ba7336710, the merge commit of
+zingolib#2885, cannot be pinned for Android again.
 
 ## Consequences
 
@@ -114,9 +121,12 @@ publication, the pin package or the consumer.
 
 The consumer's Gradle wiring changes once: the file dependency and the
 hand-written JNA line give way to a `maven` repository at the printed path
-and one `implementation` line with the printed coordinate. kitchen-sync
-makes that change in the pull request that moves its pin to the first
-bundle in the new layout, and zingo-mobile starts on the new layout.
+and one `implementation` line with the printed coordinate. This amends
+ruling 3 of zingolib#2930, whose file dependency and app-declared JNA are
+replaced, and decision 3 of zingolib#2833, whose Android artifact now holds
+the layout around the AAR. kitchen-sync makes that change in the pull
+request that moves its pin to the first bundle in the new layout, and
+zingo-mobile starts on the new layout in step 4 of zingolib#2930.
 
 Publication to a hosted Maven repository, if it is ever taken up, is the
 same `maven-publish` publication pointed at another repository. The
