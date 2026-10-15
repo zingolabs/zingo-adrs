@@ -2,10 +2,10 @@
 
 ## Status
 
-proposed
+accepted
 
-Accepted when the implementing pull request merges; from then on the layout
-is the only shape published.
+Accepted in zingolib#2979; from its merge on the layout is the only shape
+published.
 
 ## Context
 
@@ -76,8 +76,7 @@ consumer may resolve it dynamically, which is the intent.
   Pin, and declare JNA from the pin. It restates one dependency in three
   places and covers JNA alone, and it closed as superseded on 2026-10-15
   when zingolib#2979 opened.
-- zingolib#2979 implements this record; the record is accepted when it
-  merges.
+- zingolib#2979 implements this record and accepted it at its merge.
 - The deferral of hosted Maven publication, the second answer, was ruled in
   a design session on 2026-10-05 and is recorded in no issue: it needs a
   publisher account, credentials in the workflow and a release process
