@@ -51,7 +51,7 @@ two: a Bundle Pin move to a bundle built against a newer JNA left the app
 on the old one, silently. zingolib#2930 recorded this as a deferred
 question to settle before zingo-mobile consumes the bundles.
 
-Three answers were weighed on 2026-10-14 and 2026-10-15.
+Three answers were weighed, and the rulings of 2026-10-15 chose the third.
 
 The first annotates the OCI manifest with the JNA coordinate, has the pin
 command copy it into the Bundle Pin, and has Gradle declare JNA from the
