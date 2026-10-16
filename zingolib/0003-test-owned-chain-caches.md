@@ -132,3 +132,11 @@ failed.
   than writing a garbage cache key.
 - `cargo clean` does not touch `chain_caches/`; disk reclamation is manual
   deletion, which the miss-trigger makes always safe.
+
+## Amendment (2026-10-15)
+
+Superseded by zingolib/0058 once the regtest removal's final cut merges in
+zingolib: the chain caches, the replay by reorg competition and the
+convergence wait leave with `zcash_local_net`, and the mock chain, which
+mines on demand, takes the place a cached chain held. Until that cut
+merges, the caches and their semantics stand as recorded above.
