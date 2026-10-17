@@ -30,11 +30,14 @@ one gzip tarball, as the iOS bundle carries the Swift package. The POM
 declares every dependency the AAR needs, JNA among them; a consumer declares
 none by hand.
 
-The coordinate is `org.zingolabs:zingo-binding-layer:<version>`, the version
-being the zingolib crate version plus the first sixteen characters of the
-published commit, as in `6.0.0-ba7336710419c9ac`. The workbench derives it
-and passes it to Gradle as a property; the build refuses to publish without
-it. The package job runs Gradle's `publish` task into the directory and
+The coordinate is `org.zingolabs:zingo-binding-layer:<version>`. The group
+and artifact are the ones the Android project already names, so a consumer
+changes one line. The version is the zingolib crate version plus the first
+sixteen characters of the published commit, as in `6.0.0-ba7336710419c9ac`,
+so every published commit has its own version and a hosted repository could
+later hold them all without collision. The workbench derives it and passes
+it to Gradle as a property; the build refuses to publish without it. The
+package job runs Gradle's `publish` task into the directory and
 uploads it; `binding-publish` archives both platforms through one function.
 The fetch command reads the coordinate from `maven-metadata.xml` and prints
 it beside the repository root; the Bundle Pin keeps its shape. The fetch and
