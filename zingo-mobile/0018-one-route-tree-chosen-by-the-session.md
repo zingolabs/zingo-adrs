@@ -4,11 +4,13 @@ Date: 2026-10-08
 
 ## Status
 
-proposed
+accepted
 
-Ruled in a planning session on 2026-10-08, pending review. The session
-walked every navigation call in the app and every surface that behaves as
-a screen.
+Ruled in a planning session on 2026-10-08. The session walked every
+navigation call in the app and every surface that behaves as a screen.
+Accepted on 2026-10-18, when zingo-mobile#1637 merged into `dev` as
+`4ceb8f217`. The move to the static configuration API was dropped on the
+way; the decision below records why.
 
 ## Context
 
@@ -61,9 +63,10 @@ reset did. The session value is the only way across sections.
 Route parameters are serializable data. A screen that produces a result
 for the screen that opened it receives a request name in its params and
 delivers the result on a channel keyed by that name; the opener
-subscribes to it while mounted, and an answer that arrives first waits
-for it. Actions come from hooks that read the wallet context today and
-may read a store later. Every parameter is data.
+subscribes to it while mounted. An answer nobody listens for is dropped,
+so it can never reach a later opener. Actions come from hooks that read
+the wallet context today and may read a store later. Every parameter is
+data.
 
 A surface is a route when it survives a navigation, is reachable by link
 or notification, or owns a back action. Every other surface is a sheet.
@@ -79,21 +82,21 @@ Root  (native stack)
 │    ├─ Lock          session locked      the declined gate, retry returns to boot
 │    └─ Onboarding    session onboarding  custom navigator over StackRouter, OnboardingStage as its view
 │         Welcome · ImportChooser · ImportWallet · Server · ServerList {chain}
-│         Progress {kind} · OpenError {kind, details}
-├─ Wallet        session wallet      native stack, the options panel as its layout
+│         Progress {kind} · OpenError
+├─ Wallet        session wallet      native stack; the options panel fills Home
 │    ├─ Home (bottom tabs)            History · Send (remote server, spendable wallet) · Receive
-│    ├─ pushed group                  Settings · Server · About · MixnetDoctor · Rescan · Insight
+│    ├─ pushed group                  Settings · Server · About · MixnetDoctor · Insight
 │    │                                SyncReport · Pools · AddressBook · AddressList {addressKind, request}
-│    │                                ValueTransferDetail · Messages · WalletSeed {action} · ViewingKey {entry, switchTo?}
-│    │                                Confirm {calculatedFee, proposalPools, sendAllAmount} · Computing {end?}
+│    │                                ValueTransferDetail · Messages · WalletSeed {action}
+│    │                                Confirm {calculatedFee, proposalPools, sendAllAmount, sendPageState}
+│    │                                Computing {end?}
 │    ├─ one-way group (no gesture)    MeetIronwood · MigrationStrategy · MigrationTransactions
 │    │                                MigrationSending {transactions} · MigrationSplitPlan
 │    │                                MigrationSplitting {plan?} · MigrationCadence
 │    │                                MigrationSchedule {perBucket} · MigrationStatus
 │    │                                MigrationBatchSending {denominations?}
-│    └─ overlay group (transparent)   SeedBackup {from}
-└─ scanner group (transparent modal, above every section's sheet portal)
-     Scanner {request, accepts, texts, origin?}
+│    └─ overlay group (transparent)   SeedBackup {entry} · ViewingKey {entry, switchTo?}
+└─ Scanner {request, accepts, texts, origin?}   transparent modal, above every section's sheet portal
 ```
 
 Onboarding is a custom navigator built with `useNavigationBuilder` and
@@ -108,23 +111,32 @@ Renames: `StartMenu` becomes `Welcome`, `ImportUfvk` becomes
 becomes `Progress`, `WalletError` becomes `OpenError`, `HomeStack` becomes
 `Home`. The one scanner that reads addresses, seed phrases and viewing keys
 is `Scanner`; its `accepts` function becomes a `kind` the scanner checks.
-`NewSeed` and `ScreenEnum` are deleted. `RouteEnum` is retired
-when the tree moves to the static configuration API, and literal unions
-replace it.
+`NewSeed`, `ScreenEnum` and `RouteEnum` are deleted. `Route` is a const
+object whose type is the literal union of its values. The header reads
+its own route instead of a screen marker.
 
-A `linking` configuration owns the `zcash:` link. A link that arrives
-during boot or lock is kept and delivered to `Send` when the wallet
-section mounts. A link that arrives during onboarding is dropped.
+The tree stays a JSX declaration. The onboarding opens on `Welcome` or on
+`OpenError` depending on the session, and the static configuration API
+has no per-mount initial route, so that one navigator would have stayed
+dynamic inside a static tree. The global `RootParamList` gives the typed
+`useNavigation` the static API was wanted for.
+
+The session owns the `zcash:` link. A link that arrives during boot or
+lock is kept and delivered to `Send` when the wallet section mounts. A
+link that arrives during onboarding is dropped. A view-only wallet, or
+one on no server, has no `Send` tab, and says so instead.
 
 Hardware back at the root consumes the press. The app closes when the
 user swipes it away, as any other app. A screen that must block back
 does it with its own listener, as the migration screens do.
 
-The work lands in six pull requests, each one green on its own: the root
-on a native stack (open as zingo-mobile #1572), the four-state session
-with `Boot` and `Lock`, the onboarding navigator, the wallet navigator
-with component-only routes, serializable parameters, and the static
-configuration API.
+The work landed on an integration branch through one pull request per
+step, each green on its own: the session with `Boot` and `Lock`
+(zingo-mobile#1602), the onboarding navigator (#1603), the wallet
+navigator with component-only routes (#1626), serializable parameters
+and the result channel (#1627), the options panel under the screens it
+opens (#1628), and the loading section, `Route` and the typed hooks
+(#1634). It reached `dev` as zingo-mobile#1637.
 
 ## Considered options
 
@@ -143,10 +155,11 @@ it first leaves `ADR-0017` a thinner pair of components to replace.
 Letting hardware back close the app from home was the agent's
 recommendation. The maintainer rejected it.
 
-Keeping the JSX declaration instead of the static configuration API was
-rejected. The static API infers the parameter types and the linking
-configuration from the one declaration, which is the point of a single
-tree.
+Moving the tree to the static configuration API was planned and then
+dropped. It would have inferred the parameter types from the one
+declaration, but the onboarding's start route depends on the session,
+which static configuration cannot express per mount. The global
+`RootParamList` already types the hooks.
 
 ## Consequences
 
