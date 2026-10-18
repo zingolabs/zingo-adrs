@@ -2,9 +2,9 @@
 
 ## Status
 
-proposed
+accepted
 
-Ratified in session 2026-08-07, pending review.
+Ratified in session 2026-08-07.
 
 ## Context
 

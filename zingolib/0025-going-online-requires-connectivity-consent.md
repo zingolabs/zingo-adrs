@@ -4,9 +4,7 @@ Date: 2026-07-28
 
 ## Status
 
-proposed
-
-Ratified in session, pending review.
+accepted
 
 ## Context
 
