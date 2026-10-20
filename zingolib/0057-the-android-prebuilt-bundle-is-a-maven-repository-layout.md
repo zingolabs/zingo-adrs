@@ -99,3 +99,12 @@ consumer may resolve it dynamically, which is the intent.
   Set loads the native Binding Layer.
 - The OCI (Open Container Initiative) registry, `ghcr.io`, holds each
   Prebuilt Bundle as one manifest with one layer, fetched by digest.
+
+## Amendment (2026-10-20): the Bundle Pin holds the coordinate
+
+Record zingolib/0058 amends the Decision section's sentence on where the
+fetch reads the coordinate. The Bundle Pin holds the coordinate, which it
+takes from the manifest annotation `org.zingolabs.zingolib.coordinate`.
+`binding-publish` writes that annotation from the Maven metadata in the
+bundle. The fetch verifies the extracted layout against the pin.
+zingolib#3030 implements the change.

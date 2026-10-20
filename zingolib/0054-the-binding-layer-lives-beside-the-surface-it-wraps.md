@@ -413,3 +413,11 @@ the surface it wraps, the copy and its gates, the repoint, and the two CI
 tiers, which now also carry the publish. The plan's remaining steps, a
 consumer's proof of the publication and zingo-mobile's download, lock
 file, and workflow deletions, are tracked in zingolib#2833.
+
+## Amendment (2026-10-20): the descriptor names the Published Commit
+
+Record zingolib/0058, ruled in a grilling session on 2026-10-20, supersedes
+the statement in the Status section that a checkout with tags at depth one
+names its release through the descriptor. The descriptor now names the
+Published Commit with sixteen characters on every commit, a release
+included. The release stays readable in git.
