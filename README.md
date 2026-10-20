@@ -175,6 +175,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0019 | [Device tests read public chains through fixture wallets](zingo-mobile/0019-device-tests-read-public-chains-through-fixture-wallets.md) | accepted |
 | 0020 | [zingo-mobile takes the Binding Layer from published Prebuilt Bundles](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) | proposed |
 | 0021 | [npm dependencies run under Hardened JavaScript, with pinned host globals and no install scripts](zingo-mobile/0021-npm-dependencies-run-under-hardened-javascript.md) | accepted |
+| 0022 | [The app holds no consensus parameter and renders what zingolib reports](zingo-mobile/0022-the-app-holds-no-consensus-parameter-and-renders-what-zingolib-reports.md) | proposed |
 
 ### Repo-scoped records: zingolib
 
@@ -231,7 +232,8 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0054 | [The Binding Layer lives beside the surface it wraps](zingolib/0054-the-binding-layer-lives-beside-the-surface-it-wraps.md) | accepted |
 | 0055 | [zingolib admits Swift, Kotlin, and TypeScript with their native tooling](zingolib/0055-zingolib-admits-swift-kotlin-and-typescript-with-native-tooling.md) | proposed |
 | 0056 | [Block-count constants follow their semantics across the NU7 block-spacing change](zingolib/0056-block-count-constants-follow-their-semantics-across-nu7.md) | accepted |
-| 0057 | [The Android Prebuilt Bundle is a Maven repository layout that carries its own POM](zingolib/0057-the-android-prebuilt-bundle-is-a-maven-repository-layout.md) | proposed |
+| 0057 | [The Android Prebuilt Bundle is a Maven repository layout that carries its own POM](zingolib/0057-the-android-prebuilt-bundle-is-a-maven-repository-layout.md) | accepted |
 | 0058 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0058-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | proposed |
+| 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | proposed |
 
 <!-- records-index:end -->

@@ -2,10 +2,10 @@
 
 ## Status
 
-proposed
+accepted
 
-Accepted when the implementing pull request merges; from then on the layout
-is the only shape published.
+Accepted in zingolib#2979; from its merge on the layout is the only shape
+published.
 
 ## Context
 
@@ -30,11 +30,14 @@ one gzip tarball, as the iOS bundle carries the Swift package. The POM
 declares every dependency the AAR needs, JNA among them; a consumer declares
 none by hand.
 
-The coordinate is `org.zingolabs:zingo-binding-layer:<version>`, the version
-being the zingolib crate version plus the first sixteen characters of the
-published commit, as in `6.0.0-ba7336710419c9ac`. The workbench derives it
-and passes it to Gradle as a property; the build refuses to publish without
-it. The package job runs Gradle's `publish` task into the directory and
+The coordinate is `org.zingolabs:zingo-binding-layer:<version>`. The group
+and artifact are the ones the Android project already names, so a consumer
+changes one line. The version is the zingolib crate version plus the first
+sixteen characters of the published commit, as in `6.0.0-ba7336710419c9ac`,
+so every published commit has its own version and a hosted repository could
+later hold them all without collision. The workbench derives it and passes
+it to Gradle as a property; the build refuses to publish without it. The
+package job runs Gradle's `publish` task into the directory and
 uploads it; `binding-publish` archives both platforms through one function.
 The fetch command reads the coordinate from `maven-metadata.xml` and prints
 it beside the repository root; the Bundle Pin keeps its shape. The fetch and
@@ -76,8 +79,7 @@ consumer may resolve it dynamically, which is the intent.
   Pin, and declare JNA from the pin. It restates one dependency in three
   places and covers JNA alone, and it closed as superseded on 2026-10-15
   when zingolib#2979 opened.
-- zingolib#2979 implements this record; the record is accepted when it
-  merges.
+- zingolib#2979 implements this record and accepted it at its merge.
 - The deferral of hosted Maven publication, the second answer, was ruled in
   a design session on 2026-10-05 and is recorded in no issue: it needs a
   publisher account, credentials in the workflow and a release process
