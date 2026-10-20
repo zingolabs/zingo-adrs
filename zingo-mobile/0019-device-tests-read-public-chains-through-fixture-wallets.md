@@ -4,10 +4,12 @@ Date: 2026-09-30
 
 ## Status
 
-proposed
+accepted
 
-Ruled in a grilling session on 2026-09-30, pending review. The session
-walked all 32 tests of the Rust harnesses one at a time.
+Ruled in a grilling session on 2026-09-30. The session walked all 32
+tests of the Rust harnesses one at a time. Accepted in zingo-mobile#1540,
+zingo-mobile#1546 and zingo-mobile#1547, merged on 2026-10-02: the fixture
+tests, the harness deletion and the pool-balance fixture.
 
 ## Context
 
