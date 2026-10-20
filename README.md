@@ -175,6 +175,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0019 | [Device tests read public chains through fixture wallets](zingo-mobile/0019-device-tests-read-public-chains-through-fixture-wallets.md) | accepted |
 | 0020 | [zingo-mobile takes the Binding Layer from published Prebuilt Bundles](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) | proposed |
 | 0021 | [npm dependencies run under Hardened JavaScript, with pinned host globals and no install scripts](zingo-mobile/0021-npm-dependencies-run-under-hardened-javascript.md) | accepted |
+| 0023 | [A wallet loader returns an outcome and one owner settles it](zingo-mobile/0023-a-wallet-loader-returns-an-outcome-and-one-owner-settles-it.md) | proposed |
 
 ### Repo-scoped records: zingolib
 
