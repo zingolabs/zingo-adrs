@@ -107,6 +107,9 @@ access (Babel plugins, Metro transformers, `patch-package`, Storybook),
 the native dependency graphs (Gradle, CocoaPods, Rust crates), and the
 UI and worklet runtimes of Reanimated, which hold their own `globalThis`
 and are not hardened.
+zingolib/0060 takes the first build-time case: the Bundle Pin commands run
+under a capability bound the consumer imposes through Node's permission
+model.
 
 The three pull requests passed the Android emulator integration tests
 and the iOS build in CI. Debug and release on a device had not been
