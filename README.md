@@ -233,7 +233,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0055 | [zingolib admits Swift, Kotlin, and TypeScript with their native tooling](zingolib/0055-zingolib-admits-swift-kotlin-and-typescript-with-native-tooling.md) | proposed |
 | 0056 | [Block-count constants follow their semantics across the NU7 block-spacing change](zingolib/0056-block-count-constants-follow-their-semantics-across-nu7.md) | accepted |
 | 0057 | [The Android Prebuilt Bundle is a Maven repository layout that carries its own POM](zingolib/0057-the-android-prebuilt-bundle-is-a-maven-repository-layout.md) | accepted |
-| 0058 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0058-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | proposed |
+| 0059 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0059-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | proposed |
 | 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | proposed |
 
 <!-- records-index:end -->

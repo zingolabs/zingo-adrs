@@ -104,7 +104,7 @@ consumer may resolve it dynamically, which is the intent.
 
 ## Amendment (2026-10-20): the Bundle Pin holds the coordinate
 
-Record zingolib/0058 amends the Decision section's sentence on where the
+Record zingolib/0059 amends the Decision section's sentence on where the
 fetch reads the coordinate. The Bundle Pin holds the coordinate, which it
 takes from the manifest annotation `org.zingolabs.zingolib.coordinate`.
 `binding-publish` writes that annotation from the Maven metadata in the
