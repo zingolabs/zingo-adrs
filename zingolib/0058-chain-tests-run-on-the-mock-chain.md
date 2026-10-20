@@ -1,8 +1,10 @@
----
-status: proposed
----
-
 # Chain tests run on the mock chain; live networks are testnet cells
+
+## Status
+
+proposed
+
+## Context
 
 zingolib's chain-bound tests ran against a regtest validator and indexer
 that `zcash_local_net` launched, at minutes per test and a container stack
