@@ -52,3 +52,19 @@ revision landed in `dev`, which ships the wallet file format, so version
 We rejected splitting the pool matrix by era (V5-pinned
 copies of every Orchard-destination row) because the duplication was largely
 redundant with the existing `ironwood_sends_*` rows.
+
+## Amendment (2026-10-15)
+
+The adjudication above binds only chains built from the pinned binaries:
+regtest and the mock chain. On a public network, enforcement of ZIP 318's
+disabled-Orchard-payments rule and of the turnstile's migration accounting
+arrives with the network's node deployments, possibly before any pin bump,
+and no assertion on a pinned-binary chain detects that ordering. The
+sentence "the pinned stack does not yet enforce" is therefore a statement
+about the pinned binaries as of 2026-07-14, not about any network. The
+canary for the public network is the testnet cell
+`zip318_canary::a_payment_to_an_orchard_receiver_lands_in_the_expected_pool`
+in libtonode-tests, behind the `testnet` feature: it pays an Orchard
+receiver on testnet, where NU6.3 is active, and pins the pool the payment
+lands in. When the network's verdict moves, the cell fails, and its
+expectation and this record are flipped together.
