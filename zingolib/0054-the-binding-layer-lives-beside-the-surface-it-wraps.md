@@ -421,3 +421,23 @@ the statement in the Status section that a checkout with tags at depth one
 names its release through the descriptor. The descriptor now names the
 Published Commit with sixteen characters on every commit, a release
 included. The release stays readable in git.
+
+## Amendment (2026-10-21): a publication is dispatched at its own commit
+
+zingolib#3046 replaces the comment command of the amendment of
+2026-10-12. The `/publish` comment ran the publish workflow of the
+default branch's head against the tool at the entry's commit, so an
+incomplete entry had to name that head, and every merge to `dev` during
+a request moved it. A publication now starts with
+`gh workflow run binding-layer-publish.yaml --ref dev`, with
+`--field commit=<sha>` for an older commit of `dev`. The plan job tags
+the commit `publish/<commit>` and dispatches the workflow at that tag,
+and the second run builds, so the workflow files and the tool are one
+commit by construction. The run pushes the bundles, writes the entry
+complete, with its digests and its audited crates, on the branch
+`record/<commit>`, and opens the pull request that merges it. No entry is
+written by hand, the manifest and changelog checks never fail by design,
+and no merge to `dev` is held for a publication. A commit the registry
+already holds is recorded without a build. A commit from before the
+dispatch trigger existed cannot be published this way, and every earlier
+commit of interest is published.

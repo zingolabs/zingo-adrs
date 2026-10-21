@@ -100,3 +100,14 @@ holds that question.
 
 zingolib#2930 sequences the work so that each new piece runs before the
 old piece it replaces is deleted.
+
+## Amendment (2026-10-21): the publish command is a workflow dispatch
+
+The Consequences section prices an iteration on the Binding Layer at a
+zingolib pull request and a `/publish` comment. zingolib#3046 removed
+both. `gh workflow run binding-layer-publish.yaml --ref dev --field
+commit=<sha>` publishes any commit of `dev`, and the workflow opens the
+record pull request itself. The build time, the entry, the changelog
+section and the registry's retention stand. A fork still has no path to
+a Binding Layer change, because the plan refuses a commit that is not on
+`dev`.
