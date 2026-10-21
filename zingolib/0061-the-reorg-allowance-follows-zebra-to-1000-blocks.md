@@ -2,7 +2,7 @@
 
 ## Status
 
-proposed
+accepted
 
 ## Context
 
@@ -88,12 +88,17 @@ scanned height from its selection, every load carries them to the update,
 and `update_shard_trees` takes both in place of reading the wallet at
 processing time, so the two sides cannot drift apart.
 
-A wallet stopped between the loads of a task that then meets a fork
-inside the scanned part of that task truncates cleanly only where the
-fork sits at a load's last block or a boundary, and otherwise takes the
-clear-and-rescan path. That case is accepted as rare twice over, and a
-planner that rolls back to the newest checkpoint below the fork and
-rescans from there is the follow-up that closes it.
+No rollback below the window is ever needed. The validator finalizes
+every block more than the allowance below its tip, so once the wallet
+has seen a chain height, every block more than the allowance below it is
+final on the wallet's chain for good. A hash that disagrees there is a
+different chain rather than a re-org, and the wallet is cleared with the
+chain error, as for a re-org deeper than the allowance. The depth is
+measured from the chain height the wallet's state was formed against,
+not from its highest scanned block. A wallet stopped between the loads
+of a task has scanned only blocks below the window, all final in its
+frame, so a disagreement there is the chain error, and a fork inside the
+window meets a checkpoint on every scanned block.
 
 ## Considered options
 
@@ -109,9 +114,8 @@ weigh.
 Hanging the window from the task's last block alone scans the 49,000
 blocks of one diagnostic window in 16 seconds against the base's 31, but
 leaves a session stopped between loads with no checkpoint in the part it
-scanned, so it cannot spend until a later session completes the task,
-and a fork meeting it rescans. Wallets on phones are stopped mid-sync
-constantly, so this was rejected.
+scanned, so it cannot spend until a later session completes the task.
+Wallets on phones are stopped mid-sync constantly, so this was rejected.
 
 The chosen placement scans the same window in 21 seconds, the difference
 being the tree-state fetches for last blocks that carry no output of a
