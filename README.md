@@ -237,5 +237,6 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0059 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0059-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | proposed |
 | 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | proposed |
 | 0062 | [The Prebuilt Bundles are the release channel of the Binding Layer](zingolib/0062-the-prebuilt-bundles-are-the-release-channel-of-the-binding-layer.md) | proposed |
+| 0063 | [A session attaches to one indexer, the zingolabs endpoint by default](zingolib/0063-a-session-attaches-to-one-indexer.md) | proposed |
 
 <!-- records-index:end -->
