@@ -236,5 +236,6 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0058 | [Chain tests run on the mock chain; live networks are testnet cells](zingolib/0058-chain-tests-run-on-the-mock-chain.md) | proposed |
 | 0059 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0059-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | proposed |
 | 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | proposed |
+| 0061 | [The re-org allowance follows zebra to 1000 blocks](zingolib/0061-the-reorg-allowance-follows-zebra-to-1000-blocks.md) | proposed |
 
 <!-- records-index:end -->
