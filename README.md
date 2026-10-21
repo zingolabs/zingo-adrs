@@ -238,5 +238,6 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | proposed |
 | 0062 | [The Prebuilt Bundles are the release channel of the Binding Layer](zingolib/0062-the-prebuilt-bundles-are-the-release-channel-of-the-binding-layer.md) | proposed |
 | 0063 | [A session attaches to one indexer, the zingolabs endpoint by default](zingolib/0063-a-session-attaches-to-one-indexer.md) | proposed |
+| 0064 | [The Default Indexer is trusted by its key, and no certificate authority is trusted at all](zingolib/0064-the-default-indexer-is-trusted-by-its-key-not-a-certificate-authority.md) | proposed |
 
 <!-- records-index:end -->
