@@ -29,6 +29,11 @@ amendment at the end of this record carries: zingolib now publishes the
 Binding Layer, and three statements of the Packaging section no longer
 hold.
 
+Amended 2026-10-22 by zingolib#3062, which the last amendment of this
+record carries: the iOS Prebuilt Bundle ships one XCFramework, the merged
+archive the first layout promised, so the layout block and the Packaging
+section's two XCFrameworks read with that amendment.
+
 ## Context
 
 zingo-mobile carries two UniFFI crates that project zingolib into Swift
@@ -441,3 +446,40 @@ and no merge to `dev` is held for a publication. A commit the registry
 already holds is recorded without a build. A commit from before the
 dispatch trigger existed cannot be published this way, and every earlier
 commit of interest is published.
+
+## Amendment (2026-10-22): the iOS Prebuilt Bundle ships one XCFramework
+
+The packaging session kept zingo-mobile's two XCFrameworks and deferred
+the merged one, because merging the static libraries would have changed
+the artifact that gate 3 compared. The copy and the repoint are done, so
+that reason is gone, and a link failure made the merge due.
+
+Each static archive of the bundle carried its own copy of std, and so
+its own `rust_eh_personality`. In zingo-mobile's own build both
+definitions were global, and the app's link pulled the first archive's
+std and never the second's, so the app held one. The builder's hide step
+merges each archive into one object and makes every symbol outside the
+UniFFI exports local, `rust_eh_personality` included, so the app loaded
+both objects and held two. Beside the C++ and Objective-C personality
+routines the app brings, that made four, and compact unwind encodes
+three. The linker of Xcode 26.3 refuses the link with "Too many
+personality routines for compact unwind to encode". The linker of Xcode
+16.4, which every consumer's CI pinned, accepts it, so CI never saw the
+failure. The review of zingo-mobile#1724 found it on 2026-10-22. Keeping
+`rust_eh_personality` global in both hidden objects was rejected, because
+both objects load and the linker would then refuse the duplicate
+definition.
+
+zingolib#3062 makes the wallet crate `zingo` carry the proxy crate under
+its `zingo-nym-proxy-ffi` feature, which the builder turns on for the iOS
+slices alone. The iOS bundle holds one archive, `Zingolib.xcframework`,
+with one std, both C headers, the one module map, and both generated
+Swift files, and `ZingoNymProxyFFI.xcframework` is gone. The
+`ZingoBindings` product is unchanged, so a consumer repoints without a
+source change. The Swift wire-contract test links a C++ throw and an
+Objective-C throw beside the archive, so the builder's own link carries
+the three routines an app does and fails as the app would, and the iOS
+workflow selects the newest stable Xcode the runner carries. Android is
+unchanged: each crate stays its own shared library, with its own std, in
+the one AAR. The layout block of the Decision section and the Packaging
+section's statement of two XCFrameworks read with this amendment.
