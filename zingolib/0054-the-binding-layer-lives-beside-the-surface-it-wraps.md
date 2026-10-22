@@ -479,7 +479,32 @@ Swift files, and `ZingoNymProxyFFI.xcframework` is gone. The
 source change. The Swift wire-contract test links a C++ throw and an
 Objective-C throw beside the archive, so the builder's own link carries
 the three routines an app does and fails as the app would, and the iOS
-workflow selects the newest stable Xcode the runner carries. Android is
-unchanged: each crate stays its own shared library, with its own std, in
-the one AAR. The layout block of the Decision section and the Packaging
-section's statement of two XCFrameworks read with this amendment.
+workflow pins Xcode 26.3, the release machine's, through one value that
+keys every cache. Android is unchanged: each crate stays its own shared
+library, with its own std, in the one AAR. The layout block of the
+Decision section and the Packaging section's statement of two
+XCFrameworks read with this amendment.
+
+## Amendment (2026-10-22, later): every Binding Layer library builds under one profile
+
+The one-archive iOS build left the proxy's crates under two profiles:
+the wallet's `mobile` profile on iOS, where the archive carries both
+crates, and the proxy's own `proxy` profile on Android, the plain release
+profile the crate shipped under from the standalone zingo-netutils
+workspace. Of the settings that differed, `overflow-checks` is semantic:
+a plain-operator overflow in a nym crate panicked on iOS and wrapped on
+Android. Cargo applies one profile to the whole graph of one invocation,
+and a package override names one package or every dependency, never a
+family, so the platforms could agree only by one profile, by an
+enumerated override of the proxy's packages, or by a topology that gave
+iOS two images again.
+
+Ruled 2026-10-22 on the review of zingolib#3064: the profile the wallet
+ships under is the profile for all. zingolib#3066 deletes the `proxy`
+profile, builds the Android proxy under `mobile`, and holds the one
+profile to the unwind strategy. The nym stack compiles with the same
+size optimization and overflow checks on both platforms, and an overflow
+in it panics on both, unwinding to its tokio task and reaching the app as
+an error. The measurement that would reopen the ruling is the live
+mixnet test's wall time under `mobile` against `release`; the enumerated
+override is the fallback if that time is visibly worse.
