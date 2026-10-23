@@ -182,8 +182,8 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | Number | Record | Status |
 | --- | --- | --- |
 | 0001 | [LightClient starts offline by default](zingolib/0001-offline-by-default.md) | accepted |
-| 0002 | [Regtest support is compiled out of production builds](zingolib/0002-regtest-compiled-out-of-production.md) | accepted |
-| 0003 | [Test-owned chain caches snapshot completed setup and record returned outputs](zingolib/0003-test-owned-chain-caches.md) | accepted |
+| 0002 | [Regtest support is compiled out of production builds](zingolib/0002-regtest-compiled-out-of-production.md) | superseded by [zingolib/0065](zingolib/0065-the-regtest-chain-type-ships-unconditionally-and-carries-the-mock-chain.md) |
+| 0003 | [Test-owned chain caches snapshot completed setup and record returned outputs](zingolib/0003-test-owned-chain-caches.md) | superseded by [zingolib/0058](zingolib/0058-chain-tests-run-on-the-mock-chain.md) |
 | 0005 | [Retire the darkside-tests crate and the orphaned zingo-testutils crate](zingolib/0005-retire-darkside-tests-and-zingo-testutils.md) | accepted |
 | 0006 | [The pending proposal lives in the wallet; offline signing reads it](zingolib/0006-wallet-stored-proposal.md) | accepted |
 | 0007 | [Library Birthday: a release-stamped floor for never-online wallet creation](zingolib/0007-library-birthday.md) | accepted |
@@ -233,10 +233,11 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0055 | [zingolib admits Swift, Kotlin, and TypeScript with their native tooling](zingolib/0055-zingolib-admits-swift-kotlin-and-typescript-with-native-tooling.md) | proposed |
 | 0056 | [Block-count constants follow their semantics across the NU7 block-spacing change](zingolib/0056-block-count-constants-follow-their-semantics-across-nu7.md) | accepted |
 | 0057 | [The Android Prebuilt Bundle is a Maven repository layout that carries its own POM](zingolib/0057-the-android-prebuilt-bundle-is-a-maven-repository-layout.md) | accepted |
-| 0058 | [Chain tests run on the mock chain; live networks are testnet cells](zingolib/0058-chain-tests-run-on-the-mock-chain.md) | proposed |
+| 0058 | [Chain tests run on the mock chain; live networks are testnet cells](zingolib/0058-chain-tests-run-on-the-mock-chain.md) | accepted |
 | 0059 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0059-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | proposed |
 | 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | proposed |
 | 0062 | [The Prebuilt Bundles are the release channel of the Binding Layer](zingolib/0062-the-prebuilt-bundles-are-the-release-channel-of-the-binding-layer.md) | proposed |
 | 0063 | [A session attaches to one indexer, the zingolabs endpoint by default](zingolib/0063-a-session-attaches-to-one-indexer.md) | proposed |
+| 0065 | [The Regtest chain type ships unconditionally and carries the mock chain](zingolib/0065-the-regtest-chain-type-ships-unconditionally-and-carries-the-mock-chain.md) | accepted |
 
 <!-- records-index:end -->

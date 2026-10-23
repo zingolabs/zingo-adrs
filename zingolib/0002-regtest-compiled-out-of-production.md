@@ -2,7 +2,7 @@
 
 ## Status
 
-accepted
+superseded by [zingolib/0065](0065-the-regtest-chain-type-ships-unconditionally-and-carries-the-mock-chain.md)
 
 `ChainType::Regtest` and the `ActivationHeights` vocabulary are gated behind a default-off `regtest` cargo feature in zingolib and zingo-cli, mirrored by matching default-off features in zingo-mobile and zingo-pc. Shipped wallets must never contain regtest code paths. QA and development builds opt in with `--features regtest`, and the `testutils` feature implies `regtest` so the test harnesses compile unchanged. The `ActivationHeights` type itself moves out of `zingo_common_components` (a crate being disintegrated) into a small leaf crate in the zingolabs/infrastructure workspace (`zingo-consensus`), which zingolib pulls only as an optional dependency of the `regtest` feature. A production build of zingolib therefore carries no activation-schedule dependency at all.
 

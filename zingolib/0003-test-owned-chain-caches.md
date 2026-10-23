@@ -2,7 +2,7 @@
 
 ## Status
 
-accepted
+superseded by [zingolib/0058](0058-chain-tests-run-on-the-mock-chain.md)
 
 Libtonode tests regenerate their regtest chains from genesis on every run. We
 replace that per-run generation with chain caches: replay records of the
@@ -140,3 +140,8 @@ zingolib: the chain caches, the replay by reorg competition and the
 convergence wait leave with `zcash_local_net`, and the mock chain, which
 mines on demand, takes the place a cached chain held. Until that cut
 merges, the caches and their semantics stand as recorded above.
+
+## Amendment (2026-10-22)
+
+The cut merged as zingolib#3000 (90e22c941, 2026-10-16), so the
+supersession above is in force and the status line names it.

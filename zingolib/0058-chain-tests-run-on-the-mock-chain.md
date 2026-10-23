@@ -2,7 +2,7 @@
 
 ## Status
 
-proposed
+accepted
 
 ## Context
 
@@ -62,3 +62,11 @@ The `*_mobileclient` scenarios zingo-mobile consumes and the
 `ClientBuilder` zaino consumes go with `zingolib_testutils`, so the final
 deletion waits until both repositories have moved off them. No new
 dependency is added anywhere in this work.
+
+## Amendment (2026-10-22)
+
+The cut merged as zingolib#3000 (90e22c941, 2026-10-16): `zcash_local_net`,
+`zingolib_testutils` and the regtest suite are gone, the testnet cells
+stand behind the `testnet` feature, and the status line moves to
+`accepted`. The chain type `ChainType::Regtest` stays as the mock chain's
+network; zingolib/0065 records that.
