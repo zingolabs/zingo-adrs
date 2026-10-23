@@ -564,3 +564,36 @@ sends refuse as `Died` until the user acts. `disable_mixnet` alone is a
 transport act and leaves the policy where it stands. The session driver, the status channel, and the CLI's
 `network` family are unchanged, and the CLI does not yet expose the
 policy. The state by policy matrix is pinned in `mixnet::route`'s tests.
+
+## Amendment (2026-10-21): the Lockfile Split is retired
+
+The dependency exception above and the 2026-07-21 mobile amendment rested
+on one fact: the nym-sdk stack needed `crypto-common ^0.2` while
+`zcash_primitives` 0.29 and 0.30 pinned `=0.2.0-rc.1`, so the two stacks
+could not share one resolution, and `zingo-netutils` stood outside the
+workspace with a lockfile of its own. The zcash 0.31 cohort resolves
+`crypto-common` to a 0.2 release, which removes the conflict. zingolib
+PR #3037 "Add netutils to workspace" makes `zingo-netutils`, its verifier
+shim, and the proxy crate members of the root workspace and deletes the
+second lockfile. Its follow-up moves the zingolib/0021 patch table to the
+root manifest, where cargo honours it, and rewrites every comment that
+described netutils as excluded.
+
+The amendment keeps three things. Members build with the `nym` feature
+off, and only the proxy crate and the nym feature job of the pull-request
+workflow turn it on, so the wallet's own compile units never carry the
+nym stack. The wallet library and the proxy remain two artifacts on every
+platform, meeting only at the SOCKS5 boundary the 2026-07-21 amendment
+defines; that boundary is a runtime decision and never followed from the
+lockfile. The proxy builds under its own `proxy` profile, the plain
+release profile it shipped under from the standalone workspace, because
+the wallet's `mobile` profile was tuned for the wallet and a cargo profile
+is workspace-wide; the two profiles share the unwind panic strategy that
+issue #2926 requires, and the workbench guard holds them to it.
+
+The amendment changes one thing. The `ring` exception now enters the one
+lockfile through the `nym` feature, and `cargo tree -i ring` in the root
+reports it beside the `zcash_proofs` transitive; `deny.toml` names it as
+the second ratified source. The glossary term Lockfile Split is retired in
+zingolib's CONTEXT.md, and the sentence above that confines the ring to a
+standalone build reads today as history.

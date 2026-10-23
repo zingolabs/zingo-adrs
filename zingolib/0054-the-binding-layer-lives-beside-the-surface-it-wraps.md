@@ -29,6 +29,11 @@ amendment at the end of this record carries: zingolib now publishes the
 Binding Layer, and three statements of the Packaging section no longer
 hold.
 
+Amended 2026-10-22 by zingolib#3062, which the last amendment of this
+record carries: the iOS Prebuilt Bundle ships one XCFramework, the merged
+archive the first layout promised, so the layout block and the Packaging
+section's two XCFrameworks read with that amendment.
+
 ## Context
 
 zingo-mobile carries two UniFFI crates that project zingolib into Swift
@@ -421,3 +426,85 @@ the statement in the Status section that a checkout with tags at depth one
 names its release through the descriptor. The descriptor now names the
 Published Commit with sixteen characters on every commit, a release
 included. The release stays readable in git.
+
+## Amendment (2026-10-21): a publication is dispatched at its own commit
+
+zingolib#3046 replaces the comment command of the amendment of
+2026-10-12. The `/publish` comment ran the publish workflow of the
+default branch's head against the tool at the entry's commit, so an
+incomplete entry had to name that head, and every merge to `dev` during
+a request moved it. A publication now starts with
+`gh workflow run binding-layer-publish.yaml --ref dev`, with
+`--field commit=<sha>` for an older commit of `dev`. The plan job tags
+the commit `publish/<commit>` and dispatches the workflow at that tag,
+and the second run builds, so the workflow files and the tool are one
+commit by construction. The run pushes the bundles, writes the entry
+complete, with its digests and its audited crates, on the branch
+`record/<commit>`, and opens the pull request that merges it. No entry is
+written by hand, the manifest and changelog checks never fail by design,
+and no merge to `dev` is held for a publication. A commit the registry
+already holds is recorded without a build. A commit from before the
+dispatch trigger existed cannot be published this way, and every earlier
+commit of interest is published.
+
+## Amendment (2026-10-22): the iOS Prebuilt Bundle ships one XCFramework
+
+The packaging session kept zingo-mobile's two XCFrameworks and deferred
+the merged one, because merging the static libraries would have changed
+the artifact that gate 3 compared. The copy and the repoint are done, so
+that reason is gone, and a link failure made the merge due.
+
+Each static archive of the bundle carried its own copy of std, and so
+its own `rust_eh_personality`. In zingo-mobile's own build both
+definitions were global, and the app's link pulled the first archive's
+std and never the second's, so the app held one. The builder's hide step
+merges each archive into one object and makes every symbol outside the
+UniFFI exports local, `rust_eh_personality` included, so the app loaded
+both objects and held two. Beside the C++ and Objective-C personality
+routines the app brings, that made four, and compact unwind encodes
+three. The linker of Xcode 26.3 refuses the link with "Too many
+personality routines for compact unwind to encode". The linker of Xcode
+16.4, which every consumer's CI pinned, accepts it, so CI never saw the
+failure. The review of zingo-mobile#1724 found it on 2026-10-22. Keeping
+`rust_eh_personality` global in both hidden objects was rejected, because
+both objects load and the linker would then refuse the duplicate
+definition.
+
+zingolib#3062 makes the wallet crate `zingo` carry the proxy crate under
+its `zingo-nym-proxy-ffi` feature, which the builder turns on for the iOS
+slices alone. The iOS bundle holds one archive, `Zingolib.xcframework`,
+with one std, both C headers, the one module map, and both generated
+Swift files, and `ZingoNymProxyFFI.xcframework` is gone. The
+`ZingoBindings` product is unchanged, so a consumer repoints without a
+source change. The Swift wire-contract test links a C++ throw and an
+Objective-C throw beside the archive, so the builder's own link carries
+the three routines an app does and fails as the app would, and the iOS
+workflow pins Xcode 26.3, the release machine's, through one value that
+keys every cache. Android is unchanged: each crate stays its own shared
+library, with its own std, in the one AAR. The layout block of the
+Decision section and the Packaging section's statement of two
+XCFrameworks read with this amendment.
+
+## Amendment (2026-10-22, later): every Binding Layer library builds under one profile
+
+The one-archive iOS build left the proxy's crates under two profiles:
+the wallet's `mobile` profile on iOS, where the archive carries both
+crates, and the proxy's own `proxy` profile on Android, the plain release
+profile the crate shipped under from the standalone zingo-netutils
+workspace. Of the settings that differed, `overflow-checks` is semantic:
+a plain-operator overflow in a nym crate panicked on iOS and wrapped on
+Android. Cargo applies one profile to the whole graph of one invocation,
+and a package override names one package or every dependency, never a
+family, so the platforms could agree only by one profile, by an
+enumerated override of the proxy's packages, or by a topology that gave
+iOS two images again.
+
+Ruled 2026-10-22 on the review of zingolib#3064: the profile the wallet
+ships under is the profile for all. zingolib#3066 deletes the `proxy`
+profile, builds the Android proxy under `mobile`, and holds the one
+profile to the unwind strategy. The nym stack compiles with the same
+size optimization and overflow checks on both platforms, and an overflow
+in it panics on both, unwinding to its tokio task and reaching the app as
+an error. The measurement that would reopen the ruling is the live
+mixnet test's wall time under `mobile` against `release`; the enumerated
+override is the fallback if that time is visibly worse.
