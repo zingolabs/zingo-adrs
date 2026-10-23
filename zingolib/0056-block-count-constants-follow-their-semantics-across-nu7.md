@@ -103,3 +103,55 @@ indexer serves it, so its coverage of the rule waits on that.
 
 The reorg allowance is decided separately, after the retention cost of a
 deeper allowance has been measured on real wallets.
+
+## Amendment (2026-10-23): the migration schedule follows ZIP 318's NU7 scaling
+
+The question this record raised with the ZIP's authors is answered. ZIP 318
+now states every duration in reference blocks, one block at the 75-second
+spacing, and scales them by ZIP 218's ratio of 3 from NU7 activation: anchor
+boundaries are the multiples of `M` before activation and of `3 × M` after
+it, `EXPIRY_MODULUS` is 34,560 reference blocks and so 103,680 blocks after
+activation, the transfer and preparation delays keep their length in time
+across activation, and `ANCHOR_AGE_CAP`, a number of boundaries, is not
+scaled. The canonical crate implements this: `zcash_protocol` 0.11.0 carries
+`zip318::{BlockSpacing, AnchorGrid}`, `zcash_pool_migration` 0.2.0's
+scheduling takes a spacing or a grid, and `zcash_client_backend` 0.25.0's
+`AnchorRetention` and `WalletRead::pool_migration_params` take a spacing.
+The ZIP decided, so the wallet follows, which is what this record said it
+would do, and ADR 0020's delegation is the mechanism.
+
+The cohort was adopted on uniform spacing first, so that the release that
+makes ordinary sends correct across NU7 did not wait on this design. From
+mainnet activation at 3,543,405 that leaves a part scheduled above
+activation anchoring on a canonical boundary one time in three and expiring
+on the pre-activation grid, a fingerprint against the migrating population,
+though never a lost anchor: every post-activation boundary is a multiple of
+`M`, so uniform retention keeps a superset of the canonical checkpoints.
+
+The schedule takes its grid from the chain. Boundaries, the bucket a height
+falls in, the next bucket, and the canonical expiry come from `AnchorGrid`
+and `BlockSpacing::for_network(chain)`, never from `height / M` or
+`index × M`. A part keeps its transmission window and its anchor as
+boundary heights, which are what the network observes and what the
+canonical draws return, in place of bucket indices. A stored index from an
+earlier migration section is read as `index × M`; a part whose window or
+anchor is not a boundary of the chain's grid is re-placed through the
+placement monopoly, which redraws its anchor and target. The retention
+policy in pepper-sync takes the chain's spacing, and its window counts
+boundaries on the grid rather than blocks. The `pool_migration_params`
+override and the two uniform-spacing constants are removed, so the anchor
+draw, the retention and the backend's canonical judgment ask one grid
+again. The window-time estimate uses 25 seconds a block from activation, as
+the ZIP's background-scheduling section says. `MigrationParams` moves to
+version 3, so the change lands as a detectable consent change under one
+divergence-ledger adjudication, as the 2026-07-27 amendment to ADR 0020
+prescribes for a schedule-law change. The ZIP 318 tripwires keep pinning
+the constants; the grid they lie on is now the chain's.
+
+The in-process test era activates NU7 at its second block, so every mock
+chain migration test exercises the post-activation grid: boundary
+assertions move from `height % M == 0` to the grid's predicate. The regtest
+tier's coverage still waits on an indexer that serves NU7. In-flight
+migrations on dev-built wallets re-place their parts at the version bump;
+no shipped wallet holds a migration above the activation height, which
+mainnet has not reached.
