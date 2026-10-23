@@ -131,12 +131,14 @@ though never a lost anchor: every post-activation boundary is a multiple of
 The schedule takes its grid from the chain. Boundaries, the bucket a height
 falls in, the next bucket, and the canonical expiry come from `AnchorGrid`
 and `BlockSpacing::for_network(chain)`, never from `height / M` or
-`index × M`. A part keeps its transmission window and its anchor as
-boundary heights, which are what the network observes and what the
-canonical draws return, in place of bucket indices. A stored index from an
-earlier migration section is read as `index × M`; a part whose window or
-anchor is not a boundary of the chain's grid is re-placed through the
-placement monopoly, which redraws its anchor and target. The retention
+`index × M`. A bucket index becomes the ordinal of a boundary on that grid,
+`height / M` below the activation and counting the multiples of `3·M`
+above it, so consecutive indices stay consecutive windows and the part
+records and the window reports keep their shape while every height they
+imply is the grid's. A stored index from an earlier migration section is
+read as `index × M` and renumbered; a window the grid does not open moves
+to the next boundary, and such an anchor is dropped so the placement
+monopoly redraws it. The retention
 policy in pepper-sync takes the chain's spacing, and its window counts
 boundaries on the grid rather than blocks. The `pool_migration_params`
 override and the two uniform-spacing constants are removed, so the anchor
