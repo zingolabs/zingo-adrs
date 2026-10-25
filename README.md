@@ -176,6 +176,7 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0020 | [zingo-mobile takes the Binding Layer from published Prebuilt Bundles](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) | proposed |
 | 0021 | [npm dependencies run under Hardened JavaScript, with pinned host globals and no install scripts](zingo-mobile/0021-npm-dependencies-run-under-hardened-javascript.md) | accepted |
 | 0022 | [The app holds no consensus parameter and renders what zingolib reports](zingo-mobile/0022-the-app-holds-no-consensus-parameter-and-renders-what-zingolib-reports.md) | proposed |
+| 0024 | [The design system governs the UI, and prototypes give only layout](zingo-mobile/0024-the-design-system-governs-the-ui-and-prototypes-give-only-layout.md) | accepted |
 
 ### Repo-scoped records: zingolib
 
