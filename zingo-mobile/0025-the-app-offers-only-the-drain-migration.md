@@ -47,4 +47,6 @@ dismiss and the Pools note, comes from the drain plan: no transaction
 planned and a residual above zero.
 
 zingolib keeps the private migration's logic. Only the Binding Layer
-functions the app no longer calls leave.
+functions the app no longer calls leave. zingo-pc still offers the private
+migration through its own native module, which links the zingolib crate
+directly, and this record does not cover it.
