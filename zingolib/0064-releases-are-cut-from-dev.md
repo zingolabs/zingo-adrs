@@ -4,19 +4,22 @@
 
 accepted
 
-Closes the question zingolib/0062 left open under zingolib#2988. For this
-repository the branch model of the org-scoped record
-[003](../003-zaino-branching-versioning-and-release-strategy.md) no longer
-applies. Its versioning and changelog rules continue to.
+Closes the question zingolib/0062 left open under zingolib#2988. The
+`stable` branch of this repository was its own decision, older than the
+org-scoped record
+[003](../003-zaino-branching-versioning-and-release-strategy.md), which
+describes the same model for zaino. This record retires the branch here
+and supersedes nothing.
 
 ## Context
 
 Every crate release up to zingolib 7.0.0 was cut on `stable`, a branch
 that took merges from `dev` alone and was meant to hold release-quality
-code while `dev` moved. The model came from org record 003, written for
-zaino and filed at the top level, and this repository followed it by
-custom. It bought one thing: a fix for the last release could ship without
-the half-finished work on `dev`.
+code while `dev` moved. The model was this repository's own, in use since
+at least zingolib#825 in March 2024, and record 003 of February 2026
+describes the same model for zaino without being its source here. It
+bought one thing: a fix for the last release could ship without the
+half-finished work on `dev`.
 
 It cost more than it bought. A consumer that waited on `stable` waited on
 a back-port of every fix it needed, and by the time zingolib#2985 merged
@@ -55,7 +58,8 @@ to hold are specified in
 of zingolib, which this record governs and does not repeat.
 
 The per-crate semantic versioning, the pre-1.0 softening and the Keep a
-Changelog rules of record 003 continue to bind this repository.
+Changelog practice of this repository continue unchanged. They match what
+record 003 writes for zaino.
 
 ## Considered options
 
