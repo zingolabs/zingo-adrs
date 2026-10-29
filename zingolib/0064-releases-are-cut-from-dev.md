@@ -54,7 +54,7 @@ to that judgement and no consumer holds a veto.
 
 The procedure, the tag and branch names, the checks, and the bar `dev` has
 to hold are specified in
-[docs/release/sop.md](https://github.com/zingolabs/zingolib/blob/dev/docs/release/sop.md)
+[docs/sop/SOP001-release.md](https://github.com/zingolabs/zingolib/blob/dev/docs/sop/SOP001-release.md)
 of zingolib, which this record governs and does not repeat.
 
 The per-crate semantic versioning, the pre-1.0 softening and the Keep a
