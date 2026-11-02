@@ -84,12 +84,14 @@ portion of a larger arc goes to an integration branch that merges when the
 arc is whole. The specification states the rule.
 
 The publication record of the Binding Layer assumed a linear history on
-`dev` and refuses a release line candidate. zingolib#3113 amends it so an
-entry may descend from any earlier entry. The procedure does not function
-for a candidate that needed a fix until that lands. The amendment is owed
-under either model: a `stable` hotfix back-ported into `dev` is the same
-shape, a commit `dev` reaches that the last entry does not precede, so
-keeping `stable` would not have spared it.
+`dev` and refused a release line candidate. zingolib#3116 amended it on
+2026-10-30 under zingolib#3113: an entry follows the earlier entries that
+are ancestors of its commit and of no other such entry, so a candidate
+follows the candidate it fixes, and the first commit of `dev` after the
+line merges back follows both that candidate and the last entry of `dev`.
+The amendment was owed under either model: a `stable` hotfix back-ported
+into `dev` is the same shape, a commit `dev` reaches that the last entry
+does not precede, so keeping `stable` would not have spared it.
 
 The push-triggered workflows run on `dev` and `release/**`, and the
 Binding Layer crates carry `publish = false` so one workspace publish
