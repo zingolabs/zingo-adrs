@@ -4,13 +4,14 @@ Date: 2026-10-12
 
 ## Status
 
-proposed
+accepted
 
-Ruled in a grilling session on 2026-10-12, recorded in zingolib#2930. The
-record moves to `accepted`, and `zingo-mobile/0016` to `superseded by` it,
-in the pull request that deletes the submodule, which is step 6 of that
-plan. Until then the submodule still builds the app, and `zingo-mobile/0016`
-still binds.
+Ruled in a grilling session on 2026-10-12, recorded in zingolib#2930.
+Accepted with the pull request that deletes the submodule, step 6 of that
+plan, after zingo-mobile#1724 (166d0cfcd, 2026-10-23) switched every
+consumer to the fetched bundles and the betas 342, 343, 344 and 346 and the
+stable release zingo 3.0.0 (324) shipped from the pinned AAR. The same
+pull request moves `zingo-mobile/0016` to `superseded by` this record.
 
 ## Context
 
