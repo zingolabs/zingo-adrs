@@ -4,9 +4,10 @@ Date: 2026-09-28
 
 ## Status
 
-accepted
+superseded by [zingo-mobile/0020](0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md)
 
-Ruled in a grilling session on 2026-09-28. Accepted on 2026-10-01, when
+Superseded with the pull request that deletes the submodule, step 6 of
+zingolib#2930. Ruled in a grilling session on 2026-09-28. Accepted on 2026-10-01, when
 zingo-mobile#1467 merged into `dev` as `b3354c4c0` with zingolib as a
 shallow submodule at `zingolib/`. The submodule holds no tags at depth
 one, and the Binding Layer's `zl_` descriptor therefore names the release

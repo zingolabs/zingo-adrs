@@ -169,11 +169,11 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0013 | [The proxy component is named for the mixnet](zingo-mobile/0013-the-proxy-component-is-named-for-the-mixnet.md) | accepted |
 | 0014 | [The mixnet's three legs are observed by capture and probe](zingo-mobile/0014-the-mixnets-three-legs-are-observed-by-capture-and-probe.md) | accepted |
 | 0015 | [zingo-mobile carries no product Rust](zingo-mobile/0015-zingo-mobile-carries-no-product-rust.md) | proposed |
-| 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | accepted |
+| 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | superseded by [zingo-mobile/0020](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) |
 | 0017 | [The controller machine is a discriminated union over the native runtime](zingo-mobile/0017-the-controller-machine-is-a-discriminated-union-over-the-native-runtime.md) | proposed |
 | 0018 | [One route tree chosen by the session](zingo-mobile/0018-one-route-tree-chosen-by-the-session.md) | accepted |
 | 0019 | [Device tests read public chains through fixture wallets](zingo-mobile/0019-device-tests-read-public-chains-through-fixture-wallets.md) | accepted |
-| 0020 | [zingo-mobile takes the Binding Layer from published Prebuilt Bundles](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) | proposed |
+| 0020 | [zingo-mobile takes the Binding Layer from published Prebuilt Bundles](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) | accepted |
 | 0021 | [npm dependencies run under Hardened JavaScript, with pinned host globals and no install scripts](zingo-mobile/0021-npm-dependencies-run-under-hardened-javascript.md) | accepted |
 | 0022 | [The app holds no consensus parameter and renders what zingolib reports](zingo-mobile/0022-the-app-holds-no-consensus-parameter-and-renders-what-zingolib-reports.md) | proposed |
 | 0024 | [The design system governs the UI, and prototypes give only layout](zingo-mobile/0024-the-design-system-governs-the-ui-and-prototypes-give-only-layout.md) | accepted |
