@@ -2,11 +2,14 @@
 
 ## Status
 
-proposed
+accepted
 
-Accepted when the implementing pull requests merge: the one that takes the
-coordinate from the manifest annotation, and the one that gives the
-descriptor the sixteen characters.
+Ruled in a grilling session on 2026-10-20, recorded in zingolib#2930.
+Accepted on 2026-10-20, when both implementing pull requests merged into
+zingolib `dev`: zingolib#3030 (0a5cb69ab) takes the coordinate from the
+manifest annotation, and zingolib#3033 (097f8e13c) gives every descriptor
+the sixteen commit characters. The third entry of the Publication Record,
+d4ac5772d, is the first published under both.
 
 ## Context
 
