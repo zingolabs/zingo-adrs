@@ -6,6 +6,11 @@ proposed
 
 Ruled in session 2026-10-13, pending review.
 
+Amended on 2026-11-06: testnet receives `https://testnet.zec.rocks:443`
+as its Default Indexer until a zingolabs testnet host exists. The
+amendment reverses the rejected alternative recorded below and lands in
+zingolib through zingolib#3143.
+
 Supersedes [ADR-0022](0022-broadcast-witness-never-the-sync-indexer.md),
 [ADR-0034](0034-server-selection-is-a-mixnet-liveness-sweep.md),
 [ADR-0040](0040-sends-escalation-is-a-hedged-race-of-full-paths.md),
@@ -50,10 +55,12 @@ every operation on every transport: sync, every Transmission, migration
 parts, and the boot health round trip. The library ships one Default
 Indexer per chain, operated by zingolabs, which becomes the Session
 Indexer when a consumer goes online without naming one. Mainnet's is
-`https://mainnet.zainod.zingolabs.dev:443`. Testnet has none until a
-zingolabs testnet host exists; a testnet consumer names a URI or
-receives a typed refusal. A consumer may name any URI in place of the
-default, so a self-hoster still points the wallet at their own node.
+`https://mainnet.zainod.zingolabs.dev:443`. Testnet's is
+`https://testnet.zec.rocks:443`, a foreign host that stands in until
+a zingolabs testnet host exists and then yields to it. Regtest has
+none, so a regtest consumer names a URI or receives a typed refusal.
+A consumer may name any URI in place of the default, so a self-hoster
+still points the wallet at their own node.
 
 Over-mixnet indexer selection is retired. One indexer observes all of a
 session's indexer traffic, and that correlation is accepted: the
@@ -106,9 +113,12 @@ Let the chain alone pick the endpoint, with no consumer-facing URI
 outside a test feature. Rejected: the self-hoster keeps their own node,
 and the tests attach to loopback indexers through the same surface.
 
-Keep `testnet.zec.rocks` as testnet's Default Indexer until a zingolabs
-host replaces it. Rejected: a foreign built-in contradicts the rule the
-day it ships, and a typed refusal is clearer than an exception.
+Ship testnet with no Default Indexer until a zingolabs host exists, so
+a testnet consumer names a URI or receives a typed refusal. Adopted on
+2026-10-13 and rejected on 2026-11-06: a testnet consumer without a
+named server could not go online at all, and zingolabs runs no
+testnet indexer yet. The foreign built-in is accepted as a stand-in
+that a zingolabs host replaces the day one exists.
 
 ## Consequences
 
@@ -122,6 +132,12 @@ Indexer and Default Indexer.
 
 The migration-part path and the Transmission path now differ only in
 the txid echo check.
+
+The testnet stand-in is the one Default Indexer zingolabs does not
+operate. Its certificate chains to a public CA, so a key pin on zingolabs
+hosts, proposed in zingo-adrs#54, does not cover it, and every
+testnet test and doc treats testnet as a chain with a Default
+Indexer. Regtest alone exercises the typed refusal.
 
 A consumer that previously relied on the broadcast rule to keep a send
 away from its sync indexer no longer has that property on any
