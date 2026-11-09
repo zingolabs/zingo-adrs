@@ -4,11 +4,16 @@ Date: 2026-10-16
 
 ## Status
 
-accepted
+accepted, amended 2026-11-08
 
 Ruled in a session on 2026-10-15 and 2026-10-16. Implemented in
 zingo-mobile pull requests #1642, #1646 and #1652, stacked on
 `feat/lavamoat`, tracked in zingo-mobile issue #1641.
+
+Amended in a session on 2026-11-08: decision 3 changes the pin from a
+data property to an accessor, prototype hardening in both builds becomes
+the fourth step of the arc, and strict mode for every module becomes the
+fifth, tracked in zingo-mobile issue #1887.
 
 ## Context
 
@@ -53,10 +58,19 @@ Dependencies get the least trust the runtime can enforce. Three rules.
    options are the package's: error and console taming off, override
    taming severe. Babel leaves the shim untouched.
 
-3. The host globals are pinned. The first import of `index.js` makes the
-   binding of every networking and timer global that React Native
-   installs non-writable and non-configurable. Bindings only: the
-   objects behind them stay writable.
+3. The host globals are pinned. The first import of `index.js` reads
+   every host global that `setUpXHR` and `setUpTimers` install and
+   redefines each as a non-configurable accessor on `globalThis`. The
+   getter returns the value React Native installed. The setter throws a
+   `TypeError` that names the global, in debug and release alike. The
+   read is on the cold-boot path under a budget of 5 ms on a low-end
+   Android device, measured once. Bindings only: the objects behind them
+   stay writable until the fourth step.
+
+4. The fourth step hardens `XMLHttpRequest.prototype`,
+   `WebSocket.prototype` and the fetch classes with `harden`, in debug
+   and release alike. The in-app Network Inspector of the dev menu,
+   which rewrites `XMLHttpRequest.prototype` when toggled, is given up.
 
 ## Considered options
 
@@ -72,7 +86,20 @@ the language features, and the Hermes maintainers plan strict-mode local
 Hardening the prototypes behind the host globals, in release only, was
 rejected. The debug network inspector patches `XMLHttpRequest.prototype`,
 so release would behave differently from debug with no device run to
-back it.
+back it. Hardening them in both builds was accepted on 2026-11-08, at the
+cost of that inspector.
+
+A data-property pin, non-writable and non-configurable, was the first
+form of decision 3 and was rejected on 2026-11-08. The React Native
+Babel preset emits sloppy-mode modules, where a write to a non-writable
+data property completes as a silent no-op. SES removes the same no-op
+for the intrinsics by turning their properties into throwing accessors
+under `overrideTaming: 'severe'`, and the pin takes the same form.
+
+Strict mode for every module, which makes every write to a non-writable
+property throw, was deferred to zingo-mobile issue #1887 as the fifth
+step. It changes the meaning of sloppy code across the dependency tree
+and needs its own device run.
 
 Freezing `globalThis` was rejected. React Native defines some globals
 after the entry file.
@@ -89,9 +116,10 @@ use `yarn setup`. A new dependency with an install script fails
 A dependency that patches an intrinsic fails at startup with
 `TypeError: Cannot assign to read only property` naming the module. The
 fix is to drop the package or to add its shim to `getPolyfills`, before
-the freeze. A dependency that reassigns a pinned global is ignored: the
-React Native Babel preset emits sloppy-mode modules, so the assignment
-has no effect and does not throw.
+the freeze. A dependency that writes to a pinned global fails at the write with a
+`TypeError` naming the global, in debug and release alike. A dependency
+that adds a new name to a frozen intrinsic from sloppy-mode code still
+completes as a silent no-op until the fifth step.
 
 React Native bumps gain a gate. `react-native-lockdown` is untested on
 Static Hermes, and React Native 0.82 ships Hermes V1. A bump may wait on
