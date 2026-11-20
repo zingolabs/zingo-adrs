@@ -18,15 +18,15 @@ capability bitmap for that purpose, and the same bitmap also let the store
 report reduced capability during a migration and serve old data while a new
 index was built.
 
-Zaino has since dropped database migrations, and zainod no longer serves
+Zaino has since dropped database migrations, and zingod no longer serves
 indexes before its index is synced. Only one purpose of the capability
 bitmap remains: gating the non-standard indexes, such as transparent address
 history, that some deployments need and others do not.
 
-We decide that the index set is fixed when zainod is built. Each
-non-standard index is a cargo feature of zainod. The lean set, compact blocks
+We decide that the index set is fixed when zingod is built. Each
+non-standard index is a cargo feature of zingod. The lean set, compact blocks
 with their commitment tree sizes folded in, is the default build. The enabled
-feature set feeds the database schema hash, so a zainod built with a
+feature set feeds the database schema hash, so a zingod built with a
 different index set finds a mismatched hash and rebuilds its index from
 zebra. A build that omits an index also omits the reads that need it.
 

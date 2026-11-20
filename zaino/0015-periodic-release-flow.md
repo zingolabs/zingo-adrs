@@ -17,7 +17,7 @@ Zaino is developed on a `dev` branch. Features are PRed against `dev`. Anything 
 for release, in the order it landed. We do not cherry-pick from `dev` to cut
 releases -- the release is always a **prefix** of `dev`'s history.
 
-There are 13 publishable crates (`zainod`, `zaino-serve`, `zaino-state`,
+There are 13 publishable crates (`zingod`, `zaino-serve`, `zaino-state`,
 `zaino-proto`, `zaino-common`, `zaino-primitives`, `zaino-address`,
 `zaino-source`, `zaino-rpc`, `zaino-convert-zebra`, `zaino-source-zebra-rpc`,
 `zaino-source-zebra-readstate`, `zaino-source-zebra`) and 3 internal-only
@@ -215,7 +215,7 @@ All gates passed. Merging this PR promotes RC6 to stable.
 | zaino-fetch  | 0.1.0   | 0.1.0 | (unchanged)                    |
 | zaino-proto  | 0.1.0   | 0.1.1 | new message types              |
 | zaino-common | 0.1.0   | 0.1.0 | (unchanged)                    |
-| zainod       | 0.2.0   | 0.3.0 | new sync mode exposed          |
+| zingod       | 0.2.0   | 0.3.0 | new sync mode exposed          |
 ```
 
 ## Changesets: Per-Crate Version Tracking
@@ -232,7 +232,7 @@ bump = "minor"
 description = "New parallel sync mode"
 
 [[changes]]
-crate = "zainod"
+crate = "zingod"
 bump = "minor"
 description = "Expose parallel sync mode in CLI config"
 ```
@@ -489,7 +489,7 @@ From [ADR 003 §2, "Versioning strategy (SemVer)"](https://github.com/zingolabs/
 > - **MAJOR**: any *backward-incompatible* change to a governed public interface (see "Public interfaces" section), including:
 >   - breaking changes to gRPC service behavior/requests/responses,
 >   - removing or changing semantics/signatures of public Rust items intended for external users,
->   - breaking configuration/CLI contract for `zainod` where it impacts operators in a non-compatible way.
+>   - breaking configuration/CLI contract for `zingod` where it impacts operators in a non-compatible way.
 > - **MINOR**: backward-compatible feature additions, including:
 >   - new RPC endpoints/services added without breaking existing ones,
 >   - new fields added in a backward-compatible way (where supported by the protocol/encoding),
@@ -553,20 +553,20 @@ From [ADR 003 §5, "Public interfaces governed by this ADR"](https://github.com/
 > This section defines the "compatibility surface" that drives SemVer bumps and stable-branch gatekeeping.
 
 **Authoritative crate list (this repo)**: [Context](#context) enumerates the
-**6 crates.io-published packages** — `zainod`, `zaino-serve`, `zaino-state`,
+**6 crates.io-published packages** — `zingod`, `zaino-serve`, `zaino-state`,
 `zaino-fetch`, `zaino-proto`, `zaino-common` — and **3 internal-only
 packages** — `e2e`, `integration`, and `zaino-testutils`.
 
-`zainodlib` exists as a library target inside the `zainod` package
-(`packages/zainod/Cargo.toml`: `[[bin]] name = "zainod"` alongside
-`[lib] name = "zainodlib"`). It is **not** a first-class crates.io-published
+`zingodlib` exists as a library target inside the `zingod` package
+(`packages/zingod/Cargo.toml`: `[[bin]] name = "zingod"` alongside
+`[lib] name = "zingodlib"`). It is **not** a first-class crates.io-published
 package: it has no independent version number and is not `cargo publish`ed
-separately. External consumers who import `zainodlib` do so by depending on
-the `zainod` package. ADR 003 treats `zainodlib` as a distinct governed
+separately. External consumers who import `zingodlib` do so by depending on
+the `zingod` package. ADR 003 treats `zingodlib` as a distinct governed
 interface surface, and its public-item list remains in force (below), but
-its SemVer bumps are expressed through the `zainod` package version, not an
-independent version of its own. Changes to `zainodlib`'s public API are
-therefore recorded as governed public-interface changes on the `zainod`
+its SemVer bumps are expressed through the `zingod` package version, not an
+independent version of its own. Changes to `zingodlib`'s public API are
+therefore recorded as governed public-interface changes on the `zingod`
 crate for changeset purposes.
 
 `zaino-testvectors` is not in this repo. It has been extracted to a separate
@@ -581,10 +581,10 @@ public-item lists from ADR 003 verbatim. Subsection headers use the Rust
 module form (underscore) to match ADR 003's original headings; the
 corresponding package names (`Cargo.toml`) use the hyphenated form.
 
-#### `zainod` (daemon)
+#### `zingod` (daemon)
 
 > Public interfaces:
-> - Zainod daemon: Main indexing daemon
+> - Zingod daemon: Main indexing daemon
 >   - Zcash JsonRPC service
 >   - Zcash LightClient gRPC service
 >
@@ -593,7 +593,7 @@ corresponding package names (`Cargo.toml`) use the hyphenated form.
 > - Config format
 > - RPC Specs
 
-#### `zainodlib` (daemon library)
+#### `zingodlib` (daemon library)
 
 > Public interfaces:
 > - `indexer::Indexer`: Full indexing server

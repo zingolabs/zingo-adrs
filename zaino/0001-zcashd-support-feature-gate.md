@@ -76,7 +76,7 @@ not in this feature.
 `zcashd_support` is declared and forwarded through every crate in both chains,
 mirroring the existing `transparent_address_history_experimental` pattern:
 
-- production: `zaino-fetch` → `zaino-state` → `zaino-serve` → `zainod`
+- production: `zaino-fetch` → `zaino-state` → `zaino-serve` → `zingod`
 - test: `zaino-testutils` → `walletless-tests` / wallet-tests
 
 Each crate carries it in `default = [...]`. It is **not** placed under the

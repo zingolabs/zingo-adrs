@@ -45,8 +45,8 @@ the fast development loop with **`default-members`**:
 ## Consequences
 
 - The production lockfile carries the test graph and a git-sourced dependency.
-  This is **inert for production builds** (`cargo build -p zainod` still
-  resolves only zainod's own graph) and **temporary for the git dep**
+  This is **inert for production builds** (`cargo build -p zingod` still
+  resolves only zingod's own graph) and **temporary for the git dep**
   (zingolabs/infrastructure#269 will restore a published `zcash_local_net`
   release, after which the lock shows an ordinary registry dependency).
   `cargo deny` / audit now also scan the test dependencies — arguably a feature.

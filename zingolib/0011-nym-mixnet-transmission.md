@@ -127,7 +127,7 @@ submission in flight" rule: redundancy is now accepted on the failure path as
 the price of censorship resistance, while the happy path keeps its
 single-witness discipline.
 
-Because the client cannot assume whether zainod, lightwalletd, or another
+Because the client cannot assume whether zingod, lightwalletd, or another
 server sits at the far end of the mixnet, failover is driven by attempt counts
 and delivery checks, never by classifying a server's error text. A round
 "fails," and so escalates, on any outcome short of confirmed delivery (a

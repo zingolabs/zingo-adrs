@@ -55,7 +55,7 @@ Zaino follows **Semantic Versioning (SemVer)**: `MAJOR.MINOR.PATCH`. ([semver.or
 - **MAJOR**: any *backward-incompatible* change to a governed public interface (see “Public interfaces” section), including:
   - breaking changes to gRPC service behavior/requests/responses,
   - removing or changing semantics/signatures of public Rust items intended for external users,
-  - breaking configuration/CLI contract for `zainod` where it impacts operators in a non-compatible way.
+  - breaking configuration/CLI contract for `zingod` where it impacts operators in a non-compatible way.
 - **MINOR**: backward-compatible feature additions, including:
   - new RPC endpoints/services added without breaking existing ones,
   - new fields added in a backward-compatible way (where supported by the protocol/encoding),
@@ -109,9 +109,9 @@ This section defines the “compatibility surface” that drives SemVer bumps an
 
 #### Included crates (governed)
 
-##### `zainod` (daemon)
+##### `zingod` (daemon)
 Public interfaces:
-- Zainod daemon: Main indexing daemon
+- Zingod daemon: Main indexing daemon
   - Zcash JsonRPC service
   - Zcash LightClient gRPC service
 
@@ -120,7 +120,7 @@ Public items:
 - Config format
 - RPC Specs
 
-##### `zainodlib` (daemon library)
+##### `zingodlib` (daemon library)
 Public interfaces:
 - `indexer::Indexer`: Full indexing server
 
@@ -194,7 +194,7 @@ A “release” is a coordinated update of:
 2) version numbers for publishable crates/crates.io publication,
 3) GitHub Pages documentation publication,
 4) a Git tag + release notes,
-5) A zainod image published to a container repository (currently dockerhub)
+5) A zingod image published to a container repository (currently dockerhub)
 
 **Release prerequisites**
 - `dev` is green on the **full test suite** (nightly run or equivalent).
