@@ -50,7 +50,7 @@ Prior ADRs already decide from the same rule without naming it:
 
 Legal dependency edges follow from the roles: everyone may depend on vocabulary; a
 conformer depends on its port; a higher composer depends on lower *ports*, never
-lower conformers (except at the process root `zainod`).
+lower conformers (except at the process root `zingod`).
 
 **2. A crate is the unit of independent variation.** Keep conceptual boundaries
 (a trait, a private type, a mock) everywhere — they are free. Promote a boundary to

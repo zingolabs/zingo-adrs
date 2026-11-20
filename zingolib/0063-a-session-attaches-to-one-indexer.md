@@ -44,7 +44,7 @@ The census that fed every draw rotted under them. ADR 0029 found every
 leaderboard entry dead in August 2026, and the mainnet census carried
 twenty-one foreign operators whose liveness nothing maintained.
 
-zingolabs now operates its own indexer, `mainnet.zainod.zingolabs.dev`,
+zingolabs now operates its own indexer, `zec.global`,
 reachable over https on port 443 with a webpki-chained certificate, so
 it passes the mixnet exit policy and ADR 0021 unchanged.
 
@@ -55,7 +55,7 @@ every operation on every transport: sync, every Transmission, migration
 parts, and the boot health round trip. The library ships one Default
 Indexer per chain, operated by zingolabs, which becomes the Session
 Indexer when a consumer goes online without naming one. Mainnet's is
-`https://mainnet.zainod.zingolabs.dev:443`. Testnet's is
+`https://zec.global:443`. Testnet's is
 `https://testnet.zec.rocks:443`, a foreign host that stands in until
 a zingolabs testnet host exists and then yields to it. Regtest has
 none, so a regtest consumer names a URI or receives a typed refusal.

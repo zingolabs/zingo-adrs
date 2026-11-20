@@ -19,7 +19,7 @@ carry becomes a twin on `MockNet`, which runs in the ordinary unit suite
 on every pull request. A guarantee that needs a real network becomes a
 testnet cell behind the non-default `testnet` feature, compiled on every
 pull request by the feature sweep and run only against a
-zingolabs-operated zainod testnet node on a tagged release, serving TLS,
+zingolabs-operated zingod testnet node on a tagged release, serving TLS,
 with NU6.3 active; until that node exists no CI profile enables the
 feature. A guarantee about the indexer rather than the wallet is exported
 to zaino, and its deletion here waits on its landing there. A guarantee

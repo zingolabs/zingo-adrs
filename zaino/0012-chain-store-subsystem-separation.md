@@ -38,7 +38,7 @@ We decide:
 
 1. **The finalised state is its own subsystem, split domain from adapter.**
    `zaino-chain-store` is vocabulary and ports — no runtime, no storage, no
-   `zebra-chain`, no `tonic`. `zaino-chain-store-zainodb` is the LMDB
+   `zebra-chain`, no `tonic`. `zaino-chain-store-zingodb` is the LMDB
    implementation and the on-disk types it is built from. This is the same
    `<domain>` / `<adapter>` split ADR-0008 established for validator access and
    ADR-0010 for the chain head.
@@ -84,7 +84,7 @@ We decide:
 
    This is not a disk format. The canonical entry is a hash preimage — built,
    hashed, dropped, never written — and the crate deliberately defines no
-   storage encoding for the accumulator. `zaino-chain-store-zainodb` keeps its
+   storage encoding for the accumulator. `zaino-chain-store-zingodb` keeps its
    own persisted row and its own `ZainoVersionedSerde` for it, and delegates the
    arithmetic. What the contract *does* require of any adapter is the ability to
    produce five values per unspent output: txid, output index, value, a 20-byte
@@ -164,7 +164,7 @@ chain view replaces its consumer; nothing new should be built on it.
 **One tonic remnant survives in the adapter.** The domain ports are
 `tonic`-free, but `ChannelStream` and the six serving stream aliases
 (`RawTransactionStream`, `CompactBlockStream`, …) that `zaino-state` re-exports
-still carry `tonic::Status`, and so `zaino-chain-store-zainodb` still depends on
+still carry `tonic::Status`, and so `zaino-chain-store-zingodb` still depends on
 `tonic`. Those aliases belong to the serving layer and leave with it when the
 chain view lands; the layering violation is confined to a type alias rather than
 threaded through the read paths.

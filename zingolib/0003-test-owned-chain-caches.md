@@ -77,7 +77,7 @@ that design for this stack: zebra holds every block within 100 of the tip in
 its in-memory non-finalized state, so a copied data dir of a 4–6-block setup
 chain contains essentially genesis, and `Zebrad::stop()` is a SIGKILL, so
 even the finalized portion is copied without a graceful flush. The relaunched
-Validator served a chain zainod could not index ("could not determine best
+Validator served a chain zingod could not index ("could not determine best
 chain"). The infrastructure repo's own zebrad cache generator corroborates
 the boundary: it mines 150 blocks (past the finalization depth) before
 calling `cache_chain`. State-directory caches are therefore only viable for

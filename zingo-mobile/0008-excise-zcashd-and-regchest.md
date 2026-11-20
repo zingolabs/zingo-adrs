@@ -13,11 +13,11 @@ the `regchest` features on the `rustandroid` and `rustios` crates, the gated
 arms in the test suites, and the workflow and README references. Every test
 now provisions its network exclusively through the default arm:
 `zingolib_testutils` scenarios driving `zcash_local_net` to launch a native
-zebrad validator and zainod indexer, which is what gating CI already ran.
+zebrad validator and zingod indexer, which is what gating CI already ran.
 
 ## Considered options
 
-Porting regchest to zebrad + zainod was rejected because it amounts to
+Porting regchest to zebrad + zingod was rejected because it amounts to
 rebuilding regchest: its orchestration would be rewritten around
 `zcash_local_net`, and every cached chain scenario would need regeneration
 because zcashd chain state is meaningless to zebrad. Keeping the feature flag
