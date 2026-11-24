@@ -2,11 +2,12 @@
 
 ## Status
 
-proposed
+accepted
 
-Accepted when the zingo-mobile pull request of zingolib#2930 step 4 merges
-with its Bundle Pin on a Published Commit of `dev` that is not a `stable`
-release; that merge retires ruling 10 of zingolib#2930.
+Accepted on 2026-10-23, when zingo-mobile#1724, the pull request of
+zingolib#2930 step 4, merged with its Bundle Pin on c060a4504, a Published
+Commit of `dev` that is not a `stable` release. That merge retired ruling
+10 of zingolib#2930.
 
 ## Context
 

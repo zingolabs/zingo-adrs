@@ -2,11 +2,14 @@
 
 ## Status
 
-proposed
+accepted
 
-Accepted when the zingolib pull request that releases `zingolib-bundle-pin`
-0.4.0 merges; from then on the package extracts in process and the publisher
-packs every Prebuilt Bundle in the pax tar format.
+Ruled in a grilling session on 2026-10-20, recorded in zingolib#2930.
+Accepted on 2026-10-20, when zingolib#3035 (d91b8af27) merged into zingolib
+`dev` and released `zingolib-bundle-pin` 0.4.0: from that merge the package
+extracts in process and the publisher packs every Prebuilt Bundle in the pax
+tar format. kitchen-sync#7 (b9001ea2d, 2026-10-21) and zingo-mobile#1724
+(166d0cfcd, 2026-10-23) run both commands under the bound.
 
 ## Context
 

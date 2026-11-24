@@ -169,13 +169,14 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0013 | [The proxy component is named for the mixnet](zingo-mobile/0013-the-proxy-component-is-named-for-the-mixnet.md) | accepted |
 | 0014 | [The mixnet's three legs are observed by capture and probe](zingo-mobile/0014-the-mixnets-three-legs-are-observed-by-capture-and-probe.md) | accepted |
 | 0015 | [zingo-mobile carries no product Rust](zingo-mobile/0015-zingo-mobile-carries-no-product-rust.md) | proposed |
-| 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | accepted |
+| 0016 | [zingo-mobile pins zingolib by submodule](zingo-mobile/0016-zingo-mobile-pins-zingolib-by-submodule.md) | superseded by [zingo-mobile/0020](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) |
 | 0017 | [The controller machine is a discriminated union over the native runtime](zingo-mobile/0017-the-controller-machine-is-a-discriminated-union-over-the-native-runtime.md) | proposed |
 | 0018 | [One route tree chosen by the session](zingo-mobile/0018-one-route-tree-chosen-by-the-session.md) | accepted |
 | 0019 | [Device tests read public chains through fixture wallets](zingo-mobile/0019-device-tests-read-public-chains-through-fixture-wallets.md) | accepted |
-| 0020 | [zingo-mobile takes the Binding Layer from published Prebuilt Bundles](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) | proposed |
+| 0020 | [zingo-mobile takes the Binding Layer from published Prebuilt Bundles](zingo-mobile/0020-zingo-mobile-takes-the-binding-layer-from-published-prebuilt-bundles.md) | accepted |
 | 0021 | [npm dependencies run under Hardened JavaScript, with pinned host globals and no install scripts](zingo-mobile/0021-npm-dependencies-run-under-hardened-javascript.md) | accepted |
 | 0022 | [The app holds no consensus parameter and renders what zingolib reports](zingo-mobile/0022-the-app-holds-no-consensus-parameter-and-renders-what-zingolib-reports.md) | proposed |
+| 0024 | [The design system governs the UI, and prototypes give only layout](zingo-mobile/0024-the-design-system-governs-the-ui-and-prototypes-give-only-layout.md) | accepted |
 
 ### Repo-scoped records: zingolib
 
@@ -234,10 +235,12 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0056 | [Block-count constants follow their semantics across the NU7 block-spacing change](zingolib/0056-block-count-constants-follow-their-semantics-across-nu7.md) | accepted |
 | 0057 | [The Android Prebuilt Bundle is a Maven repository layout that carries its own POM](zingolib/0057-the-android-prebuilt-bundle-is-a-maven-repository-layout.md) | accepted |
 | 0058 | [Chain tests run on the mock chain; live networks are testnet cells](zingolib/0058-chain-tests-run-on-the-mock-chain.md) | proposed |
-| 0059 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0059-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | proposed |
-| 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | proposed |
-| 0062 | [The Prebuilt Bundles are the release channel of the Binding Layer](zingolib/0062-the-prebuilt-bundles-are-the-release-channel-of-the-binding-layer.md) | proposed |
+| 0059 | [The Published Commit is the identity of a Prebuilt Bundle](zingolib/0059-the-published-commit-is-the-identity-of-a-prebuilt-bundle.md) | accepted |
+| 0060 | [The Bundle Pin commands run under a capability bound the consumer imposes](zingolib/0060-the-bundle-pin-commands-run-under-a-consumer-imposed-capability-bound.md) | accepted |
+| 0061 | [The re-org allowance follows zebra to 1000 blocks](zingolib/0061-the-reorg-allowance-follows-zebra-to-1000-blocks.md) | accepted |
+| 0062 | [The Prebuilt Bundles are the release channel of the Binding Layer](zingolib/0062-the-prebuilt-bundles-are-the-release-channel-of-the-binding-layer.md) | accepted |
 | 0063 | [A session attaches to one indexer, the zingolabs endpoint by default](zingolib/0063-a-session-attaches-to-one-indexer.md) | proposed |
-| 0064 | [The Default Indexer is trusted by its key, and no certificate authority is trusted at all](zingolib/0064-the-default-indexer-is-trusted-by-its-key-not-a-certificate-authority.md) | proposed |
+| 0064 | [Releases are cut from dev, and the stable branch is retired](zingolib/0064-releases-are-cut-from-dev.md) | accepted |
+| 0070 | [The Default Indexer is trusted by its key, and no certificate authority is trusted at all](zingolib/0070-the-default-indexer-is-trusted-by-its-key-not-a-certificate-authority.md) | proposed |
 
 <!-- records-index:end -->
