@@ -241,5 +241,6 @@ cargo run --manifest-path tools/workbench/Cargo.toml -- --write .
 | 0062 | [The Prebuilt Bundles are the release channel of the Binding Layer](zingolib/0062-the-prebuilt-bundles-are-the-release-channel-of-the-binding-layer.md) | accepted |
 | 0063 | [A session attaches to one indexer, the zingolabs endpoint by default](zingolib/0063-a-session-attaches-to-one-indexer.md) | proposed |
 | 0064 | [Releases are cut from dev, and the stable branch is retired](zingolib/0064-releases-are-cut-from-dev.md) | accepted |
+| 0070 | [The Default Indexer is trusted by its key, and no certificate authority is trusted at all](zingolib/0070-the-default-indexer-is-trusted-by-its-key-not-a-certificate-authority.md) | proposed |
 
 <!-- records-index:end -->
