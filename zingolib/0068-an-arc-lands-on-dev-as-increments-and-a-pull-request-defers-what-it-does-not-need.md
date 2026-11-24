@@ -67,7 +67,21 @@ A pull request defers what it does not need. It fixes what a CI gate
 rejects and what sits on a line the task must rewrite. Every other
 defect its author finds becomes a follow-up, an issue that names the item,
 states the defect and the condition that closes it, and links the pull
-request that found it. The rule to collapse duplication in touched code
+request that found it.
+
+A follow-up describes the default branch. It names the item as `dev`
+holds it, so the issue reads true to someone who never saw the pull
+request, and it is still true after the pull request merges or closes. A
+defect that exists only on the branch of an open pull request is never a
+follow-up.
+
+Feedback that blocks a pull request is never filed as an issue. A
+reviewer who finds a defect the pull request introduces, or any reason it
+should not merge as it is, writes a review comment on the pull request,
+and the author resolves it there. An issue is for work that can wait
+until after the merge.
+
+The rule to collapse duplication in touched code
 is withdrawn for duplication that existed before the change. The
 duplication gate still rejects a new group.
 
@@ -94,6 +108,12 @@ makes the size of a fix depend on the debt of the file it lands in, and
 it hides a refactor inside a pull request typed as a fix. A filed
 follow-up keeps the debt visible and gives its removal a review of its
 own.
+
+Filing every review finding as an issue was rejected. An issue that
+holds a blocking finding lets the pull request merge with the finding
+open, and an issue written against a branch describes code the default
+branch may never hold. The review comment keeps a blocking finding beside
+the lines it concerns.
 
 Letting an agent file follow-ups without asking was rejected. An issue
 publishes under the developer's account, so the agent drafts and the
