@@ -54,10 +54,8 @@ while the others still return generated types.
 An arc is a change too large for one pull request. It lands on `dev` as
 increments. An increment is one pull request that makes one semantic
 change and leaves `dev` releasable in the sense above, and it merges as
-soon as it is ready. A tracking issue, opened before the first increment,
-states the end state of the arc and lists its increments, and every
-increment names it. The issue is what makes an uneven public surface on
-`dev` acceptable: it says which increment makes the surface uniform.
+soon as it is ready. An arc needs no issue of its own. When an issue does
+track an arc, every increment names it.
 
 An integration branch remains for the arc that has no increment able to
 hold the guarantee. A person opens it, never an agent on its own
@@ -122,12 +120,11 @@ developer grants.
 ## Consequences
 
 `dev` can show a public surface in two styles while an arc is in
-progress. A reader who finds one should look for the tracking issue
+progress. A reader who finds one should look for an open increment
 before concluding that the bar on `dev` was missed.
 
-Review moves to the increment. The reviewer of an increment reads the
-tracking issue to learn where the arc is going, and judges the increment
-on whether it is whole.
+Review moves to the increment. The reviewer judges the increment on
+whether it is whole.
 
 Debt that a change once removed in passing now waits in the tracker
 under the `follow-up` label. The count of open follow-ups measures
